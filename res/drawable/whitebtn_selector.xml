@@ -5,7 +5,7 @@
         <color android:color="@color/MetroBlue"/>
     </item>
     <item android:state_pressed="false">
-        <color android:color="@color/White"/>
+        <color android:color="@android:color/background_light"/>
     </item>
 
 </selector>
