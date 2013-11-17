@@ -12,7 +12,10 @@ import net.miz_hi.smileessence.command.CommandOpenUrl;
 import net.miz_hi.smileessence.command.ICommand;
 import net.miz_hi.smileessence.command.post.CommandAppendHashtag;
 import net.miz_hi.smileessence.command.status.impl.*;
-import net.miz_hi.smileessence.command.user.*;
+import net.miz_hi.smileessence.command.user.UserCommandAddReply;
+import net.miz_hi.smileessence.command.user.UserCommandIntroduce;
+import net.miz_hi.smileessence.command.user.UserCommandReply;
+import net.miz_hi.smileessence.command.user.UserCommandUserMenu;
 import net.miz_hi.smileessence.dialog.ExpandMenuDialog;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.status.StatusViewFactory;
@@ -115,8 +118,8 @@ public class TweetMenu extends ExpandMenuDialog
         list.add(new StatusCommandWarotaRT(status));
         list.add(new StatusCommandMakeAnonymous(status));
         list.add(new StatusCommandNanigaja(status));
-        list.add(new StatusCommandUnOffFav(status));
-        list.add(new StatusCommandThankToFav(status));
+        //        list.add(new StatusCommandUnOffFav(status));
+        //        list.add(new StatusCommandThankToFav(status));
         list.add(new StatusCommandCongrats(status));
         list.add(new UserCommandIntroduce(status.getOriginal().user.screenName));
         list.add(new StatusCommandReview(activity, status));
@@ -198,9 +201,7 @@ public class TweetMenu extends ExpandMenuDialog
             ArrayList<ICommand> list = new ArrayList<ICommand>();
             list.add(new UserCommandReply(userName));
             list.add(new UserCommandAddReply(userName));
-            list.add(new UserCommandOpenInfo(activity, userName));
-            list.add(new UserCommandOpenTimeline(activity, userName));
-            list.add(new UserCommandSpam(userName));
+            list.add(new UserCommandUserMenu(userName, activity));
             map.put(userName, list);
         }
         return map;

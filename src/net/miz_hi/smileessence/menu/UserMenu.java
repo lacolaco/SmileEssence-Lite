@@ -5,6 +5,7 @@ import net.miz_hi.smileessence.command.ICommand;
 import net.miz_hi.smileessence.command.user.*;
 import net.miz_hi.smileessence.dialog.SimpleMenuDialog;
 import net.miz_hi.smileessence.model.status.user.UserModel;
+import net.miz_hi.smileessence.status.StatusViewFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,19 +19,20 @@ public class UserMenu extends SimpleMenuDialog
     {
         super(activity);
         this.userName = model.screenName;
-        setTitle("@" + userName);
+        setTitle(StatusViewFactory.newInstance(inflater, null).getStatusView(model));
     }
 
     @Override
     public List<ICommand> getMenuList()
     {
         List<ICommand> items = new ArrayList<ICommand>();
-
-        items.add(new UserCommandOpenTimeline(activity, userName));
-        items.add(new UserCommandOpenPage(activity, userName));
-        items.add(new UserCommandOpenFavstar(activity, userName));
-        items.add(new UserCommandFollow(userName));
-        items.add(new UserCommandUnfollow(userName));
+        items.add(new UserCommandReply(userName));
+        items.add(new UserCommandAddReply(userName));
+        items.add(new UserCommandOpenInfo(userName, activity));
+        items.add(new UserCommandOpenTimeline(userName, activity));
+        items.add(new UserCommandOpenFavstar(userName, activity));
+        items.add(new UserCommandOpenAclog(userName, activity));
+        items.add(new UserCommandOpenTwilog(userName, activity));
         items.add(new UserCommandBlock(userName));
         items.add(new UserCommandSpam(userName));
         return items;

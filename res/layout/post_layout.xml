@@ -33,6 +33,8 @@
                     android:layout_weight="1"
                     android:autoText="false">
 
+                <requestFocus/>
+
             </EditText>
 
             <LinearLayout

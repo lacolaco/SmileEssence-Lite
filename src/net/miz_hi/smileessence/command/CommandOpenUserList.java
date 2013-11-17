@@ -37,6 +37,7 @@ public class CommandOpenUserList extends MenuCommand
         ListFragment fragment = ListFragment.newInstance(userList.getId(), userList.getFullName());
         PageController.getInstance().addPage(fragment);
         PageController.getInstance().moveToLast();
+        timeline.loadNewer();
     }
 
 }

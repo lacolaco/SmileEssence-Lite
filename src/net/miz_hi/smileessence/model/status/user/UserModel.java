@@ -2,13 +2,11 @@ package net.miz_hi.smileessence.model.status.user;
 
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.cache.MyImageCache;
-import net.miz_hi.smileessence.cache.RelationshipCache;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.status.EnumNameStyle;
-import net.miz_hi.smileessence.task.impl.GetRelationshipTask;
 import net.miz_hi.smileessence.task.impl.GetUserTask;
-import twitter4j.Relationship;
+import net.miz_hi.smileessence.util.StringUtils;
 import twitter4j.User;
 
 import java.util.Date;
@@ -47,10 +45,10 @@ public class UserModel implements IStatusModel
     {
         screenName = user.getScreenName();
         name = user.getName();
-        homePageUrl = user.getURL();
+        homePageUrl = user.getURLEntity().getExpandedURL();
         location = user.getLocation();
-        description = user.getDescription();
-        iconUrl = user.getProfileImageURL();
+        description = StringUtils.replaceUrlEntity(user.getDescription(), user.getDescriptionURLEntities());
+        iconUrl = user.getBiggerProfileImageURL();
         headerImageUrl = user.getProfileBannerURL();
         statusCount = user.getStatusesCount();
         friendCount = user.getFriendsCount();
@@ -81,52 +79,6 @@ public class UserModel implements IStatusModel
         return userId == Client.getMainAccount().getUserId();
     }
 
-    private Relationship getRelationship(boolean force)
-    {
-        if (force)
-        {
-            Future<Boolean> b = new GetRelationshipTask(userId).callAsync();
-            try
-            {
-                b.get();
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        return RelationshipCache.get(userId);
-    }
-
-    public boolean isFriend(boolean force)
-    {
-        Relationship rel = getRelationship(force);
-        if (rel == null)
-        {
-            if (force)
-            {
-                return false;
-            }
-            return isFriend(true);
-        }
-        return rel.isSourceFollowingTarget();
-    }
-
-    public boolean isFollower(boolean force)
-    {
-        Relationship rel = getRelationship(force);
-        if (rel == null)
-        {
-            if (force)
-            {
-                return false;
-            }
-            return isFriend(true);
-        }
-        return rel.isSourceFollowedByTarget();
-    }
-
     public static UserModel getNullUserModel()
     {
         UserModel user = new UserModel();
@@ -136,6 +88,7 @@ public class UserModel implements IStatusModel
         user.location = "";
         user.description = "";
         user.iconUrl = "";
+        user.headerImageUrl = "";
         user.statusCount = 0;
         user.friendCount = 0;
         user.followerCount = 0;

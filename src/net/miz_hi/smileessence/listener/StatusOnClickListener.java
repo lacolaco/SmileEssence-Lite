@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
-import net.miz_hi.smileessence.menu.EventMenu;
 import net.miz_hi.smileessence.menu.TweetMenu;
 import net.miz_hi.smileessence.menu.UserMenu;
 import net.miz_hi.smileessence.model.status.IStatusModel;
@@ -58,7 +57,7 @@ public class StatusOnClickListener implements OnClickListener
         }
         else if (model instanceof EventModel)
         {
-            return new EventMenu(activity, (EventModel) model).create();
+            return new UserMenu(activity, model.getUser()).create();
         }
         else if (model instanceof UserModel)
         {

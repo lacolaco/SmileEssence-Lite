@@ -1,16 +1,17 @@
 package net.miz_hi.smileessence.task.impl;
 
 import net.miz_hi.smileessence.Client;
-import net.miz_hi.smileessence.cache.RelationshipCache;
 import net.miz_hi.smileessence.task.Task;
 import net.miz_hi.smileessence.twitter.API;
 import twitter4j.Relationship;
-import twitter4j.TwitterException;
+
+import java.util.HashMap;
 
 
-public class GetRelationshipTask extends Task<Boolean>
+public class GetRelationshipTask extends Task<Relationship>
 {
 
+    static HashMap<Long, GetRelationshipTask> idsInTask = new HashMap<Long, GetRelationshipTask>();
     long userId;
 
     public GetRelationshipTask(long userId)
@@ -19,19 +20,27 @@ public class GetRelationshipTask extends Task<Boolean>
     }
 
     @Override
-    public Boolean call()
+    public Relationship call()
     {
+        Relationship rel = null;
         try
         {
-            Relationship rel = API.getRelationship(Client.getMainAccount(), userId);
-            RelationshipCache.put(rel);
-            return true;
+            if (idsInTask.containsKey(userId))
+            {
+                return idsInTask.get(userId).call();
+            }
+            else
+            {
+                idsInTask.put(userId, this);
+                rel = API.getRelationship(Client.getMainAccount(), userId);
+                idsInTask.remove(userId);
+            }
         }
-        catch (TwitterException e)
+        catch (Exception e)
         {
             e.printStackTrace();
-            return false;
         }
+        return rel;
     }
 
     @Override
@@ -40,8 +49,7 @@ public class GetRelationshipTask extends Task<Boolean>
     }
 
     @Override
-    public void onPostExecute(Boolean result)
+    public void onPostExecute(Relationship result)
     {
-
     }
 }

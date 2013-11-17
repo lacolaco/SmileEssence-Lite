@@ -60,7 +60,7 @@ public class IntentRouter
                     String[] arrayOfString = uri.toString().split("/");
                     screenName = arrayOfString[arrayOfString.length - 1];
                 }
-                new UserCommandOpenInfo(MainActivity.getInstance(), screenName).run();
+                new UserCommandOpenInfo(screenName, MainActivity.getInstance()).run();
             }
         }
         else if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEND))

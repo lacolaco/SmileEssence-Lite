@@ -1,15 +1,16 @@
 package net.miz_hi.smileessence.view.fragment;
 
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import net.miz_hi.smileessence.view.IRemovable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class NamedFragmentPagerAdapter extends FragmentStatePagerAdapter
+public class NamedFragmentPagerAdapter extends FragmentPagerAdapter
 {
 
     private ArrayList<NamedFragment> pageList = new ArrayList<NamedFragment>();
@@ -58,6 +59,11 @@ public class NamedFragmentPagerAdapter extends FragmentStatePagerAdapter
         return frag;
     }
 
+    public synchronized void addAll(Collection<NamedFragment> list)
+    {
+        pageList.addAll(list);
+    }
+
     public synchronized void set(NamedFragment element, int index)
     {
         pageList.add(index, element);
@@ -76,6 +82,11 @@ public class NamedFragmentPagerAdapter extends FragmentStatePagerAdapter
     {
         NamedFragment fragment = pageList.get(i);
         remove(fragment);
+    }
+
+    public synchronized void clear()
+    {
+        pageList.clear();
     }
 
     @Override

@@ -1,11 +1,11 @@
 package net.miz_hi.smileessence.util;
 
 import android.net.Uri;
-import com.twitter.Extractor;
+import twitter4j.URLEntity;
+import twitter4j.util.CharacterUtil;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class StringUtils
 {
@@ -46,19 +46,22 @@ public class StringUtils
 
     public static int countTweetCharacters(String text)
     {
-        int count = text.length();
+        return CharacterUtil.count(text);
+    }
 
-        Extractor extractor = new Extractor();
-        List<String> urls = extractor.extractURLs(text);
-        for (String url : urls)
+    public static String replaceUrlEntity(String text, URLEntity[] entities)
+    {
+        StringBuilder builder = new StringBuilder(text);
+        if (entities.length == 0)
         {
-            count -= (url.length() - 22);
-            if (url.startsWith("https://"))
-            {
-                count += 1;
-            }
+            return builder.toString();
         }
-        return count;
+        for (int i = entities.length - 1; i >= 0; i--)
+        {
+            URLEntity entity = entities[i];
+            builder.replace(entity.getStart(), entity.getEnd(), entity.getExpandedURL());
+        }
+        return builder.toString();
     }
 
 }

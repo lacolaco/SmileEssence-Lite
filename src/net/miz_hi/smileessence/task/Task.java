@@ -1,6 +1,7 @@
 package net.miz_hi.smileessence.task;
 
 import android.os.Handler;
+import android.os.Looper;
 import net.miz_hi.smileessence.core.MyExecutor;
 
 import java.util.concurrent.Callable;
@@ -19,7 +20,7 @@ public abstract class Task<T> implements Callable<T>
 
     public Future<T> callAsync()
     {
-        final Handler handler = new Handler();
+        final Handler handler = new Handler(Looper.getMainLooper());
         final Future<T> future = MyExecutor.submit(this);
         MyExecutor.execute(new Runnable()
         {

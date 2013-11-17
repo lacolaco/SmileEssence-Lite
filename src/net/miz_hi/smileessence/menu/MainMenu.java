@@ -1,11 +1,15 @@
 package net.miz_hi.smileessence.menu;
 
 import android.app.Activity;
+import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.command.CommandEditExtraWord;
 import net.miz_hi.smileessence.command.CommandEditMenu;
 import net.miz_hi.smileessence.command.CommandEditTemplate;
 import net.miz_hi.smileessence.command.CommandReConnect;
 import net.miz_hi.smileessence.command.main.*;
+import net.miz_hi.smileessence.command.user.UserCommandOpenAclog;
+import net.miz_hi.smileessence.command.user.UserCommandOpenFavstar;
+import net.miz_hi.smileessence.command.user.UserCommandOpenTwilog;
 import net.miz_hi.smileessence.dialog.ExpandMenuDialog;
 
 import java.util.ArrayList;
@@ -39,9 +43,9 @@ public class MainMenu extends ExpandMenuDialog
         list.add(tabMenu);
 
         MenuElement serviceMenu = new MenuElement("外部サービス");
-        serviceMenu.addChild(new MenuElement(new CommandOpenFavstar(activity)));
-        serviceMenu.addChild(new MenuElement(new CommandOpenAclog(activity)));
-        serviceMenu.addChild(new MenuElement(new CommandOpenTwilog(activity)));
+        serviceMenu.addChild(new MenuElement(new UserCommandOpenFavstar(Client.getMainAccount().getScreenName(), activity)));
+        serviceMenu.addChild(new MenuElement(new UserCommandOpenAclog(Client.getMainAccount().getScreenName(), activity)));
+        serviceMenu.addChild(new MenuElement(new UserCommandOpenTwilog(Client.getMainAccount().getScreenName(), activity)));
         list.add(serviceMenu);
 
         MenuElement otherMenu = new MenuElement("その他");

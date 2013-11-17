@@ -11,23 +11,15 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.listener.TimelineScrollListener;
-import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.status.user.UserModel;
-import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
+import net.miz_hi.smileessence.model.statuslist.timeline.impl.UserTimeline;
 import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
-import net.miz_hi.smileessence.task.impl.GetUserTask;
-import net.miz_hi.smileessence.task.impl.GetUserTimelineTask;
 import net.miz_hi.smileessence.view.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
-import twitter4j.Paging;
-
-import java.util.Collections;
-import java.util.List;
 
 @SuppressLint("ValidFragment")
 public class UserTimelineFragment extends NamedFragment implements IRemovable, OnClickListener
@@ -65,12 +57,10 @@ public class UserTimelineFragment extends NamedFragment implements IRemovable, O
         listView.setFastScrollEnabled(true);
 
         StatusListAdapter adapter = StatusListManager.getAdapter(StatusListManager.getUserTimeline(user.userId));
-        //getUserTimeline();
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new TimelineScrollListener(adapter));
         Button refresh = (Button) page.findViewById(R.id.listpage_refresh);
         refresh.setOnClickListener(this);
-
         return page;
     }
 
@@ -81,26 +71,8 @@ public class UserTimelineFragment extends NamedFragment implements IRemovable, O
         {
             public void run()
             {
-                Timeline timeline = StatusListManager.getUserTimeline(user.userId);
-                StatusListAdapter adapter = StatusListManager.getAdapter(timeline);
-                user.updateData(new GetUserTask(user.userId).call());
-                List<TweetModel> list;
-                if (timeline.getStatusList().length > 0)
-                {
-                    long lastId = ((TweetModel) timeline.getStatus(0)).statusId;
-                    list = new GetUserTimelineTask(Client.getMainAccount(), user.userId, new Paging(1, 20, lastId)).call();
-                }
-                else
-                {
-                    list = new GetUserTimelineTask(Client.getMainAccount(), user.userId, new Paging(1, 20)).call();
-                }
-
-                Collections.reverse(list);
-                for (TweetModel status : list)
-                {
-                    timeline.addToTop(status);
-                }
-                adapter.forceNotifyAdapter();
+                UserTimeline timeline = StatusListManager.getUserTimeline(user.userId);
+                timeline.loadNewer();
                 pd.dismiss();
             }
         });

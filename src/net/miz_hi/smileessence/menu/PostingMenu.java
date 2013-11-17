@@ -3,10 +3,7 @@ package net.miz_hi.smileessence.menu;
 import android.app.Activity;
 import net.miz_hi.smileessence.cache.TweetCache;
 import net.miz_hi.smileessence.command.ICommand;
-import net.miz_hi.smileessence.command.post.CommandAppendHashtag;
-import net.miz_hi.smileessence.command.post.CommandInsertText;
-import net.miz_hi.smileessence.command.post.CommandMakeAnonymous;
-import net.miz_hi.smileessence.command.post.CommandParseMorse;
+import net.miz_hi.smileessence.command.post.*;
 import net.miz_hi.smileessence.data.template.Template;
 import net.miz_hi.smileessence.data.template.TemplateManager;
 import net.miz_hi.smileessence.dialog.ExpandMenuDialog;
@@ -51,6 +48,7 @@ public class PostingMenu extends ExpandMenuDialog
         MenuElement convert = new MenuElement("変換");
         convert.addChild(new MenuElement(new CommandParseMorse()));
         convert.addChild(new MenuElement(new CommandMakeAnonymous()));
+        convert.addChild(new MenuElement(new CommandZekamashi()));
         list.add(convert);
 
         MenuElement template = new MenuElement("定型文");

@@ -3,9 +3,10 @@ package net.miz_hi.smileessence.view.fragment.impl;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.text.SpannableString;
+import android.text.Html;
 import android.text.TextUtils;
-import android.text.style.UnderlineSpan;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,17 +14,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
+import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.cache.MyImageCache;
 import net.miz_hi.smileessence.command.CommandOpenUrl;
-import net.miz_hi.smileessence.command.user.UserCommandOpenPage;
-import net.miz_hi.smileessence.core.MyExecutor;
+import net.miz_hi.smileessence.command.user.UserCommandFollow;
+import net.miz_hi.smileessence.command.user.UserCommandUnfollow;
 import net.miz_hi.smileessence.menu.UserMenu;
 import net.miz_hi.smileessence.model.status.user.UserModel;
+import net.miz_hi.smileessence.task.impl.GetRelationshipTask;
 import net.miz_hi.smileessence.task.impl.GetUserTask;
+import net.miz_hi.smileessence.twitter.TwitterUtil;
 import net.miz_hi.smileessence.util.UiHandler;
 import net.miz_hi.smileessence.view.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
+import twitter4j.Relationship;
+import twitter4j.User;
+
+import java.util.regex.Matcher;
 
 @SuppressLint("ValidFragment")
 public class UserInfoFragment extends NamedFragment implements OnClickListener, IRemovable
@@ -34,7 +42,6 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
     TextView nameView;
     TextView homepageView;
     TextView locateView;
-    TextView isFollowingView;
     TextView isFollowedView;
     TextView isProtectedView;
     TextView descriptionView;
@@ -44,6 +51,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
     TextView favoriteView;
     NetworkImageView iconView;
     NetworkImageView headerView;
+    Button followButton;
 
     private UserInfoFragment()
     {
@@ -66,9 +74,9 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View page = inflater.inflate(R.layout.userinfo_layout, container, false);
-        Button reload = (Button) page.findViewById(R.id.user_reload);
+        View reload = page.findViewById(R.id.user_reload);
         reload.setOnClickListener(this);
-        Button menu = (Button) page.findViewById(R.id.user_menu);
+        View menu = page.findViewById(R.id.user_menu);
         menu.setOnClickListener(this);
 
         screenNameView = (TextView) page.findViewById(R.id.user_screenname);
@@ -76,7 +84,6 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
         nameView = (TextView) page.findViewById(R.id.user_name);
         homepageView = (TextView) page.findViewById(R.id.user_homepage);
         locateView = (TextView) page.findViewById(R.id.user_locate);
-        isFollowingView = (TextView) page.findViewById(R.id.user_isfollowing);
         isFollowedView = (TextView) page.findViewById(R.id.user_isfollowed);
         isProtectedView = (TextView) page.findViewById(R.id.user_isprotected);
         descriptionView = (TextView) page.findViewById(R.id.user_bio);
@@ -91,50 +98,104 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
         iconView = (NetworkImageView) page.findViewById(R.id.user_icon);
         iconView.setOnClickListener(this);
         headerView = (NetworkImageView) page.findViewById(R.id.user_header);
-        reload(false);
+        followButton = (Button) page.findViewById(R.id.user_follow);
+        followButton.setOnClickListener(this);
+        setData();
         return page;
     }
 
-    private void reload(final boolean force)
+    public void reload()
     {
-        new UiHandler()
+        final ProgressDialog pd = ProgressDialog.show(getActivity(), null, "情報を更新中...", true);
+        new GetUserTask(user.userId)
         {
-
             @Override
-            public void run()
+            public void onPostExecute(User result)
             {
-                SpannableString screenName = new SpannableString("@" + user.screenName);
-                screenName.setSpan(new UnderlineSpan(), 0, screenName.length(), 0);
-                screenNameView.setText(screenName);
-                nameView.setText(user.name);
-                if (TextUtils.isEmpty(user.homePageUrl))
-                {
-                    homepageView.setVisibility(View.GONE);
-                }
-                else
-                {
-                    homepageView.setText(user.homePageUrl);
-                }
-                if (TextUtils.isEmpty(user.location))
-                {
-                    locateView.setVisibility(View.GONE);
-                }
-                else
-                {
-                    locateView.setText(user.location);
-                }
-                isFollowingView.setText(user.isFriend(force) ? "フォローしています" : user.isMe() ? "あなたです" : "フォローしていません");
-                isFollowedView.setText(user.isFollower(force) ? "フォローされています" : user.isMe() ? "あなたです" : "フォローされていません");
-                isProtectedView.setVisibility(user.isProtected ? View.VISIBLE : View.GONE);
-                descriptionView.setText(user.description);
-                tweetCountView.setText(Integer.toString(user.statusCount));
-                followingView.setText(Integer.toString(user.friendCount));
-                followedView.setText(Integer.toString(user.followerCount));
-                favoriteView.setText(Integer.toString(user.favoriteCount));
-                MyImageCache.setImageToView(user.iconUrl, iconView);
-                MyImageCache.setImageToView(user.headerImageUrl, headerView);
+                user.updateData(result);
+                setData();
+                pd.dismiss();
             }
-        }.post();
+        }.callAsync();
+    }
+
+    private void setData()
+    {
+        nameView.setText(user.name);
+        screenNameView.setText("@" + user.screenName);
+        if (TextUtils.isEmpty(user.homePageUrl))
+        {
+            homepageView.setVisibility(View.GONE);
+        }
+        else
+        {
+            homepageView.setText(user.homePageUrl);
+        }
+        if (TextUtils.isEmpty(user.location))
+        {
+            locateView.setVisibility(View.GONE);
+        }
+        else
+        {
+            locateView.setText(user.location);
+        }
+
+        if (user.isMe())
+        {
+            followButton.setText("あなたです");
+            isFollowedView.setText("あなたです");
+        }
+        else
+        {
+            followButton.setText("読み込み中");
+            isFollowedView.setText("読み込み中");
+            new GetRelationshipTask(user.userId)
+            {
+                @Override
+                public void onPostExecute(Relationship result)
+                {
+                    if (result != null)
+                    {
+                        boolean isFollowing = result.isSourceFollowingTarget();
+                        followButton.setText(isFollowing ? "リムーブする" : "フォローする");
+                        followButton.setBackgroundColor(isFollowing ? Client.getColor(android.R.color.holo_red_light) : Client.getColor(android.R.color.holo_blue_light));
+                        followButton.setTag(isFollowing);
+                        isFollowedView.setText(result.isSourceFollowedByTarget() ? "フォローされています" : "フォローされていません");
+                    }
+                }
+            }.callAsync();
+        }
+        isProtectedView.setVisibility(user.isProtected ? View.VISIBLE : View.GONE);
+        String htmlDescription = getHtmlDescription(user.description);
+        descriptionView.setText(Html.fromHtml(htmlDescription));
+        descriptionView.setMovementMethod(LinkMovementMethod.getInstance());
+        tweetCountView.setText(Integer.toString(user.statusCount));
+        followingView.setText(Integer.toString(user.friendCount));
+        followedView.setText(Integer.toString(user.followerCount));
+        favoriteView.setText(Integer.toString(user.favoriteCount));
+        MyImageCache.setImageToView(user.iconUrl, iconView);
+        MyImageCache.setImageToView(user.headerImageUrl, headerView);
+    }
+
+    private Linkify.TransformFilter getFilter(final String urlStr)
+    {
+        return new Linkify.TransformFilter()
+        {
+            @Override
+            public String transformUrl(Matcher match, String url)
+            {
+                return urlStr;
+            }
+        };
+    }
+
+    private String getHtmlDescription(String description)
+    {
+        String html = description;
+        html = html.replaceAll("https?://[\\w/:%#\\$&\\?\\(\\)~\\.=\\+\\-]+", "<a href=\"$0\">$0</a>");
+        html = html.replaceAll("@([a-zA-Z0-9_]+)", "<a href=\"" + TwitterUtil.getUserHomeURL("$1") + "\">$0</a>");
+        html = html.replaceAll("\r\n", "<br />");
+        return html;
     }
 
     @Override
@@ -144,16 +205,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
         {
             case R.id.user_reload:
             {
-                final ProgressDialog pd = ProgressDialog.show(getActivity(), null, "情報を更新中...", true);
-                MyExecutor.execute(new Runnable()
-                {
-                    public void run()
-                    {
-                        user.updateData(new GetUserTask(user.userId).call());
-                        reload(true);
-                        pd.dismiss();
-                    }
-                });
+                reload();
                 break;
             }
             case R.id.user_menu:
@@ -161,30 +213,56 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
                 new UserMenu(getActivity(), user).create().show();
                 break;
             }
-            case R.id.user_screenname:
-            {
-                new UserCommandOpenPage(getActivity(), user.screenName).run();
-                break;
-            }
             case R.id.user_icon:
             {
                 openUrl(user.iconUrl);
                 break;
             }
+            case R.id.user_screenname:
+            {
+                openUrl(TwitterUtil.getUserHomeURL(user.screenName));
+                break;
+            }
             case R.id.user_count_tweet:
             {
+                openUrl(TwitterUtil.getUserHomeURL(user.screenName));
                 break;
             }
             case R.id.user_count_following:
             {
+                openUrl(TwitterUtil.getUserHomeURL(user.screenName) + "/following");
                 break;
             }
             case R.id.user_count_followed:
             {
+                openUrl(TwitterUtil.getUserHomeURL(user.screenName) + "/followers");
                 break;
             }
             case R.id.user_count_favorite:
             {
+                openUrl(TwitterUtil.getUserHomeURL(user.screenName) + "/favorites");
+                break;
+            }
+            case R.id.user_follow:
+            {
+                Boolean isFollowing = v.getTag() != null ? (Boolean) v.getTag() : false;
+                if (isFollowing)
+                {
+                    new UserCommandUnfollow(user.screenName).run();
+                }
+                else
+                {
+                    new UserCommandFollow(user.screenName).run();
+                }
+                new UiHandler()
+                {
+
+                    @Override
+                    public void run()
+                    {
+                        reload();
+                    }
+                }.postDelayed(1000);
                 break;
             }
         }

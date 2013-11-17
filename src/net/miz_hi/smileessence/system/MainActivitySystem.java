@@ -58,7 +58,7 @@ public class MainActivitySystem
         }
         else
         {
-            authHelper = new AuthorizeHelper(activity, Consumers.getDedault());
+            authHelper = new AuthorizeHelper(activity, Consumers.getDefault());
             //NOT AUTHORIZED
             SingleButtonDialog.show(activity, "認証してください", "認証ページヘ", new Runnable()
             {

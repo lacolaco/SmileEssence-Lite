@@ -8,6 +8,7 @@ import net.miz_hi.smileessence.model.statuslist.impl.HistoryList;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
 import net.miz_hi.smileessence.model.statuslist.timeline.impl.HomeTimeline;
 import net.miz_hi.smileessence.model.statuslist.timeline.impl.MentionsTimeline;
+import net.miz_hi.smileessence.model.statuslist.timeline.impl.UserTimeline;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class StatusListManager
     private Timeline mentions;
     private StatusList history;
     private ArrayList<StatusList> tweetLists = new ArrayList<StatusList>();
-    private HashMap<Long, Timeline> userTimelineMap = new HashMap<Long, Timeline>();
+    private HashMap<Long, UserTimeline> userTimelineMap = new HashMap<Long, UserTimeline>();
     private SparseArray<Timeline> listTimelineMap = new SparseArray<Timeline>();
     private HashMap<StatusList, StatusListAdapter> adapterMap = new HashMap<StatusList, StatusListAdapter>();
     private static StatusListManager instance;
@@ -92,7 +93,7 @@ public class StatusListManager
         return instance.history;
     }
 
-    public synchronized static void registerUserTimeline(long userId, Timeline timeline, StatusListAdapter adapter)
+    public synchronized static void registerUserTimeline(long userId, UserTimeline timeline, StatusListAdapter adapter)
     {
         instance.userTimelineMap.put(userId, timeline);
         registerTweetList(timeline, adapter);
@@ -103,7 +104,7 @@ public class StatusListManager
         instance.adapterMap.remove(instance.userTimelineMap.remove(userId));
     }
 
-    public synchronized static Timeline getUserTimeline(long userId)
+    public synchronized static UserTimeline getUserTimeline(long userId)
     {
         return instance.userTimelineMap.get(userId);
     }

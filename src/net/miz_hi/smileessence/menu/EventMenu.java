@@ -30,7 +30,7 @@ public class EventMenu extends SimpleMenuDialog
     {
         List<ICommand> items = new ArrayList<ICommand>();
         items.add(new UserCommandReply(user.screenName));
-        items.add(new UserCommandOpenInfo(activity, user.screenName));
+        items.add(new UserCommandOpenInfo(user.screenName, activity));
         items.add(new UserCommandFollow(user.screenName));
         items.add(new UserCommandUnfollow(user.screenName));
         return items;

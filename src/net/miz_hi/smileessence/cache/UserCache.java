@@ -24,6 +24,18 @@ public class UserCache
         return usersMap.get(id);
     }
 
+    public static UserModel getByScreenName(String screenName)
+    {
+        for (UserModel user : usersMap.values())
+        {
+            if (user.screenName.equals(screenName))
+            {
+                return user;
+            }
+        }
+        return null;
+    }
+
     public static UserModel remove(long id)
     {
         return usersMap.remove(id);

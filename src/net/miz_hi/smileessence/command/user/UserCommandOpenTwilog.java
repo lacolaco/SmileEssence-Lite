@@ -1,31 +1,31 @@
-package net.miz_hi.smileessence.command.main;
+package net.miz_hi.smileessence.command.user;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import net.miz_hi.smileessence.Client;
-import net.miz_hi.smileessence.command.MenuCommand;
+import net.miz_hi.smileessence.twitter.TwitterUtil;
 
-public class CommandOpenAclog extends MenuCommand
+public class UserCommandOpenTwilog extends UserCommand
 {
 
     private Activity activity;
 
-    public CommandOpenAclog(Activity activity)
+    public UserCommandOpenTwilog(String userName, Activity activity)
     {
+        super(userName);
         this.activity = activity;
     }
 
     @Override
     public String getName()
     {
-        return "Aclogを開く";
+        return "Twilogを開く";
     }
 
     @Override
     public void workOnUiThread()
     {
-        String url = "http://aclog.koba789.com/" + Client.getMainAccount().getScreenName() + "/timeline";
+        String url = TwitterUtil.getTwilogURL(userName);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         activity.startActivity(intent);
     }

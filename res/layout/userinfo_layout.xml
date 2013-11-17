@@ -10,7 +10,8 @@
 
         <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                >
 
             <com.android.volley.toolbox.NetworkImageView
                     android:id="@+id/user_header"
@@ -22,11 +23,12 @@
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:orientation="vertical"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:background="@color/Transparent"
-                    android:gravity="center_horizontal">
+                    android:gravity="center_horizontal"
+                    android:background="#b0535353">
 
                 <com.android.volley.toolbox.NetworkImageView
                         android:id="@+id/user_icon"
@@ -39,7 +41,6 @@
                 <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/round_background"
                         android:orientation="vertical"
                         android:gravity="center_horizontal"
                         android:padding="5dp"
@@ -81,6 +82,35 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:paddingBottom="10dp"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    >
+
+                <ImageView
+                        android:id="@+id/user_reload"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/icon_refresh_white"
+                        style="@style/transBtn"
+                        android:clickable="true"
+                        android:contentDescription="reload"/>
+
+                <ImageView
+                        android:id="@+id/user_menu"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:src="@drawable/icon_row_white"
+                        style="@style/transBtn"
+                        android:clickable="true"
+                        android:contentDescription="menu"/>
+            </LinearLayout>
+
         </FrameLayout>
 
         <FrameLayout
@@ -160,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:layout_column="1"
                         android:gravity="center_horizontal"
-                        android:text="Friends"
+                        android:text="Following"
                         android:textColor="@color/Gray"/>
 
                 <TextView
@@ -190,33 +220,20 @@
                 android:layout_marginTop="5dp"
                 android:background="@color/Gray3"/>
 
-        <LinearLayout
+        <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="5dp"
-                android:gravity="center_horizontal">
+                android:orientation="horizontal"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"
+                >
 
             <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_horizontal"
-                    >
-
-                <TextView
-                        android:id="@+id/user_isfollowing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="following"
-                        android:textColor="@color/Gray"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=" / "
-                        android:textColor="@color/Gray"/>
+                    android:orientation="vertical"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true">
 
                 <TextView
                         android:id="@+id/user_isfollowed"
@@ -226,23 +243,38 @@
                         android:text="followed"
                         android:textColor="@color/Gray"/>
 
+                <TextView
+                        android:id="@+id/user_isprotected"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="非公開アカウント"
+                        android:textColor="@color/Gray"/>
             </LinearLayout>
 
-            <TextView
-                    android:id="@+id/user_isprotected"
+            <Button
+                    android:id="@+id/user_follow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="非公開アカウント"
-                    android:textColor="@color/Gray"/>
-        </LinearLayout>
+                    android:text="フォローする"
+                    android:textColor="@color/White"
+                    android:textSize="15dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@android:color/holo_blue_light"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    style="@style/transBtn"
+                    />
+
+        </RelativeLayout>
 
 
         <FrameLayout
                 android:id="@+id/frame2"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="5dp"
                 android:background="@color/Gray3"/>
 
         <TextView
@@ -252,46 +284,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
-                android:autoLink="web"
                 android:text="bio"
                 android:textColor="@color/Gray"/>
-
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/Gray"
-                android:padding="1dp">
-
-            <Button
-                    android:id="@+id/user_reload"
-                    style="@style/whiteBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Refresh"/>
-        </FrameLayout>
-
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/Gray"
-                android:padding="1dp">
-
-            <Button
-                    android:id="@+id/user_menu"
-                    style="@style/whiteBtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Menu"/>
-        </FrameLayout>
     </LinearLayout>
 
 </ScrollView>

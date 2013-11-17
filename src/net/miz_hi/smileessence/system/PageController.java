@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import net.miz_hi.smileessence.util.UiHandler;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 import net.miz_hi.smileessence.view.fragment.NamedFragmentPagerAdapter;
 import net.miz_hi.smileessence.view.fragment.impl.HistoryFragment;
@@ -51,30 +50,15 @@ public class PageController
         adapter.add((NamedFragment) Fragment.instantiate(activity, HistoryFragment.class.getName()));
     }
 
-    public void move(final int index)
+    public void move(int index)
     {
-        new UiHandler()
-        {
 
-            @Override
-            public void run()
-            {
-                pager.setCurrentItem(index, true);
-            }
-        }.post();
+        pager.setCurrentItem(index, true);
     }
 
     public void moveToLast()
     {
-        new UiHandler()
-        {
-
-            @Override
-            public void run()
-            {
-                pager.setCurrentItem(adapter.getCount(), false);
-            }
-        }.post();
+        pager.setCurrentItem(adapter.getCount(), false);
     }
 
     public int getCurrentPage()
@@ -82,37 +66,21 @@ public class PageController
         return instance.pager.getCurrentItem();
     }
 
-    public void addPage(final NamedFragment fragment)
+    public void addPage(NamedFragment fragment)
     {
-        new UiHandler()
-        {
-
-            @Override
-            public void run()
-            {
-                adapter.add(fragment);
-            }
-        }.post();
+        adapter.add(fragment);
     }
 
     public void removePage()
     {
-        new UiHandler()
-        {
-
-            @Override
-            public void run()
-            {
-                int current = instance.pager.getCurrentItem();
-                adapter.remove(current);
-                List<NamedFragment> list = new ArrayList<NamedFragment>();
-                list.addAll(instance.adapter.getList());
-                instance.adapter = new NamedFragmentPagerAdapter(activity.getSupportFragmentManager(), list); //Refresh page caches
-                pager.setAdapter(instance.adapter);
-                pager.setCurrentItem(current);
-            }
-        }.post();
-
+        int current = pager.getCurrentItem();
+        adapter.remove(current);
+        List<NamedFragment> list = new ArrayList<NamedFragment>();
+        list.addAll(adapter.getList());
+        adapter.clear();
+        adapter.addAll(list);
+        adapter.notifyDataSetChanged();
+        pager.setCurrentItem(current, true);
     }
 
     public NamedFragmentPagerAdapter getAdapter()

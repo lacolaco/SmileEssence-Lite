@@ -6,11 +6,14 @@ import net.miz_hi.smileessence.command.MenuCommand;
 public abstract class UserCommand extends MenuCommand
 {
 
-	protected String userName;
+    protected String userName;
 
-	public UserCommand(String userName)
-	{
-		this.userName = userName;
-	}
+    public UserCommand(String userName)
+    {
+        this.userName = userName;
+    }
 
+    protected UserCommand()
+    {
+    }
 }
