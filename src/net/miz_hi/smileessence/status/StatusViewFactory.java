@@ -85,6 +85,7 @@ public class StatusViewFactory
         textContent.setTextColor(colorContent);
         textBottom.setTextColor(colorBottom);
         //set value
+        icon.setDefaultImageResId(R.drawable.icon_reflesh);
         MyImageCache.setImageToView(model.getUser().iconUrl, icon);
         textTop.setText(model.getTextTop());
         String text;

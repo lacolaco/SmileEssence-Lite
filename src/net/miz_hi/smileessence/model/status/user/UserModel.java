@@ -1,6 +1,7 @@
 package net.miz_hi.smileessence.model.status.user;
 
 import net.miz_hi.smileessence.Client;
+import net.miz_hi.smileessence.cache.MyImageCache;
 import net.miz_hi.smileessence.cache.RelationshipCache;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
@@ -23,6 +24,7 @@ public class UserModel implements IStatusModel
     public String location;
     public String description;
     public String iconUrl;
+    public String headerImageUrl;
     public int statusCount;
     public int friendCount;
     public int followerCount;
@@ -49,12 +51,14 @@ public class UserModel implements IStatusModel
         location = user.getLocation();
         description = user.getDescription();
         iconUrl = user.getProfileImageURL();
+        headerImageUrl = user.getProfileBannerURL();
         statusCount = user.getStatusesCount();
         friendCount = user.getFriendsCount();
         followerCount = user.getFollowersCount();
         favoriteCount = user.getFavouritesCount();
         createdAt = user.getCreatedAt();
         isProtected = user.isProtected();
+        MyImageCache.preCache(iconUrl);
         return this;
     }
 

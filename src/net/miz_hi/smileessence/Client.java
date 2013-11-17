@@ -4,17 +4,15 @@ import android.app.Application;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import net.miz_hi.smileessence.auth.Account;
 import net.miz_hi.smileessence.auth.AuthenticationDB;
+import net.miz_hi.smileessence.cache.VolleyUtil;
 import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.data.DBHelper;
 import net.miz_hi.smileessence.permission.IPermission;
 import net.miz_hi.smileessence.permission.PermissonChecker;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.preference.PreferenceHelper;
-
-import java.io.File;
 
 public class Client
 {
@@ -85,11 +83,6 @@ public class Client
         Client.permission = permission;
     }
 
-    public static File getApplicationFile(String fileName)
-    {
-        return new File(app.getExternalCacheDir(), fileName);
-    }
-
     public static Resources getResource()
     {
         return app.getResources();
@@ -130,7 +123,7 @@ public class Client
         Client.prefHelper = new PreferenceHelper(PreferenceManager.getDefaultSharedPreferences(app));
         Client.app = app;
         Client.mainAccount = null;
-        Client.requestQueue = Volley.newRequestQueue(app);
+        Client.requestQueue = VolleyUtil.createRequestQueue(app, null, 32 * 1024 * 1024); //32MBのディスクキャッシュ
         loadPreferences();
         new DBHelper(app).initialize();
         MyExecutor.init();

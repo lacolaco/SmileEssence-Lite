@@ -28,6 +28,7 @@
     <orderEntry type="module" module-name="ViewPagerIndicator" />
     <orderEntry type="module" module-name="Crouton" />
     <orderEntry type="module" module-name="Volley" />
+    <orderEntry type="library" name="android-support-v13" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -58,7 +59,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/twitter4j-core-3.0.3-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../Downloads/Lib/twitter4j-3.0.5/lib/twitter4j-core-3.0.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -67,7 +68,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/twitter4j-media-support-3.0.3-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../Downloads/Lib/twitter4j-3.0.5/lib/twitter4j-async-3.0.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -76,13 +77,21 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/twitter4j-stream-3.0.3-SNAPSHOT.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../Downloads/Lib/twitter4j-3.0.5/lib/twitter4j-media-support-3.0.5.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="android-support-v13" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../Downloads/Lib/twitter4j-3.0.5/lib/twitter4j-stream-3.0.5.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

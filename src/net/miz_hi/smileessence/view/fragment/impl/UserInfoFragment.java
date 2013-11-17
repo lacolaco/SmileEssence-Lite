@@ -3,7 +3,9 @@ package net.miz_hi.smileessence.view.fragment.impl;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.cache.MyImageCache;
+import net.miz_hi.smileessence.command.CommandOpenUrl;
+import net.miz_hi.smileessence.command.user.UserCommandOpenPage;
 import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.menu.UserMenu;
 import net.miz_hi.smileessence.model.status.user.UserModel;
@@ -26,7 +30,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
 {
 
     UserModel user;
-    TextView screennameView;
+    TextView screenNameView;
     TextView nameView;
     TextView homepageView;
     TextView locateView;
@@ -34,11 +38,12 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
     TextView isFollowedView;
     TextView isProtectedView;
     TextView descriptionView;
-    TextView tweetcountView;
+    TextView tweetCountView;
     TextView followingView;
     TextView followedView;
     TextView favoriteView;
     NetworkImageView iconView;
+    NetworkImageView headerView;
 
     private UserInfoFragment()
     {
@@ -66,7 +71,8 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
         Button menu = (Button) page.findViewById(R.id.user_menu);
         menu.setOnClickListener(this);
 
-        screennameView = (TextView) page.findViewById(R.id.user_screenname);
+        screenNameView = (TextView) page.findViewById(R.id.user_screenname);
+        screenNameView.setOnClickListener(this);
         nameView = (TextView) page.findViewById(R.id.user_name);
         homepageView = (TextView) page.findViewById(R.id.user_homepage);
         locateView = (TextView) page.findViewById(R.id.user_locate);
@@ -74,11 +80,17 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
         isFollowedView = (TextView) page.findViewById(R.id.user_isfollowed);
         isProtectedView = (TextView) page.findViewById(R.id.user_isprotected);
         descriptionView = (TextView) page.findViewById(R.id.user_bio);
-        tweetcountView = (TextView) page.findViewById(R.id.user_count_tweet);
+        tweetCountView = (TextView) page.findViewById(R.id.user_count_tweet);
+        tweetCountView.setOnClickListener(this);
         followingView = (TextView) page.findViewById(R.id.user_count_following);
+        followingView.setOnClickListener(this);
         followedView = (TextView) page.findViewById(R.id.user_count_followed);
+        followedView.setOnClickListener(this);
         favoriteView = (TextView) page.findViewById(R.id.user_count_favorite);
+        favoriteView.setOnClickListener(this);
         iconView = (NetworkImageView) page.findViewById(R.id.user_icon);
+        iconView.setOnClickListener(this);
+        headerView = (NetworkImageView) page.findViewById(R.id.user_header);
         reload(false);
         return page;
     }
@@ -91,7 +103,9 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
             @Override
             public void run()
             {
-                screennameView.setText(user.screenName);
+                SpannableString screenName = new SpannableString("@" + user.screenName);
+                screenName.setSpan(new UnderlineSpan(), 0, screenName.length(), 0);
+                screenNameView.setText(screenName);
                 nameView.setText(user.name);
                 if (TextUtils.isEmpty(user.homePageUrl))
                 {
@@ -111,13 +125,14 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
                 }
                 isFollowingView.setText(user.isFriend(force) ? "フォローしています" : user.isMe() ? "あなたです" : "フォローしていません");
                 isFollowedView.setText(user.isFollower(force) ? "フォローされています" : user.isMe() ? "あなたです" : "フォローされていません");
-                isProtectedView.setText(user.isProtected ? "非公開" : "公開");
+                isProtectedView.setVisibility(user.isProtected ? View.VISIBLE : View.GONE);
                 descriptionView.setText(user.description);
-                tweetcountView.setText(Integer.toString(user.statusCount));
+                tweetCountView.setText(Integer.toString(user.statusCount));
                 followingView.setText(Integer.toString(user.friendCount));
                 followedView.setText(Integer.toString(user.followerCount));
                 favoriteView.setText(Integer.toString(user.favoriteCount));
                 MyImageCache.setImageToView(user.iconUrl, iconView);
+                MyImageCache.setImageToView(user.headerImageUrl, headerView);
             }
         }.post();
     }
@@ -146,7 +161,38 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
                 new UserMenu(getActivity(), user).create().show();
                 break;
             }
+            case R.id.user_screenname:
+            {
+                new UserCommandOpenPage(getActivity(), user.screenName).run();
+                break;
+            }
+            case R.id.user_icon:
+            {
+                openUrl(user.iconUrl);
+                break;
+            }
+            case R.id.user_count_tweet:
+            {
+                break;
+            }
+            case R.id.user_count_following:
+            {
+                break;
+            }
+            case R.id.user_count_followed:
+            {
+                break;
+            }
+            case R.id.user_count_favorite:
+            {
+                break;
+            }
         }
+    }
+
+    private void openUrl(String url)
+    {
+        new CommandOpenUrl(getActivity(), url).run();
     }
 
     @Override
