@@ -27,6 +27,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ViewPagerIndicator" />
     <orderEntry type="module" module-name="Crouton" />
+    <orderEntry type="module" module-name="Volley" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
