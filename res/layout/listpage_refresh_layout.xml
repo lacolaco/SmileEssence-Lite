@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/White"
-    android:gravity="center_horizontal"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/White"
+              android:gravity="center_horizontal"
+              android:orientation="vertical">
 
     <ListView
-        android:id="@+id/listpage_listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:divider="@color/Gray2"
-        android:dividerHeight="1dp"
-        android:footerDividersEnabled="true" >
+            android:id="@+id/listpage_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:dividerHeight="1px"
+            android:footerDividersEnabled="true">
 
     </ListView>
 
-        <FrameLayout
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -25,17 +24,17 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:background="@color/Gray"
-            android:padding="1dp" >
+            android:padding="1dp">
 
-            <Button
+        <Button
                 android:id="@+id/listpage_refresh"
                 style="@style/whiteBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:minHeight="36dp"
-                android:text="Refresh" />
+                android:text="Refresh"/>
 
-        </FrameLayout>
+    </FrameLayout>
 
 </LinearLayout>
