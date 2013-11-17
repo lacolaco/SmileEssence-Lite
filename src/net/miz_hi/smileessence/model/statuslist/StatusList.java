@@ -13,12 +13,18 @@ public abstract class StatusList
 
     public synchronized void addToTop(IStatusModel status)
     {
-        list.add(0, status);
+        if (!list.contains(status))
+        {
+            list.add(0, status);
+        }
     }
 
     public synchronized void addToBottom(IStatusModel status)
     {
-        list.add(list.size(), status);
+        if (!list.contains(status))
+        {
+            list.add(list.size(), status);
+        }
     }
 
     public synchronized IStatusModel getStatus(int index)
