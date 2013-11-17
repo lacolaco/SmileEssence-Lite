@@ -65,7 +65,7 @@ public class UserTimelineFragment extends NamedFragment implements IRemovable, O
         listView.setFastScrollEnabled(true);
 
         StatusListAdapter adapter = StatusListManager.getAdapter(StatusListManager.getUserTimeline(user.userId));
-        getUserTimeline();
+        //getUserTimeline();
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new TimelineScrollListener(adapter));
         Button refresh = (Button) page.findViewById(R.id.listpage_refresh);
