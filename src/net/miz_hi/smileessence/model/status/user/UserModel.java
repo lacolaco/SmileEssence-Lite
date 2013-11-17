@@ -1,7 +1,6 @@
 package net.miz_hi.smileessence.model.status.user;
 
 import net.miz_hi.smileessence.Client;
-import net.miz_hi.smileessence.cache.IconCache;
 import net.miz_hi.smileessence.cache.RelationshipCache;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
@@ -56,7 +55,6 @@ public class UserModel implements IStatusModel
         favoriteCount = user.getFavouritesCount();
         createdAt = user.getCreatedAt();
         isProtected = user.isProtected();
-        IconCache.checkIconCache(UserModel.this);
         return this;
     }
 

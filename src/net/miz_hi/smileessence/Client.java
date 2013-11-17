@@ -3,6 +3,8 @@ package net.miz_hi.smileessence;
 import android.app.Application;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import net.miz_hi.smileessence.auth.Account;
 import net.miz_hi.smileessence.auth.AuthenticationDB;
 import net.miz_hi.smileessence.core.MyExecutor;
@@ -22,6 +24,7 @@ public class Client
     private static PreferenceHelper prefHelper;
     private static IPermission permission;
     private static int textSize;
+    private static RequestQueue requestQueue;
 
     private Client()
     {
@@ -102,6 +105,11 @@ public class Client
         return getResource().getColor(resId);
     }
 
+    public static RequestQueue getRequestQueue()
+    {
+        return requestQueue;
+    }
+
     public static int getTextSize()
     {
         return textSize;
@@ -122,6 +130,7 @@ public class Client
         Client.prefHelper = new PreferenceHelper(PreferenceManager.getDefaultSharedPreferences(app));
         Client.app = app;
         Client.mainAccount = null;
+        Client.requestQueue = Volley.newRequestQueue(app);
         loadPreferences();
         new DBHelper(app).initialize();
         MyExecutor.init();

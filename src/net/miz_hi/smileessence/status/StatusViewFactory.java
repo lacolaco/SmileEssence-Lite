@@ -4,9 +4,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.android.volley.toolbox.NetworkImageView;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
-import net.miz_hi.smileessence.cache.IconCache;
+import net.miz_hi.smileessence.cache.MyImageCache;
 import net.miz_hi.smileessence.cache.TweetCache;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.event.EventModel;
@@ -22,7 +23,7 @@ public class StatusViewFactory
 
     LayoutInflater inflater;
     View baseView;
-    ImageView icon;
+    NetworkImageView icon;
     TextView textTop;
     TextView textContent;
     TextView textBottom;
@@ -47,7 +48,7 @@ public class StatusViewFactory
         {
             factory.baseView = baseView;
         }
-        factory.icon = (ImageView) factory.baseView.findViewById(R.id.imageView_icon);
+        factory.icon = (NetworkImageView) factory.baseView.findViewById(R.id.imageView_icon);
         factory.textTop = (TextView) factory.baseView.findViewById(R.id.textView_header);
         factory.textContent = (TextView) factory.baseView.findViewById(R.id.textView_text);
         factory.textBottom = (TextView) factory.baseView.findViewById(R.id.textView_footer);
@@ -84,8 +85,7 @@ public class StatusViewFactory
         textContent.setTextColor(colorContent);
         textBottom.setTextColor(colorBottom);
         //set value
-        icon.setTag(model.getUser().userId);
-        IconCache.setIconBitmapToView(model.getUser(), icon);
+        MyImageCache.setImageToView(model.getUser().iconUrl, icon);
         textTop.setText(model.getTextTop());
         String text;
         if (Morse.isMorse(model.getTextContent()) && Client.<Boolean>getPreferenceValue(EnumPreferenceKey.READ_MORSE))

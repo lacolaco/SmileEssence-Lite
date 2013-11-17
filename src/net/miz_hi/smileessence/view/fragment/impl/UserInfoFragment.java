@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
+import com.android.volley.toolbox.NetworkImageView;
 import net.miz_hi.smileessence.R;
-import net.miz_hi.smileessence.cache.IconCache;
+import net.miz_hi.smileessence.cache.MyImageCache;
 import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.menu.UserMenu;
 import net.miz_hi.smileessence.model.status.user.UserModel;
@@ -38,7 +38,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
     TextView followingView;
     TextView followedView;
     TextView favoriteView;
-    ImageView iconView;
+    NetworkImageView iconView;
 
     private UserInfoFragment()
     {
@@ -78,7 +78,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
         followingView = (TextView) page.findViewById(R.id.user_count_following);
         followedView = (TextView) page.findViewById(R.id.user_count_followed);
         favoriteView = (TextView) page.findViewById(R.id.user_count_favorite);
-        iconView = (ImageView) page.findViewById(R.id.user_icon);
+        iconView = (NetworkImageView) page.findViewById(R.id.user_icon);
         reload(false);
         return page;
     }
@@ -117,7 +117,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
                 followingView.setText(Integer.toString(user.friendCount));
                 followedView.setText(Integer.toString(user.followerCount));
                 favoriteView.setText(Integer.toString(user.favoriteCount));
-                IconCache.setIconBitmapToView(user, iconView);
+                MyImageCache.setImageToView(user.iconUrl, iconView);
             }
         }.post();
     }
