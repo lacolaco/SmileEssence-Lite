@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,8 +29,6 @@ import net.miz_hi.smileessence.view.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 import twitter4j.Relationship;
 import twitter4j.User;
-
-import java.util.regex.Matcher;
 
 @SuppressLint("ValidFragment")
 public class UserInfoFragment extends NamedFragment implements OnClickListener, IRemovable
@@ -173,20 +170,8 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
         followingView.setText(Integer.toString(user.friendCount));
         followedView.setText(Integer.toString(user.followerCount));
         favoriteView.setText(Integer.toString(user.favoriteCount));
-        MyImageCache.setImageToView(user.iconUrl, iconView);
+        MyImageCache.setImageToView(user.biggerIconUrl, iconView);
         MyImageCache.setImageToView(user.headerImageUrl, headerView);
-    }
-
-    private Linkify.TransformFilter getFilter(final String urlStr)
-    {
-        return new Linkify.TransformFilter()
-        {
-            @Override
-            public String transformUrl(Matcher match, String url)
-            {
-                return urlStr;
-            }
-        };
     }
 
     private String getHtmlDescription(String description)
@@ -215,7 +200,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
             }
             case R.id.user_icon:
             {
-                openUrl(user.iconUrl);
+                openUrl(user.biggerIconUrl);
                 break;
             }
             case R.id.user_screenname:

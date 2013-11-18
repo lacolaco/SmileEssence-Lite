@@ -22,6 +22,7 @@ public class UserModel implements IStatusModel
     public String location;
     public String description;
     public String iconUrl;
+    public String biggerIconUrl;
     public String headerImageUrl;
     public int statusCount;
     public int friendCount;
@@ -48,7 +49,8 @@ public class UserModel implements IStatusModel
         homePageUrl = user.getURLEntity().getExpandedURL();
         location = user.getLocation();
         description = StringUtils.replaceUrlEntity(user.getDescription(), user.getDescriptionURLEntities());
-        iconUrl = user.getBiggerProfileImageURL();
+        iconUrl = user.getProfileImageURL();
+        biggerIconUrl = user.getBiggerProfileImageURL();
         headerImageUrl = user.getProfileBannerURL();
         statusCount = user.getStatusesCount();
         friendCount = user.getFriendsCount();
