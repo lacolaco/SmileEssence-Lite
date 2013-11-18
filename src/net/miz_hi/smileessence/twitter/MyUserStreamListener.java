@@ -3,7 +3,6 @@ package net.miz_hi.smileessence.twitter;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.cache.TweetCache;
 import net.miz_hi.smileessence.extraction.ExtractManager;
-import net.miz_hi.smileessence.model.status.ResponseConverter;
 import net.miz_hi.smileessence.model.status.event.EventModel;
 import net.miz_hi.smileessence.model.status.event.impl.*;
 import net.miz_hi.smileessence.model.status.tweet.EnumTweetType;

@@ -3,9 +3,9 @@ package net.miz_hi.smileessence.status;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.cache.TweetCache;
 import net.miz_hi.smileessence.core.MyExecutor;
-import net.miz_hi.smileessence.model.status.ResponseConverter;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.twitter.API;
+import net.miz_hi.smileessence.twitter.ResponseConverter;
 import twitter4j.Status;
 import twitter4j.UserMentionEntity;
 

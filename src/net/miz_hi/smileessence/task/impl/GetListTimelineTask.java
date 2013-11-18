@@ -1,11 +1,11 @@
 package net.miz_hi.smileessence.task.impl;
 
 import net.miz_hi.smileessence.auth.Account;
-import net.miz_hi.smileessence.model.status.ResponseConverter;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.task.Task;
 import net.miz_hi.smileessence.twitter.API;
+import net.miz_hi.smileessence.twitter.ResponseConverter;
 import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.TwitterException;

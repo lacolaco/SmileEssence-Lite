@@ -1,7 +1,8 @@
-package net.miz_hi.smileessence.model.status;
+package net.miz_hi.smileessence.twitter;
 
 import net.miz_hi.smileessence.cache.TweetCache;
 import net.miz_hi.smileessence.cache.UserCache;
+import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.status.user.UserModel;
 import twitter4j.DirectMessage;

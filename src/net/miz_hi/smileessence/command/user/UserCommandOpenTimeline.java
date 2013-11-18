@@ -2,13 +2,13 @@ package net.miz_hi.smileessence.command.user;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import net.miz_hi.smileessence.model.status.ResponseConverter;
 import net.miz_hi.smileessence.model.status.user.UserModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.impl.UserTimeline;
 import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.system.PageController;
 import net.miz_hi.smileessence.task.impl.GetUserTask;
+import net.miz_hi.smileessence.twitter.ResponseConverter;
 import net.miz_hi.smileessence.view.fragment.impl.UserTimelineFragment;
 import twitter4j.User;
 

@@ -3,9 +3,9 @@ package net.miz_hi.smileessence.command.user;
 import android.app.Activity;
 import net.miz_hi.smileessence.cache.UserCache;
 import net.miz_hi.smileessence.menu.UserMenu;
-import net.miz_hi.smileessence.model.status.ResponseConverter;
 import net.miz_hi.smileessence.model.status.user.UserModel;
 import net.miz_hi.smileessence.task.impl.GetUserTask;
+import net.miz_hi.smileessence.twitter.ResponseConverter;
 import twitter4j.User;
 
 public class UserCommandUserMenu extends UserCommand

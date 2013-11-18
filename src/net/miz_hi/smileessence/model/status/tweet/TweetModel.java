@@ -4,7 +4,6 @@ import android.text.Html;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.cache.TweetCache;
 import net.miz_hi.smileessence.model.status.IStatusModel;
-import net.miz_hi.smileessence.model.status.ResponseConverter;
 import net.miz_hi.smileessence.model.status.user.UserModel;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.status.EnumNameStyle;
@@ -13,6 +12,7 @@ import net.miz_hi.smileessence.task.impl.DestroyTask;
 import net.miz_hi.smileessence.task.impl.FavoriteTask;
 import net.miz_hi.smileessence.task.impl.RetweetTask;
 import net.miz_hi.smileessence.task.impl.UnFavoriteTask;
+import net.miz_hi.smileessence.twitter.ResponseConverter;
 import net.miz_hi.smileessence.util.StringUtils;
 import twitter4j.*;
 
