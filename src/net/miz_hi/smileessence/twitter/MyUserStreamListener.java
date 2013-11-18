@@ -146,6 +146,14 @@ public class MyUserStreamListener implements UserStreamListener, ConnectionLifeC
     @Override
     public void onFavorite(User sourceUser, User targetUser, Status targetStatus)
     {
+        if (targetUser.getId() == Client.getMainAccount().getUserId())
+        {
+            EventModel event = new FavoriteEvent(ResponseConverter.<UserModel>convert(sourceUser), ResponseConverter.<TweetModel>convert(targetStatus));
+            StatusList history = StatusListManager.getHistoryTimeline();
+            history.addToTop(event);
+            history.apply();
+            event.raise();
+        }
         if (sourceUser.getId() == Client.getMainAccount().getUserId())
         {
             if (targetStatus.isRetweet())
@@ -160,14 +168,6 @@ public class MyUserStreamListener implements UserStreamListener, ConnectionLifeC
             StatusList mentions = StatusListManager.getMentionsTimeline();
             home.apply();
             mentions.apply();
-        }
-        if (targetUser.getId() == Client.getMainAccount().getUserId())
-        {
-            EventModel event = new FavoriteEvent(ResponseConverter.<UserModel>convert(sourceUser), ResponseConverter.<TweetModel>convert(targetStatus));
-            StatusList history = StatusListManager.getHistoryTimeline();
-            history.addToTop(event);
-            history.apply();
-            event.raise();
         }
     }
 

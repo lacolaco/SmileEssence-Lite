@@ -118,7 +118,7 @@ public class StatusViewFactory
         {
             colorTop = Client.getColor(R.color.DarkBlue);
         }
-        favorited.setVisibility(TweetCache.isFavorited(model.statusId) ? View.VISIBLE : View.GONE);
+        favorited.setVisibility(TweetCache.isFavorited(model.getOriginal().statusId) ? View.VISIBLE : View.GONE);
     }
 
     private void adjustToEventView(EventModel model)
