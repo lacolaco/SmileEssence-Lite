@@ -80,6 +80,6 @@ public class StatusCommandProduce extends StatusCommand implements IHideable, IC
     @Override
     public boolean getDefaultVisibility()
     {
-        return !status.getOriginal().user.isProtected;
+        return !status.getOriginal().user.isProtected && !status.getOriginal().getUser().isMe();
     }
 }
