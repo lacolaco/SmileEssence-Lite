@@ -1,8 +1,7 @@
 package net.miz_hi.smileessence.task;
 
-import android.os.Handler;
-import android.os.Looper;
 import net.miz_hi.smileessence.core.MyExecutor;
+import net.miz_hi.smileessence.util.UiHandler;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -20,7 +19,7 @@ public abstract class Task<T> implements Callable<T>
 
     public Future<T> callAsync()
     {
-        final Handler handler = new Handler(Looper.getMainLooper());
+        onPreExecute();
         final Future<T> future = MyExecutor.submit(this);
         MyExecutor.execute(new Runnable()
         {
@@ -32,7 +31,7 @@ public abstract class Task<T> implements Callable<T>
                 try
                 {
                     final T result = future.get();
-                    handler.post(new Runnable()
+                    new UiHandler()
                     {
 
                         @Override
@@ -44,7 +43,7 @@ public abstract class Task<T> implements Callable<T>
                                 callback.run();
                             }
                         }
-                    });
+                    }.post();
                 }
                 catch (InterruptedException e)
                 {
@@ -61,6 +60,11 @@ public abstract class Task<T> implements Callable<T>
 
     public abstract void onPreExecute();
 
+    /**
+     * this is called on Ui Thread
+     *
+     * @param result: result of task
+     */
     public abstract void onPostExecute(T result);
 
 }

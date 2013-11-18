@@ -5,10 +5,10 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.command.IConfirmable;
 import net.miz_hi.smileessence.command.IHideable;
 import net.miz_hi.smileessence.command.status.StatusCommand;
-import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
+import net.miz_hi.smileessence.task.impl.RetweetTask;
 import net.miz_hi.smileessence.task.impl.TweetTask;
 import twitter4j.StatusUpdate;
 
@@ -41,35 +41,54 @@ public class StatusCommandProduce extends StatusCommand implements IHideable, IC
         if (TextUtils.isEmpty(lastProduce) || !lastProduce.equals(todayStr))
         {
             Client.putPreferenceValue(EnumPreferenceKey.LAST_PRODUCE_DATE, todayStr);
-            MyExecutor.execute(new Runnable()
-            {
 
-                public void run()
+            new TweetTask(new StatusUpdate("今日のおもしろツイートです"))
+            {
+                @Override
+                public void onPostExecute(Boolean result)
                 {
-                    String first = "今日のおもしろツイートです";
-                    String finish = "以上です";
-                    new TweetTask(new StatusUpdate(first)).call();
-                    try
+                    if (result)
                     {
-                        Thread.sleep(100);
+                        try
+                        {
+                            Thread.sleep(100);
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        status.favorite();
+                        new RetweetTask(status.statusId)
+                        {
+                            @Override
+                            public void onPostExecute(Boolean result)
+                            {
+                                if (result)
+                                {
+                                    try
+                                    {
+                                        Thread.sleep(100);
+                                    }
+                                    catch (InterruptedException e)
+                                    {
+                                        e.printStackTrace();
+                                    }
+                                    new TweetTask(new StatusUpdate("以上です")).callAsync();
+
+                                }
+                                else
+                                {
+                                    new TweetTask(new StatusUpdate("紹介失敗しました")).callAsync();
+                                }
+                            }
+                        }.callAsync();
                     }
-                    catch (InterruptedException e)
+                    else
                     {
-                        e.printStackTrace();
+                        Notificator.alert("失敗しました");
                     }
-                    status.retweet();
-                    try
-                    {
-                        Thread.sleep(100);
-                    }
-                    catch (InterruptedException e)
-                    {
-                        e.printStackTrace();
-                    }
-                    new TweetTask(new StatusUpdate(finish)).call();
-                    status.favorite();
                 }
-            });
+            }.callAsync();
         }
         else
         {
