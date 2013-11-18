@@ -1,10 +1,8 @@
 package net.miz_hi.smileessence.command.status.impl;
 
-import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.command.status.StatusCommand;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.system.PostSystem;
-import twitter4j.UserMentionEntity;
 
 public class StatusCommandReplyToAll extends StatusCommand
 {
@@ -25,15 +23,10 @@ public class StatusCommandReplyToAll extends StatusCommand
     {
         StringBuilder builder = new StringBuilder();
         builder.append(".");
-        for (UserMentionEntity entity : status.getUserMentions())
+        for (String name : status.getScreenNames())
         {
-            if (entity.getScreenName().equals(Client.getMainAccount().getScreenName()))
-            {
-                continue;
-            }
-            builder.append("@").append(entity.getScreenName()).append(" ");
+            builder.append("@").append(name).append(" ");
         }
-
         PostSystem.setText(builder.toString());
         PostSystem.getState().setCursor(builder.length());
         PostSystem.openPostPage();
@@ -42,6 +35,7 @@ public class StatusCommandReplyToAll extends StatusCommand
     @Override
     public boolean getDefaultVisibility()
     {
-        return status.getUserMentions() != null && status.getUserMentions().length > 1;
+        return status.getScreenNames().size() > 1;
     }
+
 }

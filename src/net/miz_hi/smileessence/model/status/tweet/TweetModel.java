@@ -205,6 +205,31 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
         new RetweetTask(original.statusId).callAsync();
     }
 
+    /**
+     * returns list of screenName in own text
+     */
+    public List<String> getScreenNames()
+    {
+        List<String> names = new ArrayList<String>();
+        names.add(original.user.screenName);
+        if (original.userMentions != null)
+        {
+            for (UserMentionEntity entity : original.userMentions)
+            {
+                if (entity.getScreenName().equals(Client.getMainAccount().getScreenName()))
+                {
+                    continue;
+                }
+                if (names.contains(entity.getScreenName()))
+                {
+                    continue;
+                }
+                names.add(entity.getScreenName());
+            }
+        }
+        return names;
+    }
+
     @Override
     public UserModel getUser()
     {
