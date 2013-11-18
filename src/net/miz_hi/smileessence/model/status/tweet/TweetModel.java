@@ -81,6 +81,15 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
         }
 
         type = status.isRetweet() ? EnumTweetType.RETWEET : (TweetUtils.isReply(status) ? EnumTweetType.REPLY : EnumTweetType.NORMAL);
+
+        if (status.isFavorited())
+        {
+            TweetCache.putFavoritedStatus(status.getId());
+        }
+        else
+        {
+            TweetCache.removeFavoritedStatus(status.getId());
+        }
     }
 
     @Override
