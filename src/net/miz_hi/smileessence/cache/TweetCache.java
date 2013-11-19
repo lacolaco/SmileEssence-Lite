@@ -1,7 +1,7 @@
 package net.miz_hi.smileessence.cache;
 
-import net.miz_hi.smileessence.model.status.tweet.EnumTweetType;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
+import twitter4j.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,21 +14,27 @@ public class TweetCache
     private static TweetCache instance = new TweetCache();
 
     private ConcurrentHashMap<Long, TweetModel> statusesMap = new ConcurrentHashMap<Long, TweetModel>();
-    private CopyOnWriteArrayList<Long> favoriteList = new CopyOnWriteArrayList<Long>();
     private CopyOnWriteArrayList<String> hashtagList = new CopyOnWriteArrayList<String>();
     private CopyOnWriteArrayList<Long> readRetweetList = new CopyOnWriteArrayList<Long>();
 
-    public static void put(TweetModel tweet)
+    public static TweetModel put(Status status)
     {
-        if (instance.statusesMap.containsKey(tweet.statusId))
+        TweetModel model;
+        if (instance.statusesMap.containsKey(status.getId()))
         {
-            instance.statusesMap.remove(tweet.statusId);
+            model = instance.statusesMap.get(status.getId());
+            model.updateData(status);
         }
-        if (tweet.type == EnumTweetType.RETWEET)
+        else
         {
-            instance.readRetweetList.add(tweet.statusId);
+            model = new TweetModel(status);
+            instance.statusesMap.put(status.getId(), model);
         }
-        instance.statusesMap.put(tweet.statusId, tweet);
+        if (status.isRetweet())
+        {
+            instance.readRetweetList.add(status.getId());
+        }
+        return model;
     }
 
     public static List<TweetModel> getList()
@@ -44,21 +50,6 @@ public class TweetCache
     public static TweetModel remove(long id)
     {
         return instance.statusesMap.remove(id);
-    }
-
-    public static void putFavoritedStatus(long id)
-    {
-        instance.favoriteList.add(id);
-    }
-
-    public static void removeFavoritedStatus(long id)
-    {
-        instance.favoriteList.remove(id);
-    }
-
-    public static boolean isFavorited(long id)
-    {
-        return instance.favoriteList.contains(id);
     }
 
     public static boolean isNotRead(long id)
@@ -91,7 +82,6 @@ public class TweetCache
     public static void clearCache()
     {
         instance.statusesMap.clear();
-        instance.favoriteList.clear();
         instance.hashtagList.clear();
         instance.readRetweetList.clear();
     }

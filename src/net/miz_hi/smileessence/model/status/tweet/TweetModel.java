@@ -36,21 +36,31 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
     private HashtagEntity[] hashtags;
     private UserMentionEntity[] userMentions;
     private String source;
-    /**
-     * ツイートの種類
-     */
     public EnumTweetType type = EnumTweetType.NORMAL;
     /**
      * 子ツイート(RTでない場合は自分自身)
      */
     private TweetModel original;
-    /**
-     * 親ツイート
-     */
     private List<TweetModel> parents = new ArrayList<TweetModel>();
+    private boolean isFavorited;
+    private boolean isRetweeted;
+    private int favoriteCount;
+    private int retweetCount;
+    private long myRetweetId;
 
     public TweetModel(Status status)
     {
+        statusId = status.getId();
+        updateData(status);
+    }
+
+    public void updateData(Status status)
+    {
+        createdAt = status.getCreatedAt();
+        text = status.getText();
+        source = Html.fromHtml(status.getSource()).toString();
+        inReplyToStatusId = status.getInReplyToStatusId();
+        user = ResponseConverter.convert(status.getUser());
         if (status.isRetweet())
         {
             original = ResponseConverter.convert(status.getRetweetedStatus());
@@ -60,17 +70,16 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
         {
             original = this;
         }
-
-        createdAt = status.getCreatedAt();
-        statusId = status.getId();
-        inReplyToStatusId = status.getInReplyToStatusId();
-        user = ResponseConverter.convert(status.getUser());
-        text = status.getText();
+        retweetCount = status.getRetweetCount();
+        favoriteCount = status.getFavoriteCount();
+        hashtags = status.getHashtagEntities();
         urls = status.getURLEntities();
         medias = status.getMediaEntities();
-        hashtags = status.getHashtagEntities();
         userMentions = status.getUserMentionEntities();
-        source = Html.fromHtml(status.getSource()).toString();
+        isFavorited = status.isFavorited();
+        isRetweeted = status.isRetweeted();
+
+        myRetweetId = status.isRetweetedByMe() ? status.getCurrentUserRetweetId() : -1L;
 
         if (hashtags != null)
         {
@@ -81,15 +90,6 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
         }
 
         type = status.isRetweet() ? EnumTweetType.RETWEET : (TweetUtils.isReply(status) ? EnumTweetType.REPLY : EnumTweetType.NORMAL);
-
-        if (status.isFavorited())
-        {
-            TweetCache.putFavoritedStatus(status.getId());
-        }
-        else
-        {
-            TweetCache.removeFavoritedStatus(status.getId());
-        }
     }
 
     @Override
@@ -108,14 +108,19 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
         status.original = status;
         status.createdAt = new Date();
         status.statusId = 0;
+        status.text = "";
+        status.source = "";
         status.inReplyToStatusId = 0;
         status.user = UserModel.getNullUserModel();
-        status.text = "";
+        status.favoriteCount = 0;
+        status.retweetCount = 0;
+        status.hashtags = new HashtagEntity[0];
         status.urls = new URLEntity[0];
         status.medias = new MediaEntity[0];
-        status.hashtags = new HashtagEntity[0];
         status.userMentions = new UserMentionEntity[0];
-        status.source = "";
+        status.isFavorited = false;
+        status.isRetweeted = false;
+        status.myRetweetId = -1L;
         status.type = EnumTweetType.NORMAL;
         return status;
     }
@@ -140,6 +145,10 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
         parents.remove(parent);
     }
 
+    /*
+        getter methods
+     */
+
     public long getInReplyToStatusId()
     {
         return original.inReplyToStatusId;
@@ -148,6 +157,11 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
     public String getText()
     {
         return original.text;
+    }
+
+    public String getSource()
+    {
+        return original.source;
     }
 
     public URLEntity[] getUrls()
@@ -170,10 +184,39 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
         return original.userMentions;
     }
 
-    public String getSource()
+    public boolean isFavorited()
     {
-        return original.source;
+        return original.isFavorited;
     }
+
+    public boolean isRetweeted()
+    {
+        return original.isRetweeted;
+    }
+
+    public int getFavoriteCount()
+    {
+        return original.favoriteCount;
+    }
+
+    public int getRetweetCount()
+    {
+        return original.retweetCount;
+    }
+
+    public boolean isRetweetByMe()
+    {
+        return myRetweetId > -1L;
+    }
+
+    public long getMyRetweetId()
+    {
+        return myRetweetId;
+    }
+
+    /*
+        action methods
+     */
 
     /**
      * do destroy async
@@ -212,6 +255,11 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
     public void retweet()
     {
         new RetweetTask(original.statusId).callAsync();
+    }
+
+    public void setFavorited(boolean favorited)
+    {
+        original.isFavorited = favorited;
     }
 
     /**

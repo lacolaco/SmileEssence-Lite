@@ -24,7 +24,7 @@
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:label="@string/app_name"
                 android:launchMode="singleTask"
-                android:windowSoftInputMode="stateHidden|adjustNothing">
+                android:windowSoftInputMode="stateHidden|adjustNothing|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

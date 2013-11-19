@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
-import net.miz_hi.smileessence.cache.MyImageCache;
+import net.miz_hi.smileessence.cache.ImageCache;
 import net.miz_hi.smileessence.command.CommandOpenUrl;
 import net.miz_hi.smileessence.command.user.UserCommandFollow;
 import net.miz_hi.smileessence.command.user.UserCommandUnfollow;
@@ -170,8 +170,8 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
         followingView.setText(Integer.toString(user.friendCount));
         followedView.setText(Integer.toString(user.followerCount));
         favoriteView.setText(Integer.toString(user.favoriteCount));
-        MyImageCache.setImageToView(user.biggerIconUrl, iconView);
-        MyImageCache.setImageToView(user.headerImageUrl, headerView);
+        ImageCache.setImageToView(user.biggerIconUrl, iconView);
+        ImageCache.setImageToView(user.headerImageUrl, headerView);
     }
 
     private String getHtmlDescription(String description)

@@ -7,8 +7,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
-import net.miz_hi.smileessence.cache.MyImageCache;
-import net.miz_hi.smileessence.cache.TweetCache;
+import net.miz_hi.smileessence.cache.ImageCache;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.event.EventModel;
 import net.miz_hi.smileessence.model.status.event.StatusEvent;
@@ -86,7 +85,7 @@ public class StatusViewFactory
         textBottom.setTextColor(colorBottom);
         //set value
         icon.setDefaultImageResId(R.drawable.icon_refresh);
-        MyImageCache.setImageToView(model.getUser().iconUrl, icon);
+        ImageCache.setImageToView(model.getUser().iconUrl, icon);
         textTop.setText(model.getTextTop());
         String text;
         if (Morse.isMorse(model.getTextContent()) && Client.<Boolean>getPreferenceValue(EnumPreferenceKey.READ_MORSE))
@@ -114,11 +113,11 @@ public class StatusViewFactory
             baseView.setBackgroundColor(Client.getColor(R.color.LightRed));
         }
 
-        if (model.user.isMe())
+        if (model.getUser().isMe())
         {
             colorTop = Client.getColor(R.color.DarkBlue);
         }
-        favorited.setVisibility(TweetCache.isFavorited(model.getOriginal().statusId) ? View.VISIBLE : View.GONE);
+        favorited.setVisibility(model.isFavorited() ? View.VISIBLE : View.GONE);
     }
 
     private void adjustToEventView(EventModel model)

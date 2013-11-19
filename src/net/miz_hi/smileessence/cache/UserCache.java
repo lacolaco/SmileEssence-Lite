@@ -1,6 +1,7 @@
 package net.miz_hi.smileessence.cache;
 
 import net.miz_hi.smileessence.model.status.user.UserModel;
+import twitter4j.User;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -9,14 +10,20 @@ public class UserCache
 
     private static ConcurrentHashMap<Long, UserModel> usersMap = new ConcurrentHashMap<Long, UserModel>();
 
-    public static void put(UserModel user)
+    public static UserModel put(User user)
     {
-        if (usersMap.containsKey(user.userId))
+        UserModel model;
+        if (usersMap.containsKey(user.getId()))
         {
-            usersMap.remove(user.userId);
+            model = usersMap.get(user.getId());
+            model.updateData(user);
         }
-
-        usersMap.put(user.userId, user);
+        else
+        {
+            model = new UserModel(user);
+            usersMap.put(user.getId(), model);
+        }
+        return model;
     }
 
     public static UserModel get(long id)

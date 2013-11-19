@@ -10,7 +10,7 @@ import net.miz_hi.smileessence.auth.Account;
 import net.miz_hi.smileessence.auth.AuthenticationDB;
 import net.miz_hi.smileessence.auth.AuthorizeHelper;
 import net.miz_hi.smileessence.auth.Consumers;
-import net.miz_hi.smileessence.cache.MyImageCache;
+import net.miz_hi.smileessence.cache.ImageCache;
 import net.miz_hi.smileessence.cache.TweetCache;
 import net.miz_hi.smileessence.cache.UserCache;
 import net.miz_hi.smileessence.core.EnumRequestCode;
@@ -43,7 +43,7 @@ public class MainActivitySystem
     {
         TwitterManager.closeTwitterStream();
         PostSystem.clear(false);
-        MyImageCache.clearCache();
+        ImageCache.clearCache();
         TweetCache.clearCache();
         UserCache.clearCache();
         MyExecutor.shutdown();

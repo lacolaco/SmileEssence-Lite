@@ -115,9 +115,13 @@ public class MyUserStreamListener implements UserStreamListener, ConnectionLifeC
     @Override
     public void onBlock(User sourceUser, User targetUser)
     {
-        if (targetUser.getId() == Client.getMainAccount().getUserId())
+        //update caches
+        UserModel source = ResponseConverter.convert(sourceUser);
+        UserModel target = ResponseConverter.convert(targetUser);
+
+        if (target.isMe())
         {
-            EventModel event = new BlockEvent(ResponseConverter.<UserModel>convert(sourceUser));
+            EventModel event = new BlockEvent(source);
             StatusList history = StatusListManager.getHistoryTimeline();
             history.addToTop(event);
             history.apply();
@@ -146,37 +150,38 @@ public class MyUserStreamListener implements UserStreamListener, ConnectionLifeC
     @Override
     public void onFavorite(User sourceUser, User targetUser, Status targetStatus)
     {
-        if (targetUser.getId() == Client.getMainAccount().getUserId())
+        //update caches
+        UserModel source = ResponseConverter.convert(sourceUser);
+        UserModel target = ResponseConverter.convert(targetUser);
+        TweetModel status = ResponseConverter.convert(targetStatus);
+        if (target.isMe())
         {
-            EventModel event = new FavoriteEvent(ResponseConverter.<UserModel>convert(sourceUser), ResponseConverter.<TweetModel>convert(targetStatus));
+            EventModel event = new FavoriteEvent(source, status);
             StatusList history = StatusListManager.getHistoryTimeline();
             history.addToTop(event);
             history.apply();
             event.raise();
         }
-        if (sourceUser.getId() == Client.getMainAccount().getUserId())
+        if (source.isMe())
         {
-            if (targetStatus.isRetweet())
+            status.setFavorited(true);
+            for (StatusList list : StatusListManager.getTweetLists())
             {
-                TweetCache.putFavoritedStatus(targetStatus.getRetweetedStatus().getId());
+                list.apply();
             }
-            else
-            {
-                TweetCache.putFavoritedStatus(targetStatus.getId());
-            }
-            StatusList home = StatusListManager.getHomeTimeline();
-            StatusList mentions = StatusListManager.getMentionsTimeline();
-            home.apply();
-            mentions.apply();
         }
     }
 
     @Override
     public void onFollow(User sourceUser, User targetUser)
     {
-        if (sourceUser.getId() != Client.getMainAccount().getUserId())
+        //update caches
+        UserModel source = ResponseConverter.convert(sourceUser);
+        UserModel target = ResponseConverter.convert(targetUser);
+
+        if (target.isMe())
         {
-            EventModel event = new FollowEvent(ResponseConverter.<UserModel>convert(sourceUser));
+            EventModel event = new FollowEvent(source);
             StatusList history = StatusListManager.getHistoryTimeline();
             history.addToTop(event);
             history.apply();
@@ -192,9 +197,13 @@ public class MyUserStreamListener implements UserStreamListener, ConnectionLifeC
     @Override
     public void onUnblock(User sourceUser, User targetUser)
     {
-        if (targetUser.getId() == Client.getMainAccount().getUserId())
+        //update caches
+        UserModel source = ResponseConverter.convert(sourceUser);
+        UserModel target = ResponseConverter.convert(targetUser);
+
+        if (target.isMe())
         {
-            EventModel event = new UnblockEvent(ResponseConverter.<UserModel>convert(sourceUser));
+            EventModel event = new UnblockEvent(source);
             StatusList history = StatusListManager.getHistoryTimeline();
             history.addToTop(event);
             history.apply();
@@ -205,31 +214,24 @@ public class MyUserStreamListener implements UserStreamListener, ConnectionLifeC
     @Override
     public void onUnfavorite(User sourceUser, User targetUser, Status targetStatus)
     {
-        if (sourceUser.getId() == Client.getMainAccount().getUserId())
+        //update caches
+        UserModel source = ResponseConverter.convert(sourceUser);
+        UserModel target = ResponseConverter.convert(targetUser);
+        TweetModel status = ResponseConverter.convert(targetStatus);
+        if (target.isMe() && Client.<Boolean>getPreferenceValue(EnumPreferenceKey.NOTICE_UNFAV))
         {
-            if (targetStatus.isRetweet())
-            {
-                TweetCache.removeFavoritedStatus(targetStatus.getRetweetedStatus().getId());
-            }
-            else
-            {
-                TweetCache.removeFavoritedStatus(targetStatus.getId());
-            }
-            StatusList home = StatusListManager.getHomeTimeline();
-            StatusList mentions = StatusListManager.getMentionsTimeline();
-            home.apply();
-            mentions.apply();
+            EventModel event = new UnfavoriteEvent(source, status);
+            StatusList history = StatusListManager.getHistoryTimeline();
+            history.addToTop(event);
+            history.apply();
+            event.raise();
         }
-
-        if (Client.<Boolean>getPreferenceValue(EnumPreferenceKey.NOTICE_UNFAV))
+        if (source.isMe())
         {
-            if (targetUser.getId() == Client.getMainAccount().getUserId())
+            status.setFavorited(false);
+            for (StatusList list : StatusListManager.getTweetLists())
             {
-                EventModel event = new UnfavoriteEvent(ResponseConverter.<UserModel>convert(sourceUser), ResponseConverter.<TweetModel>convert(targetStatus));
-                StatusList history = StatusListManager.getHistoryTimeline();
-                history.addToTop(event);
-                history.apply();
-                event.raise();
+                list.apply();
             }
         }
     }
@@ -272,6 +274,8 @@ public class MyUserStreamListener implements UserStreamListener, ConnectionLifeC
     @Override
     public void onUserProfileUpdate(User arg0)
     {
+        //update cache
+        ResponseConverter.convert(arg0);
     }
 
     @Override

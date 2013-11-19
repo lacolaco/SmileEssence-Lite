@@ -3,8 +3,6 @@ package net.miz_hi.smileessence.twitter;
 import net.miz_hi.smileessence.cache.TweetCache;
 import net.miz_hi.smileessence.cache.UserCache;
 import net.miz_hi.smileessence.model.status.IStatusModel;
-import net.miz_hi.smileessence.model.status.tweet.TweetModel;
-import net.miz_hi.smileessence.model.status.user.UserModel;
 import twitter4j.DirectMessage;
 import twitter4j.Status;
 import twitter4j.TwitterResponse;
@@ -32,8 +30,7 @@ public final class ResponseConverter
     {
         if (response instanceof Status)
         {
-            model = new TweetModel((Status) response);
-            TweetCache.put((TweetModel) model);
+            model = TweetCache.put((Status) response);
         }
         else if (response instanceof DirectMessage)
         {
@@ -41,8 +38,7 @@ public final class ResponseConverter
         }
         else if (response instanceof User)
         {
-            model = new UserModel((User) response);
-            UserCache.put((UserModel) model);
+            model = UserCache.put((User) response);
         }
         else
         {
