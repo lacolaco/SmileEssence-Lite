@@ -17,7 +17,6 @@ import net.miz_hi.smileessence.core.EnumRequestCode;
 import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.data.list.ListManager;
 import net.miz_hi.smileessence.dialog.SingleButtonDialog;
-import net.miz_hi.smileessence.extraction.ExtractManager;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
 import net.miz_hi.smileessence.model.statuslist.timeline.impl.ListTimeline;
@@ -120,39 +119,32 @@ public class MainActivitySystem
 
         if (connected)
         {
-            final GetHomeTimelineTask getHome = new GetHomeTimelineTask(Client.getMainAccount(), new Paging(1, 100));
-            final GetMentionsTask getMentions = new GetMentionsTask(Client.getMainAccount(), new Paging(1, 200));
-
-
-            MyExecutor.execute(new Runnable()
+            new GetHomeTimelineTask(Client.getMainAccount(), new Paging(1, 100))
             {
-
                 @Override
-                public void run()
+                public void onPostExecute(List<TweetModel> result)
                 {
-                    try
+                    Timeline timeline = StatusListManager.getHomeTimeline();
+                    for (TweetModel tweetModel : result)
                     {
-
-                        List<TweetModel> home = getHome.call();
-                        List<TweetModel> mentions = getMentions.call();
-                        for (TweetModel tweetModel : home)
-                        {
-                            StatusListManager.getHomeTimeline().addToBottom(tweetModel);
-                            ExtractManager.check(tweetModel);
-                        }
-                        for (TweetModel tweetModel : mentions)
-                        {
-                            StatusListManager.getMentionsTimeline().addToBottom(tweetModel);
-                        }
-                        StatusListManager.getAdapter(StatusListManager.getHomeTimeline()).forceNotifyAdapter();
-                        StatusListManager.getAdapter(StatusListManager.getMentionsTimeline()).forceNotifyAdapter();
+                        timeline.addToBottom(tweetModel);
                     }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
+                    timeline.applyForce();
                 }
-            });
+            }.callAsync();
+            new GetMentionsTask(Client.getMainAccount(), new Paging(1, 100))
+            {
+                @Override
+                public void onPostExecute(List<TweetModel> result)
+                {
+                    Timeline timeline = StatusListManager.getMentionsTimeline();
+                    for (TweetModel tweetModel : result)
+                    {
+                        timeline.addToBottom(tweetModel);
+                    }
+                    timeline.applyForce();
+                }
+            }.callAsync();
         }
         else
         {
