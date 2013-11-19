@@ -19,6 +19,18 @@ public class Notificator
     private static long lastStatusId = -1;
     private static CountUpInteger counterSourceUser = new CountUpInteger(5);
     private static CountUpInteger counterTargetStatus = new CountUpInteger(5);
+    private static boolean canNotify = false;
+
+    public static void start()
+    {
+        canNotify = true;
+    }
+
+    public static void stop()
+    {
+        canNotify = false;
+        Crouton.cancelAllCroutons();
+    }
 
     public static void toast(final String text)
     {
@@ -68,7 +80,7 @@ public class Notificator
     public static void crouton(final Notice event)
     {
         final Activity activity = MainActivity.getInstance();
-        if (activity == null || activity.isFinishing())
+        if (activity == null || activity.isFinishing() || !canNotify)
         {
             return;
         }

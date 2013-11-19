@@ -10,7 +10,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import com.viewpagerindicator.TitlePageIndicator;
 import com.viewpagerindicator.TitlePageIndicator.OnCenterItemClickListener;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.core.EnumRequestCode;
@@ -18,6 +17,7 @@ import net.miz_hi.smileessence.core.IntentRouter;
 import net.miz_hi.smileessence.dialog.ConfirmDialog;
 import net.miz_hi.smileessence.listener.PageChangeListener;
 import net.miz_hi.smileessence.menu.MainMenu;
+import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.system.MainActivitySystem;
@@ -87,6 +87,7 @@ public class MainActivity extends FragmentActivity
     {
         super.onResume();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        Notificator.start();
     }
 
     @Override
@@ -94,14 +95,14 @@ public class MainActivity extends FragmentActivity
     {
         super.onPause();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        Crouton.cancelAllCroutons();
+        Notificator.stop();
     }
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
-        Crouton.cancelAllCroutons();
+        Notificator.stop();
         system.onDestroyed();
         instance = null;
     }
