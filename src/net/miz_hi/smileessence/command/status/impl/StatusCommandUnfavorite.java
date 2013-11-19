@@ -27,7 +27,7 @@ public class StatusCommandUnfavorite extends StatusCommand implements IHideable
     @Override
     public boolean getDefaultVisibility()
     {
-        return true; //todo ふぁぼっている時だけ
+        return status.isFavorited();
     }
 
 }
