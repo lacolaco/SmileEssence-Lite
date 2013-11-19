@@ -43,7 +43,10 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
     private boolean isRetweeted;
     private int favoriteCount;
     private int retweetCount;
-    private long myRetweetId;
+    /**
+     * 自分のリツイートのID
+     */
+    private long myRetweetId = -1L;
 
     public TweetModel(Status status)
     {
@@ -75,8 +78,10 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
         userMentions = status.getUserMentionEntities();
         isFavorited = status.isFavorited();
         isRetweeted = status.isRetweeted();
-
-        myRetweetId = status.isRetweetedByMe() ? status.getCurrentUserRetweetId() : -1L;
+        if (status.isRetweetedByMe())
+        {
+            myRetweetId = status.getCurrentUserRetweetId();
+        }
 
         if (hashtags != null)
         {
