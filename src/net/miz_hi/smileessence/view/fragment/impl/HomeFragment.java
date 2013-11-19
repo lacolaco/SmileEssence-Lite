@@ -31,7 +31,6 @@ public class HomeFragment extends NamedFragment
         CustomListAdapter<?> adapter = StatusListManager.getAdapter(StatusListManager.getHomeTimeline());
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new TimelineScrollListener(adapter));
-        listView.destroyDrawingCache();
         return page;
     }
 
