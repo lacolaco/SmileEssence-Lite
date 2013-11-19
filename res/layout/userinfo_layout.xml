@@ -233,6 +233,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_alignParentLeft="true"
+                    android:layout_marginTop="15dp"
                     android:layout_centerVertical="true">
 
                 <TextView

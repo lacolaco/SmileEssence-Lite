@@ -71,14 +71,14 @@ public class API
         return TwitterManager.getTwitter(account).showUser(screenName);
     }
 
-    public static void follow(Account account, String screenName) throws TwitterException
+    public static User follow(Account account, String screenName) throws TwitterException
     {
-        TwitterManager.getTwitter(account).createFriendship(screenName);
+        return TwitterManager.getTwitter(account).createFriendship(screenName);
     }
 
-    public static void unfollow(Account account, String screenName) throws TwitterException
+    public static User unfollow(Account account, String screenName) throws TwitterException
     {
-        TwitterManager.getTwitter(account).destroyFriendship(screenName);
+        return TwitterManager.getTwitter(account).destroyFriendship(screenName);
     }
 
     public static void block(Account account, String screenName) throws TwitterException
@@ -111,7 +111,7 @@ public class API
     }
 
 	/*
-	 * TIMELINE
+     * TIMELINE
 	 */
 
     public static ResponseList<Status> getHomeTimeline(Account account, Paging page) throws TwitterException

@@ -17,14 +17,13 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.cache.ImageCache;
 import net.miz_hi.smileessence.command.CommandOpenUrl;
-import net.miz_hi.smileessence.command.user.UserCommandFollow;
-import net.miz_hi.smileessence.command.user.UserCommandUnfollow;
 import net.miz_hi.smileessence.menu.UserMenu;
 import net.miz_hi.smileessence.model.status.user.UserModel;
+import net.miz_hi.smileessence.task.impl.FollowTask;
 import net.miz_hi.smileessence.task.impl.GetRelationshipTask;
 import net.miz_hi.smileessence.task.impl.GetUserTask;
+import net.miz_hi.smileessence.task.impl.UnfollowTask;
 import net.miz_hi.smileessence.twitter.TwitterUtil;
-import net.miz_hi.smileessence.util.UiHandler;
 import net.miz_hi.smileessence.view.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 import twitter4j.Relationship;
@@ -139,7 +138,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
 
         if (user.isMe())
         {
-            followButton.setText("あなたです");
+            followButton.setVisibility(View.GONE);
             isFollowedView.setText("あなたです");
         }
         else
@@ -230,24 +229,33 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
             }
             case R.id.user_follow:
             {
+                followButton.setText("読み込み中");
+                followButton.setBackgroundColor(Client.getColor(R.color.Gray3));
                 Boolean isFollowing = v.getTag() != null ? (Boolean) v.getTag() : false;
                 if (isFollowing)
                 {
-                    new UserCommandUnfollow(user.screenName).run();
+                    new UnfollowTask(user.screenName)
+                    {
+                        @Override
+                        public void onPostExecute(User result)
+                        {
+                            super.onPostExecute(result);
+                            setData();
+                        }
+                    }.callAsync();
                 }
                 else
                 {
-                    new UserCommandFollow(user.screenName).run();
-                }
-                new UiHandler()
-                {
-
-                    @Override
-                    public void run()
+                    new FollowTask(user.screenName)
                     {
-                        reload();
-                    }
-                }.postDelayed(1000);
+                        @Override
+                        public void onPostExecute(User result)
+                        {
+                            super.onPostExecute(result);
+                            setData();
+                        }
+                    }.callAsync();
+                }
                 break;
             }
         }
