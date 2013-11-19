@@ -12,7 +12,7 @@ public class API
      * TWEET
 	 */
 
-    public static Status getStatus(Account account, long id) throws TwitterException
+    public static Status showStatus(Account account, long id) throws TwitterException
     {
         return TwitterManager.getTwitter(account).showStatus(id);
     }
@@ -109,7 +109,7 @@ public class API
     {
         return TwitterManager.getTwitter(account).showFriendship(account.getScreenName(), screenName);
     }
-	
+
 	/*
 	 * TIMELINE
 	 */

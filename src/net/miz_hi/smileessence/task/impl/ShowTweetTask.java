@@ -7,12 +7,12 @@ import twitter4j.Status;
 import twitter4j.TwitterException;
 
 
-public class GetTweetTask extends Task<Status>
+public class ShowTweetTask extends Task<Status>
 {
 
     long statusId;
 
-    public GetTweetTask(long statusId)
+    public ShowTweetTask(long statusId)
     {
         this.statusId = statusId;
     }
@@ -22,7 +22,7 @@ public class GetTweetTask extends Task<Status>
     {
         try
         {
-            return API.getStatus(Client.getMainAccount(), statusId);
+            return API.showStatus(Client.getMainAccount(), statusId);
         }
         catch (TwitterException e)
         {

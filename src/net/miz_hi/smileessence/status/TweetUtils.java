@@ -42,7 +42,7 @@ public class TweetUtils
                 @Override
                 public Status call() throws Exception
                 {
-                    return API.getStatus(Client.getMainAccount(), id);
+                    return API.showStatus(Client.getMainAccount(), id);
                 }
             });
             Status status;

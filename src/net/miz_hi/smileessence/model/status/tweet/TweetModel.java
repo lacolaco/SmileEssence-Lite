@@ -8,10 +8,7 @@ import net.miz_hi.smileessence.model.status.user.UserModel;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.status.EnumNameStyle;
 import net.miz_hi.smileessence.status.TweetUtils;
-import net.miz_hi.smileessence.task.impl.DestroyTask;
-import net.miz_hi.smileessence.task.impl.FavoriteTask;
-import net.miz_hi.smileessence.task.impl.RetweetTask;
-import net.miz_hi.smileessence.task.impl.UnFavoriteTask;
+import net.miz_hi.smileessence.task.impl.*;
 import net.miz_hi.smileessence.twitter.ResponseConverter;
 import net.miz_hi.smileessence.util.StringUtils;
 import twitter4j.*;
@@ -217,6 +214,39 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
     /*
         action methods
      */
+
+    /**
+     * call "statuses/show" api and update model
+     *
+     * @return updated model
+     */
+    public TweetModel show()
+    {
+        Status status = new ShowTweetTask(statusId).call();
+        if (status != null)
+        {
+            updateData(status);
+        }
+        return this;
+    }
+
+    /**
+     * call "statuses/show" api and update model in async
+     */
+    public void showAsync()
+    {
+        new ShowTweetTask(statusId)
+        {
+            @Override
+            public void onPostExecute(Status result)
+            {
+                if (result != null)
+                {
+                    updateData(result);
+                }
+            }
+        }.callAsync();
+    }
 
     /**
      * do destroy async
