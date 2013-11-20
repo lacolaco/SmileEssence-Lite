@@ -3,14 +3,14 @@ package net.miz_hi.smileessence.view.fragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import net.miz_hi.smileessence.view.IRemovable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class NamedFragmentPagerAdapter extends FragmentPagerAdapter
+public class NamedFragmentPagerAdapter extends FragmentStatePagerAdapter
 {
 
     private ArrayList<NamedFragment> pageList = new ArrayList<NamedFragment>();

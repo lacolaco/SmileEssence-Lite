@@ -77,10 +77,9 @@ public class PageController
         adapter.remove(current);
         List<NamedFragment> list = new ArrayList<NamedFragment>();
         list.addAll(adapter.getList());
-        adapter.clear();
-        adapter.addAll(list);
-        adapter.notifyDataSetChanged();
-        pager.setCurrentItem(current, true);
+        instance.adapter = new NamedFragmentPagerAdapter(activity.getSupportFragmentManager(), list); //Refresh page caches
+        pager.setAdapter(instance.adapter);
+        pager.setCurrentItem(current, false);
     }
 
     public NamedFragmentPagerAdapter getAdapter()
