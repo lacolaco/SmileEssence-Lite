@@ -36,14 +36,29 @@ public class PageChangeListener implements OnPageChangeListener
             {
                 if (position == PageController.PAGE_POST)
                 {
-                    PostFragment.singleton().load();
+                    new UiHandler()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            PostFragment.singleton().load();
+                        }
+                    }.post();
                     isOpening = true;
                 }
                 else
                 {
                     if (isOpening)
                     {
-                        PostFragment.singleton().save();
+                        new UiHandler()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                PostFragment.singleton().save();
+                            }
+                        }.post();
+
                     }
                     isOpening = false;
 

@@ -16,8 +16,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.*;
+import com.android.volley.toolbox.NetworkImageView;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
+import net.miz_hi.smileessence.cache.ImageCache;
+import net.miz_hi.smileessence.cache.UserCache;
 import net.miz_hi.smileessence.command.ICommand;
 import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.core.EnumRequestCode;
@@ -25,8 +28,10 @@ import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.dialog.ConfirmDialog;
 import net.miz_hi.smileessence.dialog.SimpleMenuDialog;
 import net.miz_hi.smileessence.listener.PostEditTextListener;
+import net.miz_hi.smileessence.menu.MainMenu;
 import net.miz_hi.smileessence.menu.PostingMenu;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
+import net.miz_hi.smileessence.model.status.user.UserModel;
 import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.status.StatusViewFactory;
@@ -49,6 +54,9 @@ public class PostFragment extends NamedFragment implements OnClickListener
     EditText editText;
     FrameLayout frameInReplyTo;
     ImageView imagePict;
+    NetworkImageView iconView;
+    TextView screenNameView;
+
     private static PostFragment singleton;
 
     public static PostFragment singleton()
@@ -79,6 +87,10 @@ public class PostFragment extends NamedFragment implements OnClickListener
         ImageButton imageButtonDelete = (ImageButton) page.findViewById(R.id.imBtn_delete);
         ImageButton imageButtonMenu = (ImageButton) page.findViewById(R.id.imBtn_tweetmenu);
         ImageButton imageButtonPict = (ImageButton) page.findViewById(R.id.imBtn_pickpict);
+        ImageButton config = (ImageButton) page.findViewById(R.id.post_config);
+        config.setOnClickListener(this);
+        iconView = (NetworkImageView) page.findViewById(R.id.post_myIcon);
+        screenNameView = (TextView) page.findViewById(R.id.post_myName);
 
         PostEditTextListener listener = new PostEditTextListener(textCount);
         editText.setTextSize(Client.getTextSize() + 3);
@@ -95,45 +107,27 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void update()
     {
-        new UiHandler()
+        PostPageState state = PostSystem.getState();
+        String text = state.getText();
+        setText(text);
+        int cursor = state.getCursor();
+        setCursor(cursor);
+        long inReplyTo = state.getInReplyToStatusId();
+        setInReplyTo(inReplyTo);
+        String picturePath = state.getPicturePath();
+        setPicture(picturePath);
+        UserModel model = UserCache.getMyself();
+        if (model != null)
         {
-
-            @Override
-            public void run()
-            {
-                PostPageState state = PostSystem.getState();
-                String text = state.getText();
-                setText(text);
-                int cursor = state.getCursor();
-                setCursor(cursor);
-                long inReplyTo = state.getInReplyToStatusId();
-                setInReplyTo(inReplyTo);
-                String picturePath = state.getPicturePath();
-                setPicture(picturePath);
-            }
-        }.post();
+            ImageCache.setImageToView(model.iconUrl, iconView);
+            screenNameView.setText(model.screenName);
+        }
     }
 
     public void load()
     {
-        new UiHandler()
-        {
-
-            @Override
-            public void run()
-            {
-                PostPageState state = PostSystem.getState();
-                String text = state.getText();
-                setText(text);
-                int cursor = state.getCursor();
-                setCursor(cursor);
-                long inReplyTo = state.getInReplyToStatusId();
-                setInReplyTo(inReplyTo);
-                String picturePath = state.getPicturePath();
-                setPicture(picturePath);
-                openIme();
-            }
-        }.post();
+        update();
+        openIme();
     }
 
     /**
@@ -468,6 +462,12 @@ public class PostFragment extends NamedFragment implements OnClickListener
             case R.id.image_pict:
             {
                 removePicture();
+                break;
+            }
+            case R.id.post_config:
+            {
+                save();
+                new MainMenu(getActivity()).create().show();
                 break;
             }
             default:

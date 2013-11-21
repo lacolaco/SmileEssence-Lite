@@ -11,6 +11,52 @@
             android:paddingBottom="10dp"
             android:scrollbars="vertical">
 
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                >
+
+            <com.android.volley.toolbox.NetworkImageView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:id="@+id/post_myIcon"
+                    android:background="@color/Gray3"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/post_myName"
+                    android:textSize="15dp"
+                    android:text="screen_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/post_myIcon"
+                    android:layout_centerVertical="true"/>
+
+            <ImageButton
+                    android:id="@+id/post_config"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/icon_config"
+                    style="@style/whiteBtn"
+                    android:contentDescription="config"
+                    android:scaleType="centerInside"/>
+
+        </RelativeLayout>
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/Gray3"/>
+
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
@@ -84,13 +130,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:background="@color/Gray"
-                    android:orientation="horizontal"
-                    android:padding="1dp">
+                    android:orientation="horizontal">
 
                 <ImageButton
                         android:id="@+id/imBtn_pickpict"
-                        style="@style/whiteBtn"
+                        style="@style/transBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:padding="0dp"
@@ -102,11 +146,11 @@
                 <FrameLayout
                         android:layout_width="1dp"
                         android:layout_height="match_parent"
-                        android:background="@android:color/transparent"/>
+                        android:background="@color/Gray3"/>
 
                 <ImageButton
                         android:id="@+id/imBtn_tweetmenu"
-                        style="@style/whiteBtn"
+                        style="@style/transBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:layout_weight="1"
@@ -126,16 +170,16 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="10"
-                    android:background="@color/Gray"
+                    android:background="@drawable/round_background"
                     android:padding="1dp">
 
                 <Button
                         android:id="@+id/imBtn_tweet"
-                        style="@style/whiteBtn"
+                        style="@style/transBtn"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:gravity="center"
-                        android:textColor="#535353"
+                        android:textColor="@color/White"
                         android:text="TWEET"
                         android:textStyle="bold"/>
             </FrameLayout>

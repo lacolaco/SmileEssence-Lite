@@ -26,9 +26,12 @@ import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.task.impl.GetHomeTimelineTask;
 import net.miz_hi.smileessence.task.impl.GetMentionsTask;
+import net.miz_hi.smileessence.task.impl.GetUserTask;
+import net.miz_hi.smileessence.twitter.ResponseConverter;
 import net.miz_hi.smileessence.twitter.TwitterManager;
 import net.miz_hi.smileessence.view.fragment.impl.ListFragment;
 import twitter4j.Paging;
+import twitter4j.User;
 
 import java.util.List;
 
@@ -119,6 +122,18 @@ public class MainActivitySystem
 
         if (connected)
         {
+            new GetUserTask(Client.getMainAccount().getUserId())
+            {
+                @Override
+                public void onPostExecute(User result)
+                {
+                    if (result != null)
+                    {
+                        ResponseConverter.convert(result);
+                    }
+                }
+            }.callAsync();
+
             new GetHomeTimelineTask(Client.getMainAccount(), new Paging(1, 100))
             {
                 @Override
