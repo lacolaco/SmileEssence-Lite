@@ -274,8 +274,6 @@ public class MyUserStreamListener implements UserStreamListener, ConnectionLifeC
     @Override
     public void onUserProfileUpdate(User arg0)
     {
-        //update cache
-        ResponseConverter.convert(arg0);
     }
 
     @Override
