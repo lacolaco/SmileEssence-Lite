@@ -9,7 +9,6 @@ import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import com.viewpagerindicator.TitlePageIndicator;
-import com.viewpagerindicator.TitlePageIndicator.OnCenterItemClickListener;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.core.EnumRequestCode;
@@ -59,15 +58,6 @@ public class MainActivity extends FragmentActivity
         indicator.setTextSize(21);
         indicator.setViewPager(pager);
         indicator.setOnPageChangeListener(new PageChangeListener());
-        indicator.setOnCenterItemClickListener(new OnCenterItemClickListener()
-        {
-
-            @Override
-            public void onCenterItemClick(int position)
-            {
-                new MainMenu(instance).create().show();
-            }
-        });
     }
 
     @Override
