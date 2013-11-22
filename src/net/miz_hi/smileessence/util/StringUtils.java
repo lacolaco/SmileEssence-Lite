@@ -51,6 +51,14 @@ public class StringUtils
 
     public static String replaceUrlEntity(String text, URLEntity[] entities)
     {
+        if (text == null)
+        {
+            return "";
+        }
+        else if (entities == null)
+        {
+            return text;
+        }
         StringBuilder builder = new StringBuilder(text);
         if (entities.length == 0)
         {
