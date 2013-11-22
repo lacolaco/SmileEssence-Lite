@@ -57,7 +57,7 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
     public void updateData(Status status)
     {
         createdAt = status.getCreatedAt();
-        text = status.getText();
+        text = StringUtils.replaceUrlEntity(status.getText(), status.getURLEntities());
         source = Html.fromHtml(status.getSource()).toString();
         inReplyToStatusId = status.getInReplyToStatusId();
         user = ResponseConverter.convert(status.getUser());
