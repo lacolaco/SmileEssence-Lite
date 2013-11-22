@@ -1,13 +1,9 @@
 package net.miz_hi.smileessence.cache;
 
-import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.model.status.user.UserModel;
-import net.miz_hi.smileessence.task.impl.GetUserTask;
 import twitter4j.User;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class UserCache
 {
@@ -45,32 +41,6 @@ public class UserCache
             }
         }
         return null;
-    }
-
-    public static UserModel getMyself()
-    {
-        UserModel model = get(Client.getMainAccount().getUserId());
-        if (model != null)
-        {
-            return model;
-        }
-        else
-        {
-            Future f = new GetUserTask(Client.getMainAccount().getUserId()).callAsync();
-            try
-            {
-                return (UserModel) f.get();
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            catch (ExecutionException e)
-            {
-                e.printStackTrace();
-            }
-            return null;
-        }
     }
 
     public static UserModel remove(long id)

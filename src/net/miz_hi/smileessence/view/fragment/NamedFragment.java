@@ -21,4 +21,13 @@ public abstract class NamedFragment extends Fragment
     @Override
     public abstract View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState);
 
+    public void onSelected()
+    {
+
+    }
+
+    public void onDeselect()
+    {
+
+    }
 }

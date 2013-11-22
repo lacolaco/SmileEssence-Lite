@@ -183,7 +183,7 @@ public class MainActivitySystem
             Cursor c = activity.getContentResolver().query(uri, null, null, null, null);
             c.moveToFirst();
             String path = c.getString(c.getColumnIndex(MediaStore.MediaColumns.DATA));
-            PostSystem.getState().setPicturePath(path);
+            PostSystem.setPicturePath(path);
             PostSystem.openPostPage();
             Notificator.info("画像をセットしました");
         }

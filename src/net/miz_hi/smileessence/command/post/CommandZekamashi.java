@@ -9,7 +9,7 @@ public class CommandZekamashi extends MenuCommand
     @Override
     public void workOnUiThread()
     {
-        String text = PostSystem.getState().getText();
+        String text = PostSystem.getText();
         StringBuilder builder = new StringBuilder(text);
         PostSystem.setText(builder.reverse().toString());
         PostSystem.openPostPage();

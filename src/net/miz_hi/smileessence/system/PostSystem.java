@@ -13,41 +13,52 @@ import java.io.File;
 public class PostSystem
 {
 
+    private PostFragment fragment;
+    private static PostSystem instance;
     public static final long NONE_ID = -1;
-    private static PostPageState state = new PostPageState();
 
     private PostSystem()
     {
     }
 
-    public static PostPageState getState()
+    public static void init(PostFragment fragment)
     {
-        return state;
+        instance = new PostSystem();
+        instance.fragment = fragment;
+    }
+
+    private static PostPageState getState()
+    {
+        return instance.fragment.getState();
     }
 
     public static void clear(boolean keepPicture)
     {
+        PostPageState state = getState();
         state.setText("");
         state.setCursor(0);
-        state.clearReply();
+        state.setInReplyToStatusId(NONE_ID);
         if (!keepPicture)
         {
-            state.clearPicturePath();
+            state.setPicturePath(null);
         }
     }
 
     public static void setText(String str)
     {
+        PostPageState state = getState();
         state.setText(str);
     }
 
     public static void appendText(String str)
     {
+        PostPageState state = getState();
         state.setText(state.getText() + str);
     }
 
     public static void insertText(String str)
     {
+        PostPageState state = getState();
         int cursor = state.cursor;
         StringBuilder sb = new StringBuilder(state.getText());
         sb.insert(cursor, str);
@@ -62,15 +73,15 @@ public class PostSystem
 
     public static void setReply(String userName, long statusId)
     {
+        PostPageState state = getState();
         state.setText("@" + userName + " ");
         state.setCursor(state.getText().length());
         state.setInReplyToStatusId(statusId);
-        PostFragment.singleton().update();
     }
 
     public static void addReply(String userName)
     {
-        state.clearReply();
+        PostPageState state = getState();
         StringBuilder sb = new StringBuilder(state.getText());
 
         if ((sb.indexOf("@" + userName) != -1))
@@ -88,12 +99,12 @@ public class PostSystem
         }
         state.setText(sb.toString());
         state.setCursor(state.getText().length());
-        PostFragment.singleton().update();
+        state.setInReplyToStatusId(NONE_ID);
     }
-
 
     public static boolean submit(String text)
     {
+        PostPageState state = getState();
         if (TextUtils.isEmpty(text) && state.getPicturePath() == null)
         {
             Notificator.alert("何か入力してください");
@@ -131,16 +142,26 @@ public class PostSystem
 
     public static void openPostPage()
     {
-        //		new UiHandler()
-        //		{
-        //
-        //			@Override
-        //			public void run()
-        //			{
         PageController.getInstance().move(PageController.PAGE_POST);
-        PostFragment.singleton().load();
-        //			}
-        //		}.post();
+        instance.fragment.loadState();
+    }
+
+    public static void setPicturePath(String path)
+    {
+        PostPageState state = getState();
+        state.setPicturePath(path);
+    }
+
+    public static void setCursor(int i)
+    {
+        PostPageState state = getState();
+        state.setCursor(i);
+    }
+
+    public static String getText()
+    {
+        PostPageState state = getState();
+        return state.getText();
     }
 
 
@@ -182,11 +203,6 @@ public class PostSystem
             inReplyTo = statusId;
         }
 
-        public void clearReply()
-        {
-            setInReplyToStatusId(NONE_ID);
-        }
-
         public String getPicturePath()
         {
             return pictPath;
@@ -195,11 +211,6 @@ public class PostSystem
         public void setPicturePath(String path)
         {
             pictPath = path;
-        }
-
-        public void clearPicturePath()
-        {
-            setPicturePath(null);
         }
     }
 }

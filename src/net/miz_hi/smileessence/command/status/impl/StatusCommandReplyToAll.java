@@ -28,7 +28,7 @@ public class StatusCommandReplyToAll extends StatusCommand
             builder.append("@").append(name).append(" ");
         }
         PostSystem.setText(builder.toString());
-        PostSystem.getState().setCursor(builder.length());
+        PostSystem.setCursor(builder.length());
         PostSystem.openPostPage();
     }
 

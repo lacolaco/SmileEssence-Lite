@@ -52,8 +52,12 @@ public class PageController
 
     public void move(int index)
     {
-
         pager.setCurrentItem(index, true);
+    }
+
+    public void move(int index, boolean smooth)
+    {
+        pager.setCurrentItem(index, smooth);
     }
 
     public void moveToLast()

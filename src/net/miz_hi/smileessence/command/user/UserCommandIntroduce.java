@@ -22,7 +22,7 @@ public class UserCommandIntroduce extends UserCommand implements IHideable
     {
         String str = " (@" + userName + ")";
         PostSystem.setText(str);
-        PostSystem.getState().setCursor(0);
+        PostSystem.setCursor(0);
         PostSystem.openPostPage();
     }
 

@@ -20,7 +20,7 @@ public class CommandParseMorse extends MenuCommand
     @Override
     public void workOnUiThread()
     {
-        String newStr = Morse.jaToMc(PostSystem.getState().getText());
+        String newStr = Morse.jaToMc(PostSystem.getText());
         PostSystem.setText(newStr);
         PostSystem.openPostPage();
     }

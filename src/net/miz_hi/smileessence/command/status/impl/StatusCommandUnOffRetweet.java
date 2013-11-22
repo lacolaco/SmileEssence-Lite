@@ -26,7 +26,7 @@ public class StatusCommandUnOffRetweet extends StatusCommand implements IHideabl
         String text = " RT @" + status.getOriginal().user.screenName + ": " + status.getText();
         PostSystem.clear(true);
         PostSystem.setText(text);
-        PostSystem.getState().setCursor(0);
+        PostSystem.setCursor(0);
         PostSystem.openPostPage();
     }
 

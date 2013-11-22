@@ -14,6 +14,7 @@ import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.listener.TimelineScrollListener;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
+import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.task.impl.GetListTimelineTask;
@@ -60,6 +61,15 @@ public class ListFragment extends NamedFragment implements IRemovable, OnClickLi
         Button refresh = (Button) page.findViewById(R.id.listpage_refresh);
         refresh.setOnClickListener(this);
         return page;
+    }
+
+    @Override
+    public void onSelected()
+    {
+        if (Client.<Boolean>getPreferenceValue(EnumPreferenceKey.LIST_LOAD) && isNotInited())
+        {
+            refresh();
+        }
     }
 
     public void refresh()
