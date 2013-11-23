@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.method.ArrowKeyMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -83,6 +85,19 @@ public class PostFragment extends NamedFragment implements OnClickListener
         editText.setTextSize(Client.getTextSize() + 3);
         editText.addTextChangedListener(listener);
         editText.setOnFocusChangeListener(listener);
+        editText.setMovementMethod(new ArrowKeyMovementMethod()
+        {
+            @Override
+            protected boolean right(TextView widget, Spannable buffer)
+            {
+                //Homeタブに戻るのを阻止
+                if (widget.getSelectionEnd() == widget.length())
+                {
+                    return true;
+                }
+                return super.right(widget, buffer);
+            }
+        });
         imageButtonSubmit.setOnClickListener(this);
         imageButtonDelete.setOnClickListener(this);
         imageButtonMenu.setOnClickListener(this);
