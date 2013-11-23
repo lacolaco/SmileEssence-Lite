@@ -15,9 +15,26 @@ public class CommandMakeAnonymous extends MenuCommand
     @Override
     public void workOnUiThread()
     {
-        String str = "？？？「" + PostSystem.getText() + "」";
-        PostSystem.setText(str);
+        String text = PostSystem.getText();
+        int start = PostSystem.getSelectionStart();
+        int end = PostSystem.getSelectionEnd();
+        PostSystem.setText(edit(text, start, end));
         PostSystem.openPostPage();
+    }
+
+    private String edit(String text, int start, int end)
+    {
+        if (start == end)
+        {
+            return "？？？「" + text + "」";
+        }
+        else
+        {
+            StringBuilder master = new StringBuilder(text);
+            String selected = text.substring(start, end);
+            selected = "？？？「" + selected + "」";
+            return master.replace(start, end, selected).toString();
+        }
     }
 
 }

@@ -20,8 +20,46 @@ public class CommandParseMorse extends MenuCommand
     @Override
     public void workOnUiThread()
     {
-        String newStr = Morse.jaToMc(PostSystem.getText());
-        PostSystem.setText(newStr);
+        String text = PostSystem.getText();
+        int start = PostSystem.getSelectionStart();
+        int end = PostSystem.getSelectionEnd();
+        PostSystem.setText(edit(text, start, end));
         PostSystem.openPostPage();
     }
+
+
+    private String edit(String text, int start, int end)
+    {
+        if (start == end)
+        {
+            return Morse.jaToMc(text);
+        }
+        else
+        {
+            StringBuilder master = new StringBuilder(text);
+            String selected = text.substring(start, end);
+            selected = " " + Morse.jaToMc(selected) + " ";
+            return master.replace(start, end, selected).toString();
+        }
+    }
+
+    /**
+     * Test
+     *
+     * @param args
+     */
+    public static void main(String[] args)
+    {
+        CommandParseMorse command = new CommandParseMorse();
+        String test = "test test test";
+        int start = 5;
+        int end = 9;
+        System.out.println(test);
+        test = command.edit(test, start, end);
+        System.out.println(test);
+        test = command.edit(test, 0, 0);
+        System.out.println(test);
+        System.out.println(Morse.mcToJa(test));
+    }
+
 }

@@ -158,6 +158,30 @@ public class PostSystem
         state.setCursor(i);
     }
 
+    public static void setSelectionStart(int i)
+    {
+        PostPageState state = getState();
+        state.setSelectionStart(i);
+    }
+
+    public static void setSelectionEnd(int i)
+    {
+        PostPageState state = getState();
+        state.setSelectionEnd(i);
+    }
+
+    public static int getSelectionStart()
+    {
+        PostPageState state = getState();
+        return state.getSelectionStart();
+    }
+
+    public static int getSelectionEnd()
+    {
+        PostPageState state = getState();
+        return state.getSelectionEnd();
+    }
+
     public static String getText()
     {
         PostPageState state = getState();
@@ -170,6 +194,8 @@ public class PostSystem
 
         private String text = "";
         private int cursor = 0;
+        private int selectionStart = 0;
+        private int selectionEnd = 0;
         private long inReplyTo = NONE_ID;
         private String pictPath;
 
@@ -185,12 +211,33 @@ public class PostSystem
 
         public void setCursor(int index)
         {
-            this.cursor = index;
+            setSelectionStart(index);
+            setSelectionEnd(index);
         }
 
         public int getCursor()
         {
-            return cursor;
+            return getSelectionEnd();
+        }
+
+        public int getSelectionStart()
+        {
+            return selectionStart;
+        }
+
+        public void setSelectionStart(int selectionStart)
+        {
+            this.selectionStart = selectionStart;
+        }
+
+        public int getSelectionEnd()
+        {
+            return selectionEnd;
+        }
+
+        public void setSelectionEnd(int selectionEnd)
+        {
+            this.selectionEnd = selectionEnd;
         }
 
         public long getInReplyToStatusId()

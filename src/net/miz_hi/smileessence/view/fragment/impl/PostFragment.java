@@ -140,8 +140,9 @@ public class PostFragment extends NamedFragment implements OnClickListener
     {
         String text = getState().getText();
         setText(text);
-        int cursor = getState().getCursor();
-        setCursor(cursor);
+        int selectionStart = getState().getSelectionStart();
+        int selectionEnd = getState().getSelectionEnd();
+        setSelection(selectionStart, selectionEnd);
         long inReplyTo = getState().getInReplyToStatusId();
         setInReplyTo(inReplyTo);
         String picturePath = getState().getPicturePath();
@@ -179,8 +180,10 @@ public class PostFragment extends NamedFragment implements OnClickListener
         {
             String text = editText.getText().toString();
             getState().setText(text);
-            int cursor = editText.getSelectionEnd();
-            getState().setCursor(cursor);
+            int start = editText.getSelectionStart();
+            int end = editText.getSelectionEnd();
+            getState().setSelectionStart(start);
+            getState().setSelectionEnd(end);
         }
     }
 
@@ -192,21 +195,25 @@ public class PostFragment extends NamedFragment implements OnClickListener
         }
     }
 
-    public void setCursor(final int i)
+    public void setSelection(int start, int end)
     {
         if (editText != null)
         {
-            if (i < 0)
+            if (start < 0 || end < 0)
             {
                 editText.setSelection(0);
             }
-            else if (i > editText.getText().length())
+            else if (start > editText.length())
             {
-                editText.setSelection(editText.getText().length());
+                editText.setSelection(editText.length());
+            }
+            else if (end > editText.length())
+            {
+                editText.setSelection(start, editText.length());
             }
             else
             {
-                editText.setSelection(i);
+                editText.setSelection(start, end);
             }
         }
     }
