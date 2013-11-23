@@ -17,7 +17,6 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.cache.ImageCache;
 import net.miz_hi.smileessence.cache.UserCache;
-import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.dialog.ConfirmDialog;
 import net.miz_hi.smileessence.dialog.SelectPictureDialog;
 import net.miz_hi.smileessence.listener.PostEditTextListener;
@@ -31,6 +30,7 @@ import net.miz_hi.smileessence.status.StatusViewFactory;
 import net.miz_hi.smileessence.status.TweetUtils;
 import net.miz_hi.smileessence.system.PostSystem;
 import net.miz_hi.smileessence.system.PostSystem.PostPageState;
+import net.miz_hi.smileessence.task.Task;
 import net.miz_hi.smileessence.task.impl.GetUserTask;
 import net.miz_hi.smileessence.twitter.ResponseConverter;
 import net.miz_hi.smileessence.util.UiHandler;
@@ -49,18 +49,11 @@ public class PostFragment extends NamedFragment implements OnClickListener
     NetworkImageView iconView;
     TextView screenNameView;
     private PostPageState state;
-    boolean inited;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState)
+    public PostFragment()
     {
-        super.onCreate(savedInstanceState);
-        if (!inited)
-        {
-            state = new PostPageState();
-            PostSystem.init(this);
-            inited = true;
-        }
+        state = new PostPageState();
+        PostSystem.init(this);
     }
 
     @Override
@@ -121,18 +114,22 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public PostPageState getState()
     {
+        if (state == null)
+        {
+            state = new PostPageState();
+        }
         return state;
     }
 
     public void loadState()
     {
-        String text = state.getText();
+        String text = getState().getText();
         setText(text);
-        int cursor = state.getCursor();
+        int cursor = getState().getCursor();
         setCursor(cursor);
-        long inReplyTo = state.getInReplyToStatusId();
+        long inReplyTo = getState().getInReplyToStatusId();
         setInReplyTo(inReplyTo);
-        String picturePath = state.getPicturePath();
+        String picturePath = getState().getPicturePath();
         setPicture(picturePath);
         UserModel me = UserCache.get(Client.getMainAccount().getUserId());
         if (me != null)
@@ -166,9 +163,9 @@ public class PostFragment extends NamedFragment implements OnClickListener
         if (editText != null)
         {
             String text = editText.getText().toString();
-            state.setText(text);
+            getState().setText(text);
             int cursor = editText.getSelectionEnd();
-            state.setCursor(cursor);
+            getState().setCursor(cursor);
         }
     }
 
@@ -209,34 +206,29 @@ public class PostFragment extends NamedFragment implements OnClickListener
             }
             else
             {
-                MyExecutor.execute(new Runnable()
+                new Task<View>()
                 {
 
                     @Override
-                    public void run()
+                    public void onPreExecute()
                     {
-                        try
-                        {
-                            TweetModel status = TweetUtils.getOrCreateStatusModel(l);
-                            final View v = StatusViewFactory.newInstance(MainActivity.getInstance().getLayoutInflater(), null).getStatusView(status);
-                            new UiHandler()
-                            {
-
-                                @Override
-                                public void run()
-                                {
-                                    frameInReplyTo.removeAllViews();
-                                    frameInReplyTo.addView(v);
-                                    frameInReplyTo.setVisibility(View.VISIBLE);
-                                }
-                            }.post();
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
                     }
-                });
+
+                    @Override
+                    public void onPostExecute(View result)
+                    {
+                        frameInReplyTo.removeAllViewsInLayout();
+                        frameInReplyTo.addView(result);
+                        frameInReplyTo.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public View call() throws Exception
+                    {
+                        TweetModel status = TweetUtils.getOrCreateStatusModel(l);
+                        return StatusViewFactory.newInstance(MainActivity.getInstance().getLayoutInflater(), null).getStatusView(status);
+                    }
+                }.callAsync();
             }
         }
     }
@@ -251,26 +243,30 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 imagePict.setVisibility(View.GONE);
                 return;
             }
-            MyExecutor.execute(new Runnable()
+            new Task<Bitmap>()
             {
-                public void run()
-                {
-                    new UiHandler()
-                    {
 
-                        @Override
-                        public void run()
-                        {
-                            Options opt = new Options();
-                            opt.inPurgeable = true; // GC可能にする
-                            opt.inSampleSize = 2;
-                            Bitmap bm = BitmapFactory.decodeFile(path, opt);
-                            imagePict.setImageBitmap(bm);
-                            imagePict.setVisibility(View.VISIBLE);
-                        }
-                    }.post();
+                @Override
+                public void onPreExecute()
+                {
                 }
-            });
+
+                @Override
+                public void onPostExecute(Bitmap result)
+                {
+                    imagePict.setImageBitmap(result);
+                    imagePict.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public Bitmap call() throws Exception
+                {
+                    Options opt = new Options();
+                    opt.inPurgeable = true; // GC可能にする
+                    opt.inSampleSize = 2;
+                    return BitmapFactory.decodeFile(path, opt);
+                }
+            }.callAsync();
         }
     }
 
@@ -310,43 +306,31 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void openIme()
     {
-        if (editText == null)
+        if (editText != null)
         {
-            return;
-        }
-
-        new UiHandler()
-        {
-
-            @Override
-            public void run()
+            new UiHandler()
             {
-                if (Client.<Boolean>getPreferenceValue(EnumPreferenceKey.OPEN_IME))
+
+                @Override
+                public void run()
                 {
-                    InputMethodManager imm = (InputMethodManager) Client.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(editText, 0);
+                    if (Client.<Boolean>getPreferenceValue(EnumPreferenceKey.OPEN_IME))
+                    {
+                        InputMethodManager imm = (InputMethodManager) Client.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.showSoftInput(editText, 0);
+                    }
                 }
-            }
-        }.post();
+            }.postDelayed(100);
+        }
     }
 
     public void hideIme()
     {
-        if (editText == null)
+        if (editText != null)
         {
-            return;
+            InputMethodManager imm = (InputMethodManager) Client.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         }
-
-        new UiHandler()
-        {
-
-            @Override
-            public void run()
-            {
-                InputMethodManager imm = (InputMethodManager) Client.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-            }
-        }.post();
     }
 
     @Override
@@ -369,12 +353,14 @@ public class PostFragment extends NamedFragment implements OnClickListener
             case R.id.imBtn_tweetmenu:
             {
                 saveState();
+                hideIme();
                 new PostingMenu(getActivity()).create().show();
                 break;
             }
             case R.id.imBtn_pickpict:
             {
                 saveState();
+                hideIme();
                 new SelectPictureDialog(getActivity()).create().show();
                 break;
             }
@@ -398,6 +384,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
             case R.id.post_config:
             {
                 saveState();
+                hideIme();
                 new MainMenu(getActivity()).create().show();
                 break;
             }
