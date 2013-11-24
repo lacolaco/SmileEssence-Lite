@@ -4,8 +4,6 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
-import net.miz_hi.smileessence.statuslist.StatusListAdapter;
-import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.task.impl.GetUserTimelineTask;
 import twitter4j.Paging;
 
@@ -26,7 +24,6 @@ public class UserTimeline extends Timeline
     @Override
     public void loadNewer()
     {
-        final StatusListAdapter adapter = StatusListManager.getAdapter(this);
         if (getStatusList().length > 0)
         {
             long maxId = ((TweetModel) getStatus(0)).statusId;
@@ -40,7 +37,7 @@ public class UserTimeline extends Timeline
                     {
                         addToTop(status);
                     }
-                    adapter.forceNotifyAdapter();
+                    applyForce();
                 }
             }.callAsync();
         }
@@ -56,7 +53,7 @@ public class UserTimeline extends Timeline
                     {
                         addToTop(status);
                     }
-                    adapter.forceNotifyAdapter();
+                    applyForce();
                 }
             }.callAsync();
         }
