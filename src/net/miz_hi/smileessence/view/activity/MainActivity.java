@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import com.viewpagerindicator.TitlePageIndicator;
@@ -16,6 +17,7 @@ import net.miz_hi.smileessence.core.IntentRouter;
 import net.miz_hi.smileessence.dialog.ConfirmDialog;
 import net.miz_hi.smileessence.listener.PageChangeListener;
 import net.miz_hi.smileessence.menu.MainMenu;
+import net.miz_hi.smileessence.menu.TabMenu;
 import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
@@ -58,6 +60,14 @@ public class MainActivity extends FragmentActivity
         indicator.setTextSize(21);
         indicator.setViewPager(pager);
         indicator.setOnPageChangeListener(new PageChangeListener());
+        indicator.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                new TabMenu(instance).create().show();
+            }
+        });
     }
 
     @Override
