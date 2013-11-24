@@ -59,7 +59,7 @@ public class PostSystem
     public static void insertText(String str)
     {
         PostPageState state = getState();
-        int cursor = state.cursor;
+        int cursor = state.getCursor();
         StringBuilder sb = new StringBuilder(state.getText());
         sb.insert(cursor, str);
         cursor = cursor + sb.length();
@@ -193,7 +193,6 @@ public class PostSystem
     {
 
         private String text = "";
-        private int cursor = 0;
         private int selectionStart = 0;
         private int selectionEnd = 0;
         private long inReplyTo = NONE_ID;
