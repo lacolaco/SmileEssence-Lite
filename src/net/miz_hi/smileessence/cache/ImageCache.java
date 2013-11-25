@@ -38,11 +38,6 @@ public class ImageCache implements ImageLoader.ImageCache
         return instance;
     }
 
-    public ImageLoader getImageLoader()
-    {
-        return imageLoader;
-    }
-
     public static void setImageToView(String imageUrl, NetworkImageView view)
     {
         view.setImageUrl(imageUrl, getInstance().imageLoader);
@@ -55,7 +50,7 @@ public class ImageCache implements ImageLoader.ImageCache
             @Override
             public void run()
             {
-                instance.imageLoader.get(imageUrl, new ImageLoader.ImageListener()
+                getInstance().imageLoader.get(imageUrl, new ImageLoader.ImageListener()
                 {
                     @Override
                     public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate)
@@ -73,7 +68,7 @@ public class ImageCache implements ImageLoader.ImageCache
 
     public static void clearCache()
     {
-        instance.lruCache.evictAll();
+        getInstance().lruCache.evictAll();
     }
 
     @Override
