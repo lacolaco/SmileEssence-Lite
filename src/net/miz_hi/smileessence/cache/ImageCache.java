@@ -31,6 +31,10 @@ public class ImageCache implements ImageLoader.ImageCache
 
     public static ImageCache getInstance()
     {
+        if (instance == null)
+        {
+            instance = new ImageCache();
+        }
         return instance;
     }
 
@@ -41,7 +45,7 @@ public class ImageCache implements ImageLoader.ImageCache
 
     public static void setImageToView(String imageUrl, NetworkImageView view)
     {
-        view.setImageUrl(imageUrl, instance.imageLoader);
+        view.setImageUrl(imageUrl, getInstance().imageLoader);
     }
 
     public static void preCache(final String imageUrl)
