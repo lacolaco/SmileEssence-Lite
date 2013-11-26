@@ -67,7 +67,7 @@ public class StringUtils
         for (int i = entities.length - 1; i >= 0; i--)
         {
             URLEntity entity = entities[i];
-            builder.replace(entity.getStart(), entity.getEnd(), entity.getExpandedURL());
+            builder.replace(entity.getStart(), entity.getEnd(), entity.getDisplayURL());
         }
         return builder.toString();
     }
