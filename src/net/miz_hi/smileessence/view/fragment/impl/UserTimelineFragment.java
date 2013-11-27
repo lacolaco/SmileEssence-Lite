@@ -52,7 +52,7 @@ public class UserTimelineFragment extends NamedFragment implements IRemovable, I
         PullToRefreshListView listView = (PullToRefreshListView) page.findViewById(R.id.listpage_listview);
         StatusListAdapter adapter = StatusListManager.getAdapter(StatusListManager.getUserTimeline(user.userId));
         listView.setAdapter(adapter);
-        listView.setOnScrollListener(new TimelineScrollListener(adapter));
+        listView.setOnScrollListener(new TimelineScrollListener(adapter, StatusListManager.getUserTimeline(user.userId)));
         listView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener<ListView>()
         {
             @Override
@@ -89,11 +89,11 @@ public class UserTimelineFragment extends NamedFragment implements IRemovable, I
         }
         catch (InterruptedException e)
         {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
         catch (ExecutionException e)
         {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 

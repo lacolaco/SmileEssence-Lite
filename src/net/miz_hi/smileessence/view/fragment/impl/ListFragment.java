@@ -52,7 +52,7 @@ public class ListFragment extends NamedFragment implements IRemovable
         PullToRefreshListView listView = (PullToRefreshListView) page.findViewById(R.id.listpage_listview);
         StatusListAdapter adapter = StatusListManager.getAdapter(StatusListManager.getListTimeline(id));
         listView.setAdapter(adapter);
-        listView.setOnScrollListener(new TimelineScrollListener(adapter));
+        listView.setOnScrollListener(new TimelineScrollListener(adapter, StatusListManager.getListTimeline(id)));
         listView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener<ListView>()
         {
             @Override

@@ -30,7 +30,7 @@ public class HomeFragment extends NamedFragment
         listView.setFastScrollEnabled(true);
         CustomListAdapter<?> adapter = StatusListManager.getAdapter(StatusListManager.getHomeTimeline());
         listView.setAdapter(adapter);
-        listView.setOnScrollListener(new TimelineScrollListener(adapter));
+        listView.setOnScrollListener(new TimelineScrollListener(adapter, StatusListManager.getHomeTimeline()));
         return page;
     }
 
