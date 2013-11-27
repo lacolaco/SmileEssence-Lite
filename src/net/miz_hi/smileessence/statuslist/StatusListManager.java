@@ -24,7 +24,7 @@ public class StatusListManager
     private StatusList history;
     private ArrayList<StatusList> tweetLists = new ArrayList<StatusList>();
     private HashMap<Long, UserTimeline> userTimelineMap = new HashMap<Long, UserTimeline>();
-    private SparseArray<Timeline> listTimelineMap = new SparseArray<Timeline>();
+    private HashMap<Long, Timeline> listTimelineMap = new HashMap<Long, Timeline>();
     private SparseArray<Timeline> searchTimelineMap = new SparseArray<Timeline>();
     private HashMap<StatusList, StatusListAdapter> adapterMap = new HashMap<StatusList, StatusListAdapter>();
     private static StatusListManager instance;
@@ -111,13 +111,13 @@ public class StatusListManager
         return instance.userTimelineMap.get(userId);
     }
 
-    public synchronized static void registerListTimeline(int listId, Timeline timeline, StatusListAdapter adapter)
+    public synchronized static void registerListTimeline(long listId, Timeline timeline, StatusListAdapter adapter)
     {
         instance.listTimelineMap.put(listId, timeline);
         registerTweetList(timeline, adapter);
     }
 
-    public synchronized static void removeListTimeline(int id)
+    public synchronized static void removeListTimeline(long id)
     {
         Timeline timeline = instance.listTimelineMap.get(id);
         instance.adapterMap.remove(timeline);
@@ -125,7 +125,7 @@ public class StatusListManager
         ListManager.deleteList(id);
     }
 
-    public synchronized static Timeline getListTimeline(int id)
+    public synchronized static Timeline getListTimeline(long id)
     {
         return instance.listTimelineMap.get(id);
     }

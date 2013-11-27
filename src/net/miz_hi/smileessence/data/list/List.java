@@ -8,7 +8,7 @@ public class List
 {
 
     @DatabaseField(id = true)
-    private int listId;
+    private long listId;
     @DatabaseField
     private String name;
 
@@ -16,18 +16,18 @@ public class List
     {
     }
 
-    public List(int id, String name)
+    public List(long id, String name)
     {
         this.listId = id;
         this.name = name;
     }
 
-    public int getListId()
+    public long getListId()
     {
         return listId;
     }
 
-    public void setListId(int listId)
+    public void setListId(long listId)
     {
         this.listId = listId;
     }

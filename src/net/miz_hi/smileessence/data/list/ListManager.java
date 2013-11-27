@@ -8,7 +8,7 @@ public class ListManager
         ListModel.instance().save(template);
     }
 
-    public static void deleteList(int id)
+    public static void deleteList(long id)
     {
         ListModel.instance().delete(id);
     }

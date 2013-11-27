@@ -4,36 +4,32 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.listener.TimelineScrollListener;
-import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
-import net.miz_hi.smileessence.task.impl.GetListTimelineTask;
-import net.miz_hi.smileessence.view.activity.MainActivity;
+import net.miz_hi.smileessence.util.UiHandler;
 import net.miz_hi.smileessence.view.fragment.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
-import twitter4j.Paging;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-public class ListFragment extends NamedFragment implements IRemovable, OnClickListener
+public class ListFragment extends NamedFragment implements IRemovable
 {
 
     String name;
-    int id;
+    long id;
     boolean inited;
 
-    public static ListFragment newInstance(int id, String fullName)
+    public static ListFragment newInstance(long id, String fullName)
     {
         ListFragment fragment = new ListFragment();
         fragment.name = fullName;
@@ -53,13 +49,34 @@ public class ListFragment extends NamedFragment implements IRemovable, OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View page = inflater.inflate(R.layout.listpage_refresh_layout, container, false);
-        ListView listView = (ListView) page.findViewById(R.id.listpage_listview);
-        listView.setFastScrollEnabled(true);
+        PullToRefreshListView listView = (PullToRefreshListView) page.findViewById(R.id.listpage_listview);
         StatusListAdapter adapter = StatusListManager.getAdapter(StatusListManager.getListTimeline(id));
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new TimelineScrollListener(adapter));
-        Button refresh = (Button) page.findViewById(R.id.listpage_refresh);
-        refresh.setOnClickListener(this);
+        listView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener<ListView>()
+        {
+            @Override
+            public void onRefresh(final PullToRefreshBase refreshView)
+            {
+                MyExecutor.execute(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        refresh();
+                        new UiHandler()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                refreshView.onRefreshComplete();
+                            }
+                        }.post();
+                    }
+                });
+            }
+        });
+        listView.onRefreshComplete();
         return page;
     }
 
@@ -68,56 +85,48 @@ public class ListFragment extends NamedFragment implements IRemovable, OnClickLi
     {
         if (Client.<Boolean>getPreferenceValue(EnumPreferenceKey.LIST_LOAD) && isNotInited())
         {
-            refresh();
+            final ProgressDialog pd = ProgressDialog.show(getActivity(), "", "Now loading...");
+            MyExecutor.execute(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    refresh();
+                    new UiHandler()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            pd.dismiss();
+                        }
+                    }.post();
+                }
+            });
         }
     }
 
     public void refresh()
     {
         inited = true;
-        final ProgressDialog pd = ProgressDialog.show(MainActivity.getInstance(), "", name + "を取得中...");
-        MyExecutor.execute(new Runnable()
+        Timeline timeline = StatusListManager.getListTimeline(id);
+        try
         {
-            public void run()
-            {
-
-                Timeline timeline = StatusListManager.getListTimeline(id);
-                StatusListAdapter adapter = StatusListManager.getAdapter(timeline);
-                List<TweetModel> list;
-                if (timeline.getStatusList().length > 0)
-                {
-                    long lastId = ((TweetModel) timeline.getStatus(0)).statusId;
-                    list = new GetListTimelineTask(Client.getMainAccount(), id, new Paging(1, 50, lastId)).call();
-                }
-                else
-                {
-                    list = new GetListTimelineTask(Client.getMainAccount(), id, new Paging(1, 50)).call();
-                }
-
-                Collections.reverse(list);
-                for (TweetModel status : list)
-                {
-                    timeline.addToTop(status);
-                }
-                adapter.forceNotifyAdapter();
-                pd.dismiss();
-            }
-        });
+            timeline.loadNewer().get();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        catch (ExecutionException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onRemoved()
     {
         StatusListManager.removeListTimeline(id);
-    }
-
-    @Override
-    public void onClick(View v)
-    {
-        if (v.getId() == R.id.listpage_refresh)
-        {
-            refresh();
-        }
     }
 
     public boolean isNotInited()

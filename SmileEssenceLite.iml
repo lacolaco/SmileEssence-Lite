@@ -28,6 +28,7 @@
     <orderEntry type="module" module-name="ViewPagerIndicator" />
     <orderEntry type="module" module-name="Crouton" />
     <orderEntry type="module" module-name="Volley" />
+    <orderEntry type="module" module-name="PullToRefresh" />
     <orderEntry type="library" name="android-support-v13" level="project" />
     <orderEntry type="module-library">
       <library>
@@ -42,15 +43,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/libs/ormlite-core-4.33.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/libs/twitter-text-1.6.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

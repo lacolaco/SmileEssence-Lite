@@ -32,7 +32,7 @@ public class CommandAddListPage extends MenuCommand
     @Override
     public void workOnUiThread()
     {
-        Timeline timeline = new ListTimeline();
+        Timeline timeline = new ListTimeline(userList.getId());
         StatusListManager.registerListTimeline(userList.getId(), timeline, new StatusListAdapter(activity, timeline));
         ListManager.addList(new net.miz_hi.smileessence.data.list.List(userList.getId(), userList.getFullName()));
         ListFragment fragment = ListFragment.newInstance(userList.getId(), userList.getFullName());

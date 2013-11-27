@@ -112,7 +112,7 @@ public class MainActivitySystem
     {
         for (net.miz_hi.smileessence.data.list.List list : ListManager.getLists())
         {
-            Timeline timeline = new ListTimeline();
+            Timeline timeline = new ListTimeline(list.getListId());
             StatusListManager.registerListTimeline(list.getListId(), timeline, new StatusListAdapter(activity, timeline));
             ListFragment fragment = ListFragment.newInstance(list.getListId(), list.getName());
             PageController.getInstance().addPage(fragment);

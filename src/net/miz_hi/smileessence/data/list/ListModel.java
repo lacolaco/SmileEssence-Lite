@@ -43,7 +43,7 @@ public class ListModel
         }
     }
 
-    public void delete(int listId)
+    public void delete(long listId)
     {
         DBHelper helper = new DBHelper(context);
         try

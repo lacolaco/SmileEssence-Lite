@@ -18,9 +18,9 @@ public class GetListTimelineTask extends Task<List<TweetModel>>
 
     private Account account;
     private Paging page;
-    private int listId;
+    private long listId;
 
-    public GetListTimelineTask(Account account, int listId, Paging page)
+    public GetListTimelineTask(Account account, long listId, Paging page)
     {
         this.account = account;
         this.page = page;

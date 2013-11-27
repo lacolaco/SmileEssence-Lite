@@ -143,9 +143,9 @@ public class API
         return TwitterManager.getTwitter(account).getUserLists(Client.getMainAccount().getUserId());
     }
 
-    public static ResponseList<Status> getListTimeline(Account account, int listId, Paging page) throws TwitterException
+    public static ResponseList<Status> getListTimeline(Account account, long listId, Paging page) throws TwitterException
     {
-        return TwitterManager.getTwitter(account).getUserListStatuses(listId, page);
+        return TwitterManager.getTwitter(account).getUserListStatuses((int) listId, page);
     }
 
     /*
