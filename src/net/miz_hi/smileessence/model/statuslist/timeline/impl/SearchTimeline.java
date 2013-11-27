@@ -4,6 +4,7 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
+import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.task.impl.SearchTask;
 import net.miz_hi.smileessence.twitter.ResponseConverter;
 import twitter4j.Query;
@@ -18,11 +19,13 @@ import java.util.concurrent.Future;
 public class SearchTimeline extends Timeline
 {
 
-    private static final String LANG = "ja";
-    private static final int COUNT = 20;
+    static final String LANG = "ja";
+    static final int COUNT = 20;
 
-    private String queryString;
-    private Query query;
+    String queryString;
+    Query query;
+    long maxId;
+    long minId;
 
     public SearchTimeline(String queryString)
     {
@@ -44,17 +47,22 @@ public class SearchTimeline extends Timeline
     {
         if (getStatusList().length > 0)
         {
-            long maxId = ((TweetModel) getStatus(0)).statusId;
+            maxId = ((TweetModel) getStatus(0)).statusId;
             query.setSinceId(maxId);
             return new SearchTask(Client.getMainAccount(), query)
             {
                 @Override
                 public void onPostExecute(QueryResult result)
                 {
+                    maxId = result.getMaxId();
                     List<Status> statuses = result.getTweets();
                     Collections.reverse(statuses);
                     for (Status status : statuses)
                     {
+                        if (!Client.<Boolean>getPreferenceValue(EnumPreferenceKey.SEARCH_INCLUDE_RT) && status.isRetweet())
+                        {
+                            continue;
+                        }
                         addToTop(ResponseConverter.convert(status));
                     }
                     applyForce();
@@ -72,6 +80,10 @@ public class SearchTimeline extends Timeline
                     Collections.reverse(statuses);
                     for (Status status : statuses)
                     {
+                        if (!Client.<Boolean>getPreferenceValue(EnumPreferenceKey.SEARCH_INCLUDE_RT) && status.isRetweet())
+                        {
+                            continue;
+                        }
                         addToTop(ResponseConverter.convert(status));
                     }
                     applyForce();
@@ -85,16 +97,21 @@ public class SearchTimeline extends Timeline
     {
         if (getStatusList().length > 0)
         {
-            long minId = ((TweetModel) getStatus(getStatusList().length - 1)).statusId;
+            minId = ((TweetModel) getStatus(getStatusList().length - 1)).statusId;
             query.setMaxId(minId);
             return new SearchTask(Client.getMainAccount(), query)
             {
                 @Override
                 public void onPostExecute(QueryResult result)
                 {
+                    minId = result.getSinceId();
                     List<Status> statuses = result.getTweets();
                     for (Status status : statuses)
                     {
+                        if (!Client.<Boolean>getPreferenceValue(EnumPreferenceKey.SEARCH_INCLUDE_RT) && status.isRetweet())
+                        {
+                            continue;
+                        }
                         addToBottom(ResponseConverter.convert(status));
                     }
                     applyForce();
@@ -111,6 +128,10 @@ public class SearchTimeline extends Timeline
                     List<Status> statuses = result.getTweets();
                     for (Status status : statuses)
                     {
+                        if (!Client.<Boolean>getPreferenceValue(EnumPreferenceKey.SEARCH_INCLUDE_RT) && status.isRetweet())
+                        {
+                            continue;
+                        }
                         addToBottom(ResponseConverter.convert(status));
                     }
                     applyForce();

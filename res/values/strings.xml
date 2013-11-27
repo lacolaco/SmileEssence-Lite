@@ -10,7 +10,6 @@
     <string name="key_setting_notice_unfav">notice_unfav</string>
     <string name="key_setting_open_ime">open_ime</string>
     <string name="key_setting_confirm_dialog">confirm_dialog</string>
-    <string name="key_setting_footer">footer_visible</string>
     <string name="key_setting_morse">morse_enabled</string>
     <string name="key_setting_namestyle">namestyle</string>
     <string name="namestyle_s_n">ScreenName / Name</string>
@@ -22,4 +21,5 @@
     <string name="thanks_to">miz_hi, yaplus</string>
     <string name="app_info">appInfo</string>
     <string name="license_notices">licenseNotice</string>
+    <string name="key_setting_search_include_rt">search_include_rt</string>
 </resources>

@@ -54,8 +54,14 @@
                 android:summaryOn="有効"
                 android:title="確認ダイアログ"/>
         <SwitchPreference
-                android:title="リストTL自動読み込み"
+                android:title="リスト/検索タブの自動読み込み"
                 android:key="@string/key_setting_listload"
+                android:summaryOff="無効"
+                android:summaryOn="有効"
+                android:defaultValue="false"/>
+        <SwitchPreference
+                android:title="検索にRTを含める"
+                android:key="@string/key_setting_search_include_rt"
                 android:summaryOff="無効"
                 android:summaryOn="有効"
                 android:defaultValue="false"/>

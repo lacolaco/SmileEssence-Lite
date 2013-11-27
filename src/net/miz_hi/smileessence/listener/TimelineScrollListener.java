@@ -11,6 +11,8 @@ import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.util.CustomListAdapter;
 import net.miz_hi.smileessence.util.UiHandler;
 
+import java.util.concurrent.ExecutionException;
+
 public class TimelineScrollListener implements OnScrollListener
 {
 
@@ -59,7 +61,18 @@ public class TimelineScrollListener implements OnScrollListener
                     @Override
                     public void run()
                     {
-                        ((Timeline) statusList).loadOlder();
+                        try
+                        {
+                            ((Timeline) statusList).loadOlder().get();
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                        catch (ExecutionException e)
+                        {
+                            e.printStackTrace();
+                        }
                         new UiHandler()
                         {
                             @Override
