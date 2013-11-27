@@ -39,11 +39,11 @@ public class UserCommandOpenTimeline extends UserCommand
             public void onPostExecute(User user)
             {
                 UserModel model = ResponseConverter.convert(user);
-                UserTimeline timeline = new UserTimeline(model.userId);
-                StatusListManager.registerUserTimeline(model.userId, timeline, new StatusListAdapter(activity, timeline));
                 UserTimelineFragment fragment = UserTimelineFragment.newInstance(model);
                 PageController.getInstance().addPage(fragment);
                 PageController.getInstance().moveToLast();
+                UserTimeline timeline = new UserTimeline(model.userId);
+                StatusListManager.registerUserTimeline(model.userId, timeline, new StatusListAdapter(activity, timeline));
                 timeline.loadNewer();
                 pd.dismiss();
             }

@@ -1,8 +1,8 @@
 package net.miz_hi.smileessence.menu;
 
 import android.app.Activity;
-import net.miz_hi.smileessence.command.CommandMovePage;
 import net.miz_hi.smileessence.command.ICommand;
+import net.miz_hi.smileessence.command.page.CommandMovePage;
 import net.miz_hi.smileessence.dialog.SimpleMenuDialog;
 import net.miz_hi.smileessence.system.PageController;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;

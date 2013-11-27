@@ -22,6 +22,8 @@ import net.miz_hi.smileessence.view.fragment.IRemovable;
 import net.miz_hi.smileessence.view.fragment.ISingleton;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 
+import java.util.concurrent.ExecutionException;
+
 @SuppressLint("ValidFragment")
 public class UserTimelineFragment extends NamedFragment implements IRemovable, OnClickListener, ISingleton
 {
@@ -73,7 +75,18 @@ public class UserTimelineFragment extends NamedFragment implements IRemovable, O
             public void run()
             {
                 UserTimeline timeline = StatusListManager.getUserTimeline(user.userId);
-                timeline.loadNewer();
+                try
+                {
+                    timeline.loadNewer().get();
+                }
+                catch (InterruptedException e)
+                {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
+                catch (ExecutionException e)
+                {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
                 pd.dismiss();
             }
         });

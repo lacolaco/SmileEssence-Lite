@@ -1,6 +1,7 @@
-package net.miz_hi.smileessence.command;
+package net.miz_hi.smileessence.command.page;
 
 import android.app.Activity;
+import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.data.list.ListManager;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
 import net.miz_hi.smileessence.model.statuslist.timeline.impl.ListTimeline;
@@ -10,13 +11,13 @@ import net.miz_hi.smileessence.system.PageController;
 import net.miz_hi.smileessence.view.fragment.impl.ListFragment;
 import twitter4j.UserList;
 
-public class CommandOpenUserList extends MenuCommand
+public class CommandAddListPage extends MenuCommand
 {
 
     Activity activity;
     UserList userList;
 
-    public CommandOpenUserList(Activity activity, UserList userList)
+    public CommandAddListPage(Activity activity, UserList userList)
     {
         this.activity = activity;
         this.userList = userList;

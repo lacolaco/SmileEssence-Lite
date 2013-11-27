@@ -3,6 +3,7 @@ package net.miz_hi.smileessence.statuslist;
 import android.app.Activity;
 import android.util.SparseArray;
 import net.miz_hi.smileessence.data.list.ListManager;
+import net.miz_hi.smileessence.data.search.SearchManager;
 import net.miz_hi.smileessence.model.statuslist.StatusList;
 import net.miz_hi.smileessence.model.statuslist.impl.HistoryList;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
@@ -24,6 +25,7 @@ public class StatusListManager
     private ArrayList<StatusList> tweetLists = new ArrayList<StatusList>();
     private HashMap<Long, UserTimeline> userTimelineMap = new HashMap<Long, UserTimeline>();
     private SparseArray<Timeline> listTimelineMap = new SparseArray<Timeline>();
+    private SparseArray<Timeline> searchTimelineMap = new SparseArray<Timeline>();
     private HashMap<StatusList, StatusListAdapter> adapterMap = new HashMap<StatusList, StatusListAdapter>();
     private static StatusListManager instance;
 
@@ -126,6 +128,25 @@ public class StatusListManager
     public synchronized static Timeline getListTimeline(int id)
     {
         return instance.listTimelineMap.get(id);
+    }
+
+    public synchronized static void registerSearchTimeline(int searchId, Timeline timeline, StatusListAdapter adapter)
+    {
+        instance.searchTimelineMap.put(searchId, timeline);
+        registerTweetList(timeline, adapter);
+    }
+
+    public synchronized static void removeSearchTimeline(int id)
+    {
+        Timeline timeline = instance.searchTimelineMap.get(id);
+        instance.adapterMap.remove(timeline);
+        instance.searchTimelineMap.remove(id);
+        SearchManager.deleteSearch(id);
+    }
+
+    public synchronized static Timeline getSearchTimeline(int id)
+    {
+        return instance.searchTimelineMap.get(id);
     }
 
     public synchronized static StatusListAdapter getAdapter(StatusList key)

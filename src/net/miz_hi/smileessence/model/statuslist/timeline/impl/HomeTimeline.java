@@ -4,20 +4,24 @@ import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
 
+import java.util.concurrent.Future;
+
 
 public class HomeTimeline extends Timeline
 {
 
     @Override
-    public void loadNewer()
+    public Future loadNewer()
     {
         //TODO REST API
+        return null;
     }
 
     @Override
-    public void loadOlder()
+    public Future loadOlder()
     {
         //TODO REST API
+        return null;
     }
 
     @Override

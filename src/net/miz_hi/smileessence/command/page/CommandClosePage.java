@@ -1,4 +1,4 @@
-package net.miz_hi.smileessence.command.main;
+package net.miz_hi.smileessence.command.page;
 
 import android.support.v4.app.Fragment;
 import net.miz_hi.smileessence.command.MenuCommand;

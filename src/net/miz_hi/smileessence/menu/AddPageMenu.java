@@ -2,7 +2,8 @@ package net.miz_hi.smileessence.menu;
 
 import android.app.Activity;
 import net.miz_hi.smileessence.command.ICommand;
-import net.miz_hi.smileessence.command.user.CommandShowUserLists;
+import net.miz_hi.smileessence.command.page.CommandCreateNewListPage;
+import net.miz_hi.smileessence.command.page.CommandCreateNewSearchPage;
 import net.miz_hi.smileessence.dialog.SimpleMenuDialog;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ public class AddPageMenu extends SimpleMenuDialog
     {
         List<ICommand> commands = new ArrayList<ICommand>();
 
-        commands.add(new CommandShowUserLists(activity));
-
+        commands.add(new CommandCreateNewListPage(activity));
+        commands.add(new CommandCreateNewSearchPage(activity));
 
         return commands;
     }

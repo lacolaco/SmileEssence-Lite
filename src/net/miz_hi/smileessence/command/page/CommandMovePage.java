@@ -1,5 +1,6 @@
-package net.miz_hi.smileessence.command;
+package net.miz_hi.smileessence.command.page;
 
+import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.system.PageController;
 
 public class CommandMovePage extends MenuCommand

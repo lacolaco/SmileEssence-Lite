@@ -9,6 +9,7 @@ import twitter4j.Paging;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Future;
 
 
 public class UserTimeline extends Timeline
@@ -22,12 +23,12 @@ public class UserTimeline extends Timeline
     }
 
     @Override
-    public void loadNewer()
+    public Future loadNewer()
     {
         if (getStatusList().length > 0)
         {
             long maxId = ((TweetModel) getStatus(0)).statusId;
-            new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20, maxId))
+            return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20, maxId))
             {
                 @Override
                 public void onPostExecute(List<TweetModel> result)
@@ -43,7 +44,7 @@ public class UserTimeline extends Timeline
         }
         else
         {
-            new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20))
+            return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20))
             {
                 @Override
                 public void onPostExecute(List<TweetModel> result)
@@ -60,25 +61,41 @@ public class UserTimeline extends Timeline
     }
 
     @Override
-    public void loadOlder()
+    public Future loadOlder()
     {
-        //        StatusListAdapter adapter = StatusListManager.getAdapter(this);
-        //        List<TweetModel> list;
-        //        if (getStatusList().length > 0)
-        //        {
-        //            long minId = ((TweetModel) getStatus(getStatusList().length)).statusId;
-        //            list = new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20, 0, minId)).call();
-        //        }
-        //        else
-        //        {
-        //            list = new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20)).call();
-        //        }
-        //
-        //        for (TweetModel status : list)
-        //        {
-        //            addToBottom(status);
-        //        }
-        //        adapter.forceNotifyAdapter();
+        if (getStatusList().length > 0)
+        {
+            long minId = ((TweetModel) getStatus(getStatusList().length - 1)).statusId;
+            Paging page = new Paging(1, 20);
+            page.setMaxId(minId);
+            return new GetUserTimelineTask(Client.getMainAccount(), userId, page)
+            {
+                @Override
+                public void onPostExecute(List<TweetModel> result)
+                {
+                    for (TweetModel status : result)
+                    {
+                        addToBottom(status);
+                    }
+                    applyForce();
+                }
+            }.callAsync();
+        }
+        else
+        {
+            return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20))
+            {
+                @Override
+                public void onPostExecute(List<TweetModel> result)
+                {
+                    for (TweetModel status : result)
+                    {
+                        addToBottom(status);
+                    }
+                    applyForce();
+                }
+            }.callAsync();
+        }
     }
 
     @Override

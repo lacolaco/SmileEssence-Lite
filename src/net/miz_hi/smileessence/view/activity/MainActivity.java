@@ -78,6 +78,7 @@ public class MainActivity extends FragmentActivity
         {
             system.startTwitter(instance);
             system.loadListPage(instance);
+            system.loadSearchPage(instance);
         }
         PageController.getInstance().move(1);
     }

@@ -1,9 +1,8 @@
-package net.miz_hi.smileessence.command.user;
+package net.miz_hi.smileessence.command.page;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import net.miz_hi.smileessence.Client;
-import net.miz_hi.smileessence.command.CommandOpenUserList;
 import net.miz_hi.smileessence.command.ICommand;
 import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.core.MyExecutor;
@@ -17,12 +16,12 @@ import twitter4j.UserList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandShowUserLists extends MenuCommand
+public class CommandCreateNewListPage extends MenuCommand
 {
 
     Activity activity;
 
-    public CommandShowUserLists(Activity activity)
+    public CommandCreateNewListPage(Activity activity)
     {
         this.activity = activity;
     }
@@ -49,7 +48,7 @@ public class CommandShowUserLists extends MenuCommand
                     {
                         if (StatusListManager.getListTimeline(list.getId()) == null)
                         {
-                            commands.add(new CommandOpenUserList(activity, list));
+                            commands.add(new CommandAddListPage(activity, list));
                         }
                     }
 

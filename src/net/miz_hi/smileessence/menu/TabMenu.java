@@ -1,9 +1,9 @@
 package net.miz_hi.smileessence.menu;
 
 import android.app.Activity;
-import net.miz_hi.smileessence.command.main.CommandClosePage;
-import net.miz_hi.smileessence.command.main.CommandToAddPage;
-import net.miz_hi.smileessence.command.main.CommandToPageMove;
+import net.miz_hi.smileessence.command.page.CommandClosePage;
+import net.miz_hi.smileessence.command.page.CommandToAddPage;
+import net.miz_hi.smileessence.command.page.CommandToPageMove;
 import net.miz_hi.smileessence.dialog.ExpandMenuDialog;
 
 import java.util.ArrayList;

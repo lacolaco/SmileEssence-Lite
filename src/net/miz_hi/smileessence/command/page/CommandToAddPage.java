@@ -1,4 +1,4 @@
-package net.miz_hi.smileessence.command.main;
+package net.miz_hi.smileessence.command.page;
 
 import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.menu.AddPageMenu;

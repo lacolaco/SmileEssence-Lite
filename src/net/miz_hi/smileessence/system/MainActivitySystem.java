@@ -16,10 +16,13 @@ import net.miz_hi.smileessence.cache.UserCache;
 import net.miz_hi.smileessence.core.EnumRequestCode;
 import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.data.list.ListManager;
+import net.miz_hi.smileessence.data.search.Search;
+import net.miz_hi.smileessence.data.search.SearchManager;
 import net.miz_hi.smileessence.dialog.SingleButtonDialog;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
 import net.miz_hi.smileessence.model.statuslist.timeline.impl.ListTimeline;
+import net.miz_hi.smileessence.model.statuslist.timeline.impl.SearchTimeline;
 import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.statuslist.StatusListAdapter;
@@ -30,6 +33,7 @@ import net.miz_hi.smileessence.task.impl.GetUserTask;
 import net.miz_hi.smileessence.twitter.ResponseConverter;
 import net.miz_hi.smileessence.twitter.TwitterManager;
 import net.miz_hi.smileessence.view.fragment.impl.ListFragment;
+import net.miz_hi.smileessence.view.fragment.impl.SearchFragment;
 import twitter4j.Paging;
 import twitter4j.User;
 
@@ -111,6 +115,17 @@ public class MainActivitySystem
             Timeline timeline = new ListTimeline();
             StatusListManager.registerListTimeline(list.getListId(), timeline, new StatusListAdapter(activity, timeline));
             ListFragment fragment = ListFragment.newInstance(list.getListId(), list.getName());
+            PageController.getInstance().addPage(fragment);
+        }
+    }
+
+    public void loadSearchPage(Activity activity)
+    {
+        for (Search search : SearchManager.getSearches())
+        {
+            SearchTimeline timeline = new SearchTimeline(search.getQuery());
+            StatusListManager.registerSearchTimeline(search.getId(), timeline, new StatusListAdapter(activity, timeline));
+            SearchFragment fragment = SearchFragment.getInstance(search.getId(), search.getQuery());
             PageController.getInstance().addPage(fragment);
         }
     }
