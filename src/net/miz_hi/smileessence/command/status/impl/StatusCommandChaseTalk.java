@@ -36,7 +36,7 @@ public class StatusCommandChaseTalk extends StatusCommand
         TalkChaser chaser = TalkManager.searchTalk(origin);
         if (chaser != null)
         {
-            PageController.getInstance().move(PageController.getInstance().getAdapter().getItemPosition(chaser.fragment));
+            PageController.getInstance().move(PageController.getInstance().getPageIndex(chaser.fragment));
         }
         else
         {

@@ -23,10 +23,9 @@ public class MovePageMenu extends SimpleMenuDialog
     public List<ICommand> getMenuList()
     {
         List<ICommand> commands = new ArrayList<ICommand>();
-        List<NamedFragment> pages = PageController.getInstance().getAdapter().getList();
-        for (int i = 0; i < pages.size(); i++)
+        for (int i = 0; i < PageController.getInstance().getCount(); i++)
         {
-            NamedFragment fragment = pages.get(i);
+            NamedFragment fragment = PageController.getInstance().getPage(i);
             commands.add(new CommandMovePage(fragment.getTitle(), i));
         }
         return commands;

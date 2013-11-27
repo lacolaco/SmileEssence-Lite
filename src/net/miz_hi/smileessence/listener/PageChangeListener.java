@@ -22,12 +22,12 @@ public class PageChangeListener implements OnPageChangeListener
     @Override
     public void onPageSelected(int position)
     {
-        if (lastPosition < PageController.getInstance().getAdapter().getCount())
+        if (lastPosition < PageController.getInstance().getCount())
         {
-            NamedFragment from = PageController.getInstance().getAdapter().getList().get(lastPosition);
+            NamedFragment from = PageController.getInstance().getPage(lastPosition);
             from.onDeselect();
         }
-        NamedFragment to = PageController.getInstance().getAdapter().getList().get(position);
+        NamedFragment to = PageController.getInstance().getPage(position);
         to.onSelected();
         lastPosition = position;
     }

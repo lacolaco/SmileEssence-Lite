@@ -86,6 +86,21 @@ public class PageController
         pager.setCurrentItem(current, false);
     }
 
+    public NamedFragment getPage(int index)
+    {
+        return (NamedFragment) adapter.getItem(index);
+    }
+
+    public int getPageIndex(Fragment fragment)
+    {
+        return adapter.getItemPosition(fragment);
+    }
+
+    public int getCount()
+    {
+        return adapter.getCount();
+    }
+
     public NamedFragmentPagerAdapter getAdapter()
     {
         return adapter;
