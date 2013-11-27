@@ -135,7 +135,7 @@ public class API
     }
 
 	/*
-	 * LIST
+     * LIST
 	 */
 
     public static ResponseList<UserList> getReadableLists(Account account) throws TwitterException
@@ -146,5 +146,14 @@ public class API
     public static ResponseList<Status> getListTimeline(Account account, int listId, Paging page) throws TwitterException
     {
         return TwitterManager.getTwitter(account).getUserListStatuses(listId, page);
+    }
+
+    /*
+     * SEARCH
+     */
+
+    public static QueryResult search(Account account, Query query) throws TwitterException
+    {
+        return TwitterManager.getTwitter(account).search(query);
     }
 }
