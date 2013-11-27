@@ -47,7 +47,7 @@ public class UserModel implements IStatusModel
         name = user.getName();
         homePageUrl = user.getURLEntity().getExpandedURL();
         location = user.getLocation();
-        description = StringUtils.replaceUrlEntity(user.getDescription(), user.getDescriptionURLEntities());
+        description = StringUtils.replaceUrlEntity(user.getDescription(), user.getDescriptionURLEntities(), true);
         iconUrl = user.getProfileImageURL();
         biggerIconUrl = user.getBiggerProfileImageURL();
         headerImageUrl = user.getProfileBannerURL();

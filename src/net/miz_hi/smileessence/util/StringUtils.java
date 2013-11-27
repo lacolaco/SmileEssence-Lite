@@ -49,7 +49,7 @@ public class StringUtils
         return CharacterUtil.count(text);
     }
 
-    public static String replaceUrlEntity(String text, URLEntity[] entities)
+    public static String replaceUrlEntity(String text, URLEntity[] entities, boolean fullURL)
     {
         if (text == null)
         {
@@ -67,7 +67,7 @@ public class StringUtils
         for (int i = entities.length - 1; i >= 0; i--)
         {
             URLEntity entity = entities[i];
-            builder.replace(entity.getStart(), entity.getEnd(), entity.getDisplayURL());
+            builder.replace(entity.getStart(), entity.getEnd(), fullURL ? entity.getExpandedURL() : entity.getDisplayURL());
         }
         return builder.toString();
     }
