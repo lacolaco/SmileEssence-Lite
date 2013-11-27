@@ -263,7 +263,7 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:layout_marginTop="15dp"
-                    android:background="@android:color/holo_blue_light"
+                    android:background="@drawable/round_blue"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     style="@style/transBtn"

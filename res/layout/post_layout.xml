@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="10"
-                    android:background="@drawable/round_background"
+                    android:background="@drawable/round_blue"
                     android:padding="1dp">
 
                 <Button
