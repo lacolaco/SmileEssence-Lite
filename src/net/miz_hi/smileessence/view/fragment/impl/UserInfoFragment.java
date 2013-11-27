@@ -24,7 +24,7 @@ import net.miz_hi.smileessence.task.impl.GetRelationshipTask;
 import net.miz_hi.smileessence.task.impl.GetUserTask;
 import net.miz_hi.smileessence.task.impl.UnfollowTask;
 import net.miz_hi.smileessence.twitter.TwitterUtil;
-import net.miz_hi.smileessence.view.IRemovable;
+import net.miz_hi.smileessence.view.fragment.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 import twitter4j.Relationship;
 import twitter4j.User;

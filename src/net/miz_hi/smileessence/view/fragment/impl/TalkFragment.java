@@ -14,7 +14,7 @@ import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.talkchase.TalkChaser;
 import net.miz_hi.smileessence.talkchase.TalkManager;
-import net.miz_hi.smileessence.view.IRemovable;
+import net.miz_hi.smileessence.view.fragment.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 
 @SuppressLint("ValidFragment")

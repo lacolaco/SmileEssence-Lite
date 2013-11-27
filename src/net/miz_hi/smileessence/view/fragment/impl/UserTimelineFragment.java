@@ -18,7 +18,7 @@ import net.miz_hi.smileessence.model.status.user.UserModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.impl.UserTimeline;
 import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
-import net.miz_hi.smileessence.view.IRemovable;
+import net.miz_hi.smileessence.view.fragment.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 
 @SuppressLint("ValidFragment")

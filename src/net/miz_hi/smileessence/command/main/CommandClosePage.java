@@ -3,7 +3,7 @@ package net.miz_hi.smileessence.command.main;
 import android.support.v4.app.Fragment;
 import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.system.PageController;
-import net.miz_hi.smileessence.view.IRemovable;
+import net.miz_hi.smileessence.view.fragment.IRemovable;
 
 
 public class CommandClosePage extends MenuCommand

@@ -18,8 +18,8 @@ import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.task.impl.GetListTimelineTask;
-import net.miz_hi.smileessence.view.IRemovable;
 import net.miz_hi.smileessence.view.activity.MainActivity;
+import net.miz_hi.smileessence.view.fragment.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 import twitter4j.Paging;
 

@@ -4,7 +4,6 @@ package net.miz_hi.smileessence.view.fragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import net.miz_hi.smileessence.view.IRemovable;
 
 import java.util.ArrayList;
 import java.util.Collection;
