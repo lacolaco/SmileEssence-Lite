@@ -15,10 +15,11 @@ import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.talkchase.TalkChaser;
 import net.miz_hi.smileessence.talkchase.TalkManager;
 import net.miz_hi.smileessence.view.fragment.IRemovable;
+import net.miz_hi.smileessence.view.fragment.ISingleton;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 
 @SuppressLint("ValidFragment")
-public class TalkFragment extends NamedFragment implements IRemovable
+public class TalkFragment extends NamedFragment implements IRemovable, ISingleton
 {
 
     long chasingId = -1;
@@ -68,7 +69,7 @@ public class TalkFragment extends NamedFragment implements IRemovable
     @Override
     public String getTitle()
     {
-        return "Talk-" + (talkId + 1);
+        return "Talk";
     }
 
     @Override

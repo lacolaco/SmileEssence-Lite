@@ -25,12 +25,13 @@ import net.miz_hi.smileessence.task.impl.GetUserTask;
 import net.miz_hi.smileessence.task.impl.UnfollowTask;
 import net.miz_hi.smileessence.twitter.TwitterUtil;
 import net.miz_hi.smileessence.view.fragment.IRemovable;
+import net.miz_hi.smileessence.view.fragment.ISingleton;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 import twitter4j.Relationship;
 import twitter4j.User;
 
 @SuppressLint("ValidFragment")
-public class UserInfoFragment extends NamedFragment implements OnClickListener, IRemovable
+public class UserInfoFragment extends NamedFragment implements OnClickListener, IRemovable, ISingleton
 {
 
     UserModel user;

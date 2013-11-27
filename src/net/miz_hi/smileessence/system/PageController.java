@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import net.miz_hi.smileessence.view.fragment.ISingleton;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 import net.miz_hi.smileessence.view.fragment.NamedFragmentPagerAdapter;
 import net.miz_hi.smileessence.view.fragment.impl.HistoryFragment;
@@ -72,18 +73,33 @@ public class PageController
 
     public void addPage(NamedFragment fragment)
     {
+        if (fragment instanceof ISingleton)
+        {
+            for (int i = 0; i < getCount(); i++)
+            {
+                if (getPage(i).getClass() == fragment.getClass())
+                {
+                    removePage(i);
+                }
+            }
+        }
         adapter.add(fragment);
     }
 
     public void removePage()
     {
         int current = pager.getCurrentItem();
-        adapter.remove(current);
+        removePage(current);
+        pager.setCurrentItem(current, false);
+    }
+
+    public void removePage(int index)
+    {
+        adapter.remove(index);
         List<NamedFragment> list = new ArrayList<NamedFragment>();
         list.addAll(adapter.getList());
         instance.adapter = new NamedFragmentPagerAdapter(activity.getSupportFragmentManager(), list); //Refresh page caches
         pager.setAdapter(instance.adapter);
-        pager.setCurrentItem(current, false);
     }
 
     public NamedFragment getPage(int index)

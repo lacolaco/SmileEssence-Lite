@@ -19,10 +19,11 @@ import net.miz_hi.smileessence.model.statuslist.timeline.impl.UserTimeline;
 import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.view.fragment.IRemovable;
+import net.miz_hi.smileessence.view.fragment.ISingleton;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 
 @SuppressLint("ValidFragment")
-public class UserTimelineFragment extends NamedFragment implements IRemovable, OnClickListener
+public class UserTimelineFragment extends NamedFragment implements IRemovable, OnClickListener, ISingleton
 {
 
     UserModel user;
