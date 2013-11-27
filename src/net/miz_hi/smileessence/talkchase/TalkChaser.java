@@ -52,6 +52,11 @@ public class TalkChaser
         while (inReplyTo > 0)
         {
             TweetModel older = TweetUtils.getOrCreateStatusModel(inReplyTo);
+            if (older == null)
+            {
+                Notificator.alert("ツイートの取得に失敗しました");
+                break;
+            }
             talkList.addToBottom(older);
             inReplyTo = older.getInReplyToStatusId();
         }
