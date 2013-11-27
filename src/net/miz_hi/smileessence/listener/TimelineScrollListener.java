@@ -11,8 +11,6 @@ import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.util.CustomListAdapter;
 import net.miz_hi.smileessence.util.UiHandler;
 
-import java.util.concurrent.ExecutionException;
-
 public class TimelineScrollListener implements OnScrollListener
 {
 
@@ -51,39 +49,38 @@ public class TimelineScrollListener implements OnScrollListener
                 }
             }
         }
-        else if (view.getLastVisiblePosition() == view.getCount() - 1)
+        else if (view.getLastVisiblePosition() == view.getCount() - 1 && view.getChildAt(view.getChildCount() - 1) != null && view.getBottom() == view.getChildAt(view.getChildCount() - 1).getBottom())
         {
-            if (statusList instanceof Timeline)
+            if (scrollState == SCROLL_STATE_IDLE)
             {
-                final ProgressDialog pd = ProgressDialog.show(view.getContext(), "", "Now loading...");
-                MyExecutor.execute(new Runnable()
+                if (statusList instanceof Timeline)
                 {
-                    @Override
-                    public void run()
+                    final ProgressDialog pd = ProgressDialog.show(view.getContext(), "", "Now loading...");
+                    MyExecutor.execute(new Runnable()
                     {
-                        try
+                        @Override
+                        public void run()
                         {
-                            ((Timeline) statusList).loadOlder().get();
-                        }
-                        catch (InterruptedException e)
-                        {
-                            e.printStackTrace();
-                        }
-                        catch (ExecutionException e)
-                        {
-                            e.printStackTrace();
-                        }
-                        new UiHandler()
-                        {
-                            @Override
-                            public void run()
+                            try
                             {
-                                statusList.applyForce();
-                                pd.dismiss();
+                                ((Timeline) statusList).loadOlder().get();
                             }
-                        }.post();
-                    }
-                });
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                            new UiHandler()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    statusList.applyForce();
+                                    pd.dismiss();
+                                }
+                            }.post();
+                        }
+                    });
+                }
             }
         }
     }

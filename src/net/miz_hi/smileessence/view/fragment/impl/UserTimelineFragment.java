@@ -20,8 +20,6 @@ import net.miz_hi.smileessence.view.fragment.IRemovable;
 import net.miz_hi.smileessence.view.fragment.ISingleton;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 
-import java.util.concurrent.ExecutionException;
-
 @SuppressLint("ValidFragment")
 public class UserTimelineFragment extends NamedFragment implements IRemovable, ISingleton
 {
@@ -87,11 +85,7 @@ public class UserTimelineFragment extends NamedFragment implements IRemovable, I
         {
             timeline.loadNewer().get();
         }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-        catch (ExecutionException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }

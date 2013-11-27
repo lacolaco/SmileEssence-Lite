@@ -149,7 +149,7 @@ public class MainActivitySystem
                 }
             }.callAsync();
 
-            new GetHomeTimelineTask(Client.getMainAccount(), new Paging(1, 100))
+            new GetHomeTimelineTask(Client.getMainAccount(), new Paging(1, 50))
             {
                 @Override
                 public void onPostExecute(List<TweetModel> result)
@@ -162,7 +162,7 @@ public class MainActivitySystem
                     timeline.applyForce();
                 }
             }.callAsync();
-            new GetMentionsTask(Client.getMainAccount(), new Paging(1, 100))
+            new GetMentionsTask(Client.getMainAccount(), new Paging(1, 50))
             {
                 @Override
                 public void onPostExecute(List<TweetModel> result)

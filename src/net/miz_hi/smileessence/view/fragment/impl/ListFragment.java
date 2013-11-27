@@ -20,8 +20,6 @@ import net.miz_hi.smileessence.util.UiHandler;
 import net.miz_hi.smileessence.view.fragment.IRemovable;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 
-import java.util.concurrent.ExecutionException;
-
 public class ListFragment extends NamedFragment implements IRemovable
 {
 
@@ -113,11 +111,7 @@ public class ListFragment extends NamedFragment implements IRemovable
         {
             timeline.loadNewer().get();
         }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-        catch (ExecutionException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
