@@ -13,6 +13,7 @@ import net.miz_hi.smileessence.auth.AuthenticationDB;
 import net.miz_hi.smileessence.command.main.CommandInformation;
 import net.miz_hi.smileessence.command.main.CommandOpenLicense;
 import net.miz_hi.smileessence.data.list.ListModel;
+import net.miz_hi.smileessence.data.search.SearchModel;
 import net.miz_hi.smileessence.dialog.ConfirmDialog;
 import net.miz_hi.smileessence.dialog.SeekBarDialog;
 import net.miz_hi.smileessence.notification.Notificator;
@@ -72,6 +73,7 @@ public class SettingActivity extends PreferenceActivity
                                 Notificator.toast("全ての認証情報をリセットします。再起動してください");
                                 AuthenticationDB.instance().deleteAll();
                                 ListModel.instance().deleteAll();
+                                SearchModel.instance().deleteAll();
                                 finish();
                                 MainActivity.getInstance().finish(true);
                                 break;
