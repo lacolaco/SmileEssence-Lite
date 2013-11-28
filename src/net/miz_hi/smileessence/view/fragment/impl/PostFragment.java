@@ -92,11 +92,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
             protected boolean right(TextView widget, Spannable buffer)
             {
                 //Homeタブに戻るのを阻止
-                if (widget.getSelectionEnd() == widget.length())
-                {
-                    return true;
-                }
-                return super.right(widget, buffer);
+                return widget.getSelectionEnd() == widget.length() || super.right(widget, buffer);
             }
         });
         imageButtonSubmit.setOnClickListener(this);
