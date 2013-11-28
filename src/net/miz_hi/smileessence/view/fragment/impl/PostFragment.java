@@ -172,7 +172,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
         setInReplyTo(inReplyTo);
         String picturePath = getState().getPicturePath();
         setPicture(picturePath);
-        if (!inited)
+        if (!inited && iconView != null)
         {
             if (Client.getMainAccount() != null)
             {
