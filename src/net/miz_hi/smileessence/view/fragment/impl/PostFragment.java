@@ -104,27 +104,30 @@ public class PostFragment extends NamedFragment implements OnClickListener
         imageButtonPict.setOnClickListener(this);
         imagePict.setOnClickListener(this);
 
-        UserModel me = UserCache.get(Client.getMainAccount().getUserId());
-        if (me != null)
+        if (Client.getMainAccount() != null)
         {
-            ImageCache.setImageToView(me.iconUrl, iconView);
-            screenNameView.setText(me.screenName);
-        }
-        else
-        {
-            new GetUserTask(Client.getMainAccount().getUserId())
+            UserModel me = UserCache.get(Client.getMainAccount().getUserId());
+            if (me != null)
             {
-                @Override
-                public void onPostExecute(User result)
+                ImageCache.setImageToView(me.iconUrl, iconView);
+                screenNameView.setText(me.screenName);
+            }
+            else
+            {
+                new GetUserTask(Client.getMainAccount().getUserId())
                 {
-                    if (result != null)
+                    @Override
+                    public void onPostExecute(User result)
                     {
-                        UserModel model = ResponseConverter.convert(result);
-                        ImageCache.setImageToView(model.iconUrl, iconView);
-                        screenNameView.setText(model.screenName);
+                        if (result != null)
+                        {
+                            UserModel model = ResponseConverter.convert(result);
+                            ImageCache.setImageToView(model.iconUrl, iconView);
+                            screenNameView.setText(model.screenName);
+                        }
                     }
-                }
-            }.callAsync();
+                }.callAsync();
+            }
         }
 
         return page;
