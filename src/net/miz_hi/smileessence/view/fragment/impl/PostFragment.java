@@ -101,31 +101,10 @@ public class PostFragment extends NamedFragment implements OnClickListener
         imageButtonPict.setOnClickListener(this);
         imagePict.setOnClickListener(this);
 
+        loadState();
         if (Client.getMainAccount() != null)
         {
-            UserModel me = UserCache.get(Client.getMainAccount().getUserId());
-            if (me != null)
-            {
-                ImageCache.setImageToView(me.iconUrl, iconView);
-                screenNameView.setText(me.screenName);
-            }
-            else
-            {
-                new GetUserTask(Client.getMainAccount().getUserId())
-                {
-                    @Override
-                    public void onPostExecute(User result)
-                    {
-                        if (result != null)
-                        {
-                            UserModel model = ResponseConverter.convert(result);
-                            ImageCache.setImageToView(model.iconUrl, iconView);
-                            screenNameView.setText(model.screenName);
-                        }
-                    }
-                }.callAsync();
-            }
-            inited = true;
+            initMyInformation();
         }
 
         return page;
@@ -172,34 +151,9 @@ public class PostFragment extends NamedFragment implements OnClickListener
         setInReplyTo(inReplyTo);
         String picturePath = getState().getPicturePath();
         setPicture(picturePath);
-        if (!inited && iconView != null)
+        if (!inited && iconView != null && Client.getMainAccount() != null)
         {
-            if (Client.getMainAccount() != null)
-            {
-                UserModel me = UserCache.get(Client.getMainAccount().getUserId());
-                if (me != null)
-                {
-                    ImageCache.setImageToView(me.iconUrl, iconView);
-                    screenNameView.setText(me.screenName);
-                }
-                else
-                {
-                    new GetUserTask(Client.getMainAccount().getUserId())
-                    {
-                        @Override
-                        public void onPostExecute(User result)
-                        {
-                            if (result != null)
-                            {
-                                UserModel model = ResponseConverter.convert(result);
-                                ImageCache.setImageToView(model.iconUrl, iconView);
-                                screenNameView.setText(model.screenName);
-                            }
-                        }
-                    }.callAsync();
-                }
-                inited = true;
-            }
+            initMyInformation();
         }
     }
 
@@ -217,6 +171,33 @@ public class PostFragment extends NamedFragment implements OnClickListener
             getState().setSelectionStart(start);
             getState().setSelectionEnd(end);
         }
+    }
+
+    private void initMyInformation()
+    {
+        UserModel me = UserCache.get(Client.getMainAccount().getUserId());
+        if (me != null)
+        {
+            ImageCache.setImageToView(me.iconUrl, iconView);
+            screenNameView.setText(me.screenName);
+        }
+        else
+        {
+            new GetUserTask(Client.getMainAccount().getUserId())
+            {
+                @Override
+                public void onPostExecute(User result)
+                {
+                    if (result != null)
+                    {
+                        UserModel model = ResponseConverter.convert(result);
+                        ImageCache.setImageToView(model.iconUrl, iconView);
+                        screenNameView.setText(model.screenName);
+                    }
+                }
+            }.callAsync();
+        }
+        inited = true;
     }
 
     public void setText(String s)

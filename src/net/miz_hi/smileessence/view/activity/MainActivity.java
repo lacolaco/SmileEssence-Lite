@@ -55,6 +55,7 @@ public class MainActivity extends FragmentActivity
         PageController.init(instance, pager);
         pager.setAdapter(PageController.getInstance().getAdapter());
         pager.destroyDrawingCache();
+        PageController.getInstance().move(1);
 
         TitlePageIndicator indicator = (TitlePageIndicator) findViewById(R.id.indicator);
         indicator.setTextSize(21);
@@ -80,7 +81,6 @@ public class MainActivity extends FragmentActivity
             system.loadListPage(instance);
             system.loadSearchPage(instance);
         }
-        PageController.getInstance().move(1);
     }
 
     @Override
