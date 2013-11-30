@@ -52,7 +52,7 @@ public class PageController
 
     public void move(int index)
     {
-        pager.setCurrentItem(index, true);
+        move(index, true);
     }
 
     public void move(int index, boolean smooth)
