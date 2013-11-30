@@ -50,14 +50,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
     ImageView imagePict;
     NetworkImageView iconView;
     TextView screenNameView;
-    private PostPageState state;
     boolean inited = false;
-
-    public PostFragment()
-    {
-        state = new PostPageState();
-        PostSystem.init(this);
-    }
 
     @Override
     public String getTitle()
@@ -133,11 +126,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public PostPageState getState()
     {
-        if (state == null)
-        {
-            state = new PostPageState();
-        }
-        return state;
+        return PostSystem.getState();
     }
 
     public void loadState()
@@ -331,7 +320,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 @Override
                 public void run()
                 {
-                    state.setPicturePath(null);
+                    getState().setPicturePath(null);
                     imagePict.setVisibility(View.GONE);
                     Notificator.info("取り消しました");
                 }
