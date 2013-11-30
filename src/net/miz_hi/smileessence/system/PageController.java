@@ -58,16 +58,17 @@ public class PageController
     public void move(int index, boolean smooth)
     {
         pager.setCurrentItem(index, smooth);
+        ((NamedFragment) adapter.getItem(index)).onSelected();
     }
 
     public void moveToLast()
     {
-        pager.setCurrentItem(adapter.getCount(), false);
+        move(adapter.getCount(), false);
     }
 
     public int getCurrentPage()
     {
-        return instance.pager.getCurrentItem();
+        return pager.getCurrentItem();
     }
 
     public void addPage(NamedFragment fragment)
@@ -81,7 +82,7 @@ public class PageController
         adapter.remove(current);
         List<NamedFragment> list = new ArrayList<NamedFragment>();
         list.addAll(adapter.getList());
-        instance.adapter = new NamedFragmentPagerAdapter(activity.getSupportFragmentManager(), list); //Refresh page caches
+        adapter = new NamedFragmentPagerAdapter(activity.getSupportFragmentManager(), list); //Refresh page caches
         pager.setAdapter(instance.adapter);
         pager.setCurrentItem(current, false);
     }
