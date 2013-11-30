@@ -63,7 +63,7 @@ public class PageController
 
     public void moveToLast()
     {
-        move(adapter.getCount(), false);
+        move(adapter.getCount() - 1, false);
     }
 
     public int getCurrentPage()
