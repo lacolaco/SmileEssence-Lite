@@ -131,15 +131,25 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void loadState()
     {
-        String text = getState().getText();
-        setText(text);
-        int selectionStart = getState().getSelectionStart();
-        int selectionEnd = getState().getSelectionEnd();
-        setSelection(selectionStart, selectionEnd);
-        long inReplyTo = getState().getInReplyToStatusId();
-        setInReplyTo(inReplyTo);
-        String picturePath = getState().getPicturePath();
-        setPicture(picturePath);
+        PostPageState state = getState();
+        if (editText != null)
+        {
+            String text = state.getText();
+            int selectionStart = state.getSelectionStart();
+            int selectionEnd = state.getSelectionEnd();
+            setText(text);
+            setSelection(selectionStart, selectionEnd);
+        }
+        if (frameInReplyTo != null)
+        {
+            long inReplyTo = state.getInReplyToStatusId();
+            setInReplyTo(inReplyTo);
+        }
+        if (imagePict != null)
+        {
+            String picturePath = state.getPicturePath();
+            setPicture(picturePath);
+        }
         if (!inited && iconView != null && Client.getMainAccount() != null)
         {
             initMyInformation();
@@ -154,11 +164,12 @@ public class PostFragment extends NamedFragment implements OnClickListener
         if (editText != null)
         {
             String text = editText.getText().toString();
-            getState().setText(text);
             int start = editText.getSelectionStart();
             int end = editText.getSelectionEnd();
-            getState().setSelectionStart(start);
-            getState().setSelectionEnd(end);
+            PostPageState state = getState();
+            state.setText(text);
+            state.setSelectionStart(start);
+            state.setSelectionEnd(end);
         }
     }
 
@@ -191,83 +202,38 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void setText(String s)
     {
-        if (editText != null)
-        {
-            editText.setText(s);
-        }
+        editText.setText(s);
     }
 
     public void setSelection(int start, int end)
     {
-        if (editText != null)
+        if (start < 0 || end < 0)
         {
-            if (start < 0 || end < 0)
-            {
-                editText.setSelection(0);
-            }
-            else if (start > editText.length())
-            {
-                editText.setSelection(editText.length());
-            }
-            else if (end > editText.length())
-            {
-                editText.setSelection(start, editText.length());
-            }
-            else
-            {
-                editText.setSelection(start, end);
-            }
+            editText.setSelection(0);
+        }
+        else if (start > editText.length())
+        {
+            editText.setSelection(editText.length());
+        }
+        else if (end > editText.length())
+        {
+            editText.setSelection(start, editText.length());
+        }
+        else
+        {
+            editText.setSelection(start, end);
         }
     }
 
     public void setInReplyTo(final long l)
     {
-        if (frameInReplyTo != null)
+        if (l == PostSystem.NONE_ID)
         {
-            if (l == PostSystem.NONE_ID)
-            {
-                frameInReplyTo.setVisibility(View.GONE);
-            }
-            else
-            {
-                new Task<View>()
-                {
-
-                    @Override
-                    public void onPreExecute()
-                    {
-                    }
-
-                    @Override
-                    public void onPostExecute(View result)
-                    {
-                        frameInReplyTo.removeAllViewsInLayout();
-                        frameInReplyTo.addView(result);
-                        frameInReplyTo.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public View call() throws Exception
-                    {
-                        TweetModel status = TweetUtils.getOrCreateStatusModel(l);
-                        return StatusViewFactory.newInstance(MainActivity.getInstance().getLayoutInflater(), null).getStatusView(status);
-                    }
-                }.callAsync();
-            }
+            frameInReplyTo.setVisibility(View.GONE);
         }
-    }
-
-
-    public void setPicture(final String path)
-    {
-        if (imagePict != null)
+        else
         {
-            if (path == null)
-            {
-                imagePict.setVisibility(View.GONE);
-                return;
-            }
-            new Task<Bitmap>()
+            new Task<View>()
             {
 
                 @Override
@@ -276,22 +242,54 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 }
 
                 @Override
-                public void onPostExecute(Bitmap result)
+                public void onPostExecute(View result)
                 {
-                    imagePict.setImageBitmap(result);
-                    imagePict.setVisibility(View.VISIBLE);
+                    frameInReplyTo.removeAllViewsInLayout();
+                    frameInReplyTo.addView(result);
+                    frameInReplyTo.setVisibility(View.VISIBLE);
                 }
 
                 @Override
-                public Bitmap call() throws Exception
+                public View call() throws Exception
                 {
-                    Options opt = new Options();
-                    opt.inPurgeable = true; // GC可能にする
-                    opt.inSampleSize = 2;
-                    return BitmapFactory.decodeFile(path, opt);
+                    TweetModel status = TweetUtils.getOrCreateStatusModel(l);
+                    return StatusViewFactory.newInstance(MainActivity.getInstance().getLayoutInflater(), null).getStatusView(status);
                 }
             }.callAsync();
         }
+    }
+
+    public void setPicture(final String path)
+    {
+        if (path == null)
+        {
+            imagePict.setVisibility(View.GONE);
+            return;
+        }
+        new Task<Bitmap>()
+        {
+
+            @Override
+            public void onPreExecute()
+            {
+            }
+
+            @Override
+            public void onPostExecute(Bitmap result)
+            {
+                imagePict.setImageBitmap(result);
+                imagePict.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public Bitmap call() throws Exception
+            {
+                Options opt = new Options();
+                opt.inPurgeable = true; // GC可能にする
+                opt.inSampleSize = 2;
+                return BitmapFactory.decodeFile(path, opt);
+            }
+        }.callAsync();
     }
 
     public void clear()
