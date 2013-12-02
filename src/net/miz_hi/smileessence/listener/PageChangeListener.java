@@ -7,7 +7,7 @@ import net.miz_hi.smileessence.view.fragment.NamedFragment;
 public class PageChangeListener implements OnPageChangeListener
 {
 
-    int lastPosition = 0;
+    int lastPosition = -1;
 
     @Override
     public void onPageScrollStateChanged(int position)
@@ -22,7 +22,7 @@ public class PageChangeListener implements OnPageChangeListener
     @Override
     public void onPageSelected(int position)
     {
-        if (lastPosition < PageController.getInstance().getCount())
+        if (lastPosition > -1 && lastPosition < PageController.getInstance().getAdapter().getCount())
         {
             NamedFragment from = PageController.getInstance().getPage(lastPosition);
             from.onDeselect();

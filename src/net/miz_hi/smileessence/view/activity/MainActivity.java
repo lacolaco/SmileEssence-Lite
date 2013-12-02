@@ -23,6 +23,7 @@ import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.system.MainActivitySystem;
 import net.miz_hi.smileessence.system.PageController;
+import net.miz_hi.smileessence.system.PostSystem;
 
 public class MainActivity extends FragmentActivity
 {
@@ -44,6 +45,7 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.main_layout);
         instance = this;
         system = new MainActivitySystem();
+        PostSystem.init();
         StatusListManager.initStatusLists(instance);
         initializeViews();
         IntentRouter.onNewIntent(getIntent());

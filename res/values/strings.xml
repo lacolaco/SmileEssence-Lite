@@ -2,8 +2,8 @@
 <resources>
 
     <string name="app_name">SmileEssence Lite</string>
-    <string name="app_version">β1.4.5.56</string>
-    <string name="app_url">http://smileessence.miz-hi.net/</string>
+    <string name="app_version">β1.4.5.58</string>
+    <string name="app_url">http://smileessence.youjo.manaita.info/</string>
     <string name="key_setting_textSize">text_size</string>
     <string name="key_setting_aftersubmit">after_submit</string>
     <string name="key_setting_delete_accounts">deleteAccounts</string>

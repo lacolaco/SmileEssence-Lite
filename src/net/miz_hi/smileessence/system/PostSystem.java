@@ -5,7 +5,6 @@ import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.task.impl.TweetTask;
 import net.miz_hi.smileessence.util.StringUtils;
 import net.miz_hi.smileessence.util.UiHandler;
-import net.miz_hi.smileessence.view.fragment.impl.PostFragment;
 import twitter4j.StatusUpdate;
 
 import java.io.File;
@@ -13,23 +12,23 @@ import java.io.File;
 public class PostSystem
 {
 
-    private PostFragment fragment;
+    private PostPageState state;
     private static PostSystem instance;
     public static final long NONE_ID = -1;
 
     private PostSystem()
     {
+        state = new PostPageState();
     }
 
-    public static void init(PostFragment fragment)
+    public static void init()
     {
         instance = new PostSystem();
-        instance.fragment = fragment;
     }
 
-    private static PostPageState getState()
+    public static PostPageState getState()
     {
-        return instance.fragment.getState();
+        return instance.state;
     }
 
     public static void clear(boolean keepPicture)
@@ -143,7 +142,6 @@ public class PostSystem
     public static void openPostPage()
     {
         PageController.getInstance().move(PageController.PAGE_POST);
-        instance.fragment.loadState();
     }
 
     public static void setPicturePath(String path)
