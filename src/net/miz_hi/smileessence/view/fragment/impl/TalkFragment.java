@@ -62,7 +62,7 @@ public class TalkFragment extends NamedFragment implements IRemovable, ISingleto
         TalkChaser chaser = TalkManager.getChaser(talkId);
         StatusListAdapter adapter = StatusListManager.getAdapter(chaser.talkList);
         listView.setAdapter(adapter);
-        listView.setOnScrollListener(new TimelineScrollListener(adapter, chaser.talkList));
+        listView.setOnScrollListener(new TimelineScrollListener(adapter));
         return page;
     }
 

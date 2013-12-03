@@ -33,7 +33,7 @@ public class HistoryFragment extends NamedFragment
         listView.setFastScrollEnabled(true);
         CustomListAdapter<?> adapter = StatusListManager.getAdapter(StatusListManager.getHistoryTimeline());
         listView.setAdapter(adapter);
-        listView.setOnScrollListener(new TimelineScrollListener(adapter, StatusListManager.getHistoryTimeline()));
+        listView.setOnScrollListener(new TimelineScrollListener(adapter));
 
         return page;
     }
