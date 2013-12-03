@@ -6,16 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import net.miz_hi.smileessence.R;
-import net.miz_hi.smileessence.core.MyExecutor;
+import net.miz_hi.smileessence.listener.TimelineRefreshListener;
 import net.miz_hi.smileessence.listener.TimelineScrollListener;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 import net.miz_hi.smileessence.util.CustomListAdapter;
-import net.miz_hi.smileessence.util.UiHandler;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 
 public class HomeFragment extends NamedFragment
@@ -33,37 +30,8 @@ public class HomeFragment extends NamedFragment
         listView.setEmptyView(progress);
         CustomListAdapter<?> adapter = StatusListManager.getAdapter(StatusListManager.getHomeTimeline());
         listView.setAdapter(adapter);
-        listView.setOnScrollListener(new TimelineScrollListener(adapter, StatusListManager.getHomeTimeline()));
-        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>()
-        {
-            @Override
-            public void onRefresh(final PullToRefreshBase<ListView> refreshView)
-            {
-                MyExecutor.execute(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        try
-                        {
-                            StatusListManager.getHomeTimeline().loadNewer().get();
-                        }
-                        catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                        new UiHandler()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                refreshView.onRefreshComplete();
-                            }
-                        }.post();
-                    }
-                });
-            }
-        });
+        listView.setOnScrollListener(new TimelineScrollListener(adapter));
+        listView.setOnRefreshListener(new TimelineRefreshListener(StatusListManager.getHomeTimeline()));
         return page;
     }
 
