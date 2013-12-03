@@ -155,7 +155,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
                     {
                         boolean isFollowing = result.isSourceFollowingTarget();
                         followButton.setText(isFollowing ? "リムーブする" : "フォローする");
-                        followButton.setBackgroundDrawable(isFollowing ? getResources().getDrawable(R.drawable.round_red) : getResources().getDrawable(R.drawable.round_blue));
+                        followButton.setBackgroundDrawable(isFollowing ? Client.getResource().getDrawable(R.drawable.round_red) : Client.getResource().getDrawable(R.drawable.round_blue));
                         followButton.setTag(isFollowing);
                         isFollowedView.setText(result.isSourceFollowedByTarget() ? "フォローされています" : "フォローされていません");
                     }
