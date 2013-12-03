@@ -114,6 +114,7 @@ public class MainActivitySystem
         {
             Timeline timeline = new ListTimeline(list.getListId());
             StatusListManager.registerListTimeline(list.getListId(), timeline, new StatusListAdapter(activity, timeline));
+            timeline.loadNewer();
             ListFragment fragment = ListFragment.newInstance(list.getListId(), list.getName());
             PageController.getInstance().addPage(fragment);
         }
@@ -125,6 +126,7 @@ public class MainActivitySystem
         {
             SearchTimeline timeline = new SearchTimeline(search.getQuery());
             StatusListManager.registerSearchTimeline(search.getId(), timeline, new StatusListAdapter(activity, timeline));
+            timeline.loadNewer();
             SearchFragment fragment = SearchFragment.getInstance(search.getId(), search.getQuery());
             PageController.getInstance().addPage(fragment);
         }
