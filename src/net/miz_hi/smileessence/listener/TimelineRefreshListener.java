@@ -17,7 +17,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
     }
 
     @Override
-    public void onPullDownToRefresh(final PullToRefreshBase refreshView)
+    public void onPullDownToRefresh(final PullToRefreshBase<ListView> refreshView)
     {
         MyExecutor.execute(new Runnable()
         {
@@ -45,7 +45,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
     }
 
     @Override
-    public void onPullUpToRefresh(final PullToRefreshBase refreshView)
+    public void onPullUpToRefresh(final PullToRefreshBase<ListView> refreshView)
     {
         MyExecutor.execute(new Runnable()
         {
