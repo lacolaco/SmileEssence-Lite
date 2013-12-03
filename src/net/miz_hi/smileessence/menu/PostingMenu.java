@@ -1,9 +1,10 @@
 package net.miz_hi.smileessence.menu;
 
 import android.app.Activity;
-import net.miz_hi.smileessence.cache.TweetCache;
 import net.miz_hi.smileessence.command.ICommand;
 import net.miz_hi.smileessence.command.post.*;
+import net.miz_hi.smileessence.data.hashtag.Hashtag;
+import net.miz_hi.smileessence.data.hashtag.HashtagManager;
 import net.miz_hi.smileessence.data.template.Template;
 import net.miz_hi.smileessence.data.template.TemplateManager;
 import net.miz_hi.smileessence.dialog.ExpandMenuDialog;
@@ -17,13 +18,12 @@ public class PostingMenu extends ExpandMenuDialog
     public PostingMenu(Activity activity)
     {
         super(activity);
-        setTitle("投稿メニュー");
     }
 
     private List<ICommand> getHashtagMenu()
     {
         List<ICommand> list = new ArrayList<ICommand>();
-        for (String hashtag : TweetCache.getHashtagList())
+        for (Hashtag hashtag : HashtagManager.getAll())
         {
             list.add(new CommandAppendHashtag(hashtag));
         }
@@ -62,7 +62,7 @@ public class PostingMenu extends ExpandMenuDialog
             list.add(template);
         }
 
-        MenuElement hashtag = new MenuElement("最近見たハッシュタグ");
+        MenuElement hashtag = new MenuElement("よく使うハッシュタグ");
         List<ICommand> hashtags = getHashtagMenu();
         if (!hashtags.isEmpty())
         {

@@ -14,7 +14,6 @@ public class TweetCache
     private static TweetCache instance = new TweetCache();
 
     private ConcurrentHashMap<Long, TweetModel> statusesMap = new ConcurrentHashMap<Long, TweetModel>();
-    private CopyOnWriteArrayList<String> hashtagList = new CopyOnWriteArrayList<String>();
     private CopyOnWriteArrayList<Long> readRetweetList = new CopyOnWriteArrayList<Long>();
 
     public static TweetModel put(Status status)
@@ -65,24 +64,9 @@ public class TweetCache
         return count <= 1;
     }
 
-    public static void putHashtag(String tag)
-    {
-        if (instance.hashtagList.contains(tag))
-        {
-            return;
-        }
-        instance.hashtagList.add(tag);
-    }
-
-    public static List<String> getHashtagList()
-    {
-        return instance.hashtagList;
-    }
-
     public static void clearCache()
     {
         instance.statusesMap.clear();
-        instance.hashtagList.clear();
         instance.readRetweetList.clear();
     }
 }
