@@ -3,7 +3,7 @@ package net.miz_hi.smileessence.data.hashtag;
 public class HashtagManager
 {
 
-    public static void add(Hashtag hashtag)
+    public static void addOrUpdate(Hashtag hashtag)
     {
         HashtagModel.instance().save(hashtag);
     }
@@ -13,8 +13,8 @@ public class HashtagManager
         HashtagModel.instance().delete(id);
     }
 
-    public static java.util.List<Hashtag> getAll()
+    public static java.util.List<Hashtag> get(int count)
     {
-        return HashtagModel.instance().findAll();
+        return HashtagModel.instance().find(count);
     }
 }

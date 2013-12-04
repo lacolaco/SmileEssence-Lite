@@ -23,9 +23,9 @@ public class PostingMenu extends ExpandMenuDialog
     private List<ICommand> getHashtagMenu()
     {
         List<ICommand> list = new ArrayList<ICommand>();
-        for (Hashtag hashtag : HashtagManager.getAll())
+        for (Hashtag hashtag : HashtagManager.get(10))
         {
-            list.add(new CommandAppendHashtag(hashtag));
+            list.add(new CommandAppendHashtag(hashtag.getText()));
         }
         return list;
     }
@@ -62,7 +62,7 @@ public class PostingMenu extends ExpandMenuDialog
             list.add(template);
         }
 
-        MenuElement hashtag = new MenuElement("よく使うハッシュタグ");
+        MenuElement hashtag = new MenuElement("最近使ったハッシュタグ");
         List<ICommand> hashtags = getHashtagMenu();
         if (!hashtags.isEmpty())
         {

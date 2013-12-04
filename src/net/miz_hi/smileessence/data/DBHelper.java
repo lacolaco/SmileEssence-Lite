@@ -8,6 +8,7 @@ import com.j256.ormlite.table.TableUtils;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.auth.Account;
 import net.miz_hi.smileessence.data.extra.ExtraWord;
+import net.miz_hi.smileessence.data.hashtag.Hashtag;
 import net.miz_hi.smileessence.data.list.List;
 import net.miz_hi.smileessence.data.search.Search;
 import net.miz_hi.smileessence.data.template.Template;
@@ -35,6 +36,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper
             TableUtils.createTableIfNotExists(getConnectionSource(), ExtraWord.class);
             TableUtils.createTableIfNotExists(getConnectionSource(), List.class);
             TableUtils.createTableIfNotExists(getConnectionSource(), Search.class);
+            TableUtils.createTableIfNotExists(getConnectionSource(), Hashtag.class);
         }
         catch (SQLException e)
         {

@@ -2,7 +2,8 @@ package net.miz_hi.smileessence.model.status.tweet;
 
 import android.text.Html;
 import net.miz_hi.smileessence.Client;
-import net.miz_hi.smileessence.cache.TweetCache;
+import net.miz_hi.smileessence.data.hashtag.Hashtag;
+import net.miz_hi.smileessence.data.hashtag.HashtagManager;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.user.UserModel;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
@@ -83,11 +84,11 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
             myRetweetId = status.getCurrentUserRetweetId();
         }
 
-        if (hashtags != null)
+        if (hashtags != null && original.user.isMe())
         {
             for (HashtagEntity hashtag : hashtags)
             {
-                TweetCache.putHashtag(hashtag.getText());
+                HashtagManager.addOrUpdate(new Hashtag(hashtag.getText()));
             }
         }
 
