@@ -79,7 +79,7 @@
                     android:layout_weight="1"
                     android:autoText="false">
 
-                <requestFocus/>
+                <!--<requestFocus/>-->
 
             </EditText>
 
