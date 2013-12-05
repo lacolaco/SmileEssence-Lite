@@ -41,6 +41,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
                                 {
                                     refreshView.onRefreshComplete();
                                     refreshView.getRefreshableView().setSelectionFromTop(current - old + 1, 0);
+                                    Notificator.info((current - old) + "件読み込みました");
                                 }
                             }.post();
                         }
@@ -66,6 +67,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
     @Override
     public void onPullUpToRefresh(final PullToRefreshBase<ListView> refreshView)
     {
+        final int old = timeline.getStatusList().length;
         MyExecutor.execute(new Runnable()
         {
             @Override
@@ -78,12 +80,14 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
                         @Override
                         public void run()
                         {
+                            final int current = timeline.getStatusList().length;
                             new UiHandler()
                             {
                                 @Override
                                 public void run()
                                 {
                                     refreshView.onRefreshComplete();
+                                    Notificator.info((current - old) + "件読み込みました");
                                 }
                             }.post();
                         }

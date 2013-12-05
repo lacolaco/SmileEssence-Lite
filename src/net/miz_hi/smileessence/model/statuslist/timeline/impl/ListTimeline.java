@@ -4,7 +4,6 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
-import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.task.impl.GetListTimelineTask;
 import twitter4j.Paging;
 
@@ -40,7 +39,6 @@ public class ListTimeline extends Timeline
                         addToTop(status);
                     }
                     applyForce();
-                    Notificator.info(result.size() + "件読み込みました");
                 }
             }.setCallBack(callback).callAsync();
         }
@@ -57,7 +55,6 @@ public class ListTimeline extends Timeline
                         addToTop(status);
                     }
                     applyForce();
-                    Notificator.info(result.size() + "件読み込みました");
                 }
             }.setCallBack(callback).callAsync();
         }
@@ -81,7 +78,6 @@ public class ListTimeline extends Timeline
                         addToBottom(status);
                     }
                     applyForce();
-                    Notificator.info(result.size() + "件読み込みました");
                 }
             }.setCallBack(callback).callAsync();
         }
@@ -97,7 +93,6 @@ public class ListTimeline extends Timeline
                         addToBottom(status);
                     }
                     applyForce();
-                    Notificator.info(result.size() + "件読み込みました");
                 }
             }.setCallBack(callback).callAsync();
         }
