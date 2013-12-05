@@ -4,6 +4,7 @@ import android.widget.ListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
+import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.util.UiHandler;
 
 public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListener2<ListView>
@@ -19,6 +20,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
     @Override
     public void onPullDownToRefresh(final PullToRefreshBase<ListView> refreshView)
     {
+        final int old = timeline.getStatusList().length;
         MyExecutor.execute(new Runnable()
         {
             @Override
@@ -26,20 +28,37 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
             {
                 try
                 {
-                    timeline.loadNewer().get();
+                    timeline.loadNewer(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            final int current = timeline.getStatusList().length;
+                            new UiHandler()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    refreshView.onRefreshComplete();
+                                    refreshView.getRefreshableView().setSelectionFromTop(current - old + 1, 0);
+                                }
+                            }.post();
+                        }
+                    }).get();
                 }
                 catch (Exception e)
                 {
                     e.printStackTrace();
-                }
-                new UiHandler()
-                {
-                    @Override
-                    public void run()
+                    Notificator.alert("更新に失敗しました");
+                    new UiHandler()
                     {
-                        refreshView.onRefreshComplete();
-                    }
-                }.post();
+                        @Override
+                        public void run()
+                        {
+                            refreshView.onRefreshComplete();
+                        }
+                    }.post();
+                }
             }
         });
     }
@@ -54,20 +73,35 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
             {
                 try
                 {
-                    timeline.loadOlder().get();
+                    timeline.loadOlder(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            new UiHandler()
+                            {
+                                @Override
+                                public void run()
+                                {
+                                    refreshView.onRefreshComplete();
+                                }
+                            }.post();
+                        }
+                    }).get();
                 }
                 catch (Exception e)
                 {
                     e.printStackTrace();
-                }
-                new UiHandler()
-                {
-                    @Override
-                    public void run()
+                    Notificator.alert("更新に失敗しました");
+                    new UiHandler()
                     {
-                        refreshView.onRefreshComplete();
-                    }
-                }.post();
+                        @Override
+                        public void run()
+                        {
+                            refreshView.onRefreshComplete();
+                        }
+                    }.post();
+                }
             }
         });
     }

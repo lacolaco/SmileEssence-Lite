@@ -4,6 +4,7 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
+import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.task.impl.SearchTask;
 import net.miz_hi.smileessence.twitter.ResponseConverter;
@@ -30,7 +31,6 @@ public class SearchTimeline extends Timeline
     public SearchTimeline(String queryString)
     {
         this.queryString = queryString;
-        initQuery();
     }
 
     private void initQuery()
@@ -43,8 +43,9 @@ public class SearchTimeline extends Timeline
     }
 
     @Override
-    public Future loadNewer()
+    public Future loadNewer(Runnable callback)
     {
+        initQuery();
         if (getStatusList().length > 0)
         {
             maxId = ((TweetModel) getStatus(0)).statusId;
@@ -54,6 +55,7 @@ public class SearchTimeline extends Timeline
                 @Override
                 public void onPostExecute(QueryResult result)
                 {
+                    int count = 0;
                     maxId = result.getMaxId();
                     List<Status> statuses = result.getTweets();
                     Collections.reverse(statuses);
@@ -64,10 +66,12 @@ public class SearchTimeline extends Timeline
                             continue;
                         }
                         addToTop(ResponseConverter.convert(status));
+                        count++;
                     }
                     applyForce();
+                    Notificator.info(count + "件読み込みました");
                 }
-            }.callAsync();
+            }.setCallBack(callback).callAsync();
         }
         else
         {
@@ -76,6 +80,7 @@ public class SearchTimeline extends Timeline
                 @Override
                 public void onPostExecute(QueryResult result)
                 {
+                    int count = 0;
                     List<Status> statuses = result.getTweets();
                     Collections.reverse(statuses);
                     for (Status status : statuses)
@@ -85,16 +90,19 @@ public class SearchTimeline extends Timeline
                             continue;
                         }
                         addToTop(ResponseConverter.convert(status));
+                        count++;
                     }
                     applyForce();
+                    Notificator.info(count + "件読み込みました");
                 }
-            }.callAsync();
+            }.setCallBack(callback).callAsync();
         }
     }
 
     @Override
-    public Future loadOlder()
+    public Future loadOlder(Runnable callback)
     {
+        initQuery();
         if (getStatusList().length > 0)
         {
             minId = ((TweetModel) getStatus(getStatusList().length - 1)).statusId;
@@ -104,6 +112,7 @@ public class SearchTimeline extends Timeline
                 @Override
                 public void onPostExecute(QueryResult result)
                 {
+                    int count = 0;
                     minId = result.getSinceId();
                     List<Status> statuses = result.getTweets();
                     for (Status status : statuses)
@@ -113,10 +122,12 @@ public class SearchTimeline extends Timeline
                             continue;
                         }
                         addToBottom(ResponseConverter.convert(status));
+                        count++;
                     }
                     applyForce();
+                    Notificator.info(count + "件読み込みました");
                 }
-            }.callAsync();
+            }.setCallBack(callback).callAsync();
         }
         else
         {
@@ -125,6 +136,7 @@ public class SearchTimeline extends Timeline
                 @Override
                 public void onPostExecute(QueryResult result)
                 {
+                    int count = 0;
                     List<Status> statuses = result.getTweets();
                     for (Status status : statuses)
                     {
@@ -133,10 +145,12 @@ public class SearchTimeline extends Timeline
                             continue;
                         }
                         addToBottom(ResponseConverter.convert(status));
+                        count++;
                     }
                     applyForce();
+                    Notificator.info(count + "件読み込みました");
                 }
-            }.callAsync();
+            }.setCallBack(callback).callAsync();
         }
     }
 

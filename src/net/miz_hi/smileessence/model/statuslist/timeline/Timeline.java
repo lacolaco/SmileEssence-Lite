@@ -7,8 +7,18 @@ import java.util.concurrent.Future;
 public abstract class Timeline extends StatusList
 {
 
-    public abstract Future loadNewer();
+    public Future loadNewer()
+    {
+        return loadNewer(null);
+    }
 
-    public abstract Future loadOlder();
+    public Future loadOlder()
+    {
+        return loadOlder(null);
+    }
+
+    public abstract Future loadNewer(Runnable callback);
+
+    public abstract Future loadOlder(Runnable callback);
 
 }

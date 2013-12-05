@@ -4,6 +4,7 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
+import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.task.impl.GetListTimelineTask;
 import twitter4j.Paging;
 
@@ -23,7 +24,7 @@ public class ListTimeline extends Timeline
     }
 
     @Override
-    public Future loadNewer()
+    public Future loadNewer(Runnable callback)
     {
         if (getStatusList().length > 0)
         {
@@ -39,8 +40,9 @@ public class ListTimeline extends Timeline
                         addToTop(status);
                     }
                     applyForce();
+                    Notificator.info(result.size() + "件読み込みました");
                 }
-            }.callAsync();
+            }.setCallBack(callback).callAsync();
         }
         else
         {
@@ -55,13 +57,14 @@ public class ListTimeline extends Timeline
                         addToTop(status);
                     }
                     applyForce();
+                    Notificator.info(result.size() + "件読み込みました");
                 }
-            }.callAsync();
+            }.setCallBack(callback).callAsync();
         }
     }
 
     @Override
-    public Future loadOlder()
+    public Future loadOlder(Runnable callback)
     {
         if (getStatusList().length > 0)
         {
@@ -78,8 +81,9 @@ public class ListTimeline extends Timeline
                         addToBottom(status);
                     }
                     applyForce();
+                    Notificator.info(result.size() + "件読み込みました");
                 }
-            }.callAsync();
+            }.setCallBack(callback).callAsync();
         }
         else
         {
@@ -93,8 +97,9 @@ public class ListTimeline extends Timeline
                         addToBottom(status);
                     }
                     applyForce();
+                    Notificator.info(result.size() + "件読み込みました");
                 }
-            }.callAsync();
+            }.setCallBack(callback).callAsync();
         }
     }
 

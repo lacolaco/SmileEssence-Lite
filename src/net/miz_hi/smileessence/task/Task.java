@@ -12,9 +12,10 @@ public abstract class Task<T> implements Callable<T>
 
     protected Runnable callback;
 
-    public void setCallBack(Runnable callback)
+    public Task<T> setCallBack(Runnable callback)
     {
         this.callback = callback;
+        return this;
     }
 
     public Future<T> callAsync()
