@@ -30,6 +30,7 @@ public class MainActivity extends FragmentActivity
 
     private static MainActivity instance;
     public MainActivitySystem system;
+    public PostSystem postSystem;
     private ViewPager pager;
 
     public static MainActivity getInstance()
@@ -45,7 +46,7 @@ public class MainActivity extends FragmentActivity
         setContentView(R.layout.main_layout);
         instance = this;
         system = new MainActivitySystem();
-        PostSystem.init();
+        postSystem = PostSystem.init();
         StatusListManager.initStatusLists(instance);
         initializeViews();
         IntentRouter.onNewIntent(getIntent());
@@ -57,6 +58,7 @@ public class MainActivity extends FragmentActivity
         PageController.init(instance, pager);
         pager.setAdapter(PageController.getInstance().getAdapter());
         pager.destroyDrawingCache();
+        pager.setOffscreenPageLimit(pager.getChildCount());
         PageController.getInstance().move(1);
 
         TitlePageIndicator indicator = (TitlePageIndicator) findViewById(R.id.indicator);

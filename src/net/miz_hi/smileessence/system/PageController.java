@@ -85,6 +85,7 @@ public class PageController
             }
         }
         adapter.add(fragment);
+        pager.setOffscreenPageLimit(pager.getChildCount());
     }
 
     public void removePage()
@@ -101,6 +102,7 @@ public class PageController
         list.addAll(adapter.getList());
         adapter = new NamedFragmentPagerAdapter(activity.getSupportFragmentManager(), list); //Refresh page caches
         pager.setAdapter(instance.adapter);
+        pager.setOffscreenPageLimit(pager.getChildCount());
     }
 
     public NamedFragment getPage(int index)

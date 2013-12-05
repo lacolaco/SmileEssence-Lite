@@ -21,9 +21,9 @@ public class PostSystem
         state = new PostPageState();
     }
 
-    public static void init()
+    public static PostSystem init()
     {
-        instance = new PostSystem();
+        return instance = new PostSystem();
     }
 
     public static PostPageState getState()

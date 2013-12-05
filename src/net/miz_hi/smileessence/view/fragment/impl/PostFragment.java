@@ -88,6 +88,10 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 return widget.getSelectionEnd() == widget.length() || super.right(widget, buffer);
             }
         });
+        if (Client.<Boolean>getPreferenceValue(EnumPreferenceKey.OPEN_IME))
+        {
+            editText.requestFocus();
+        }
         imageButtonSubmit.setOnClickListener(this);
         imageButtonDelete.setOnClickListener(this);
         imageButtonMenu.setOnClickListener(this);
