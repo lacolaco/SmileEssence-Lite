@@ -52,6 +52,11 @@ public abstract class StatusList
         return list.toArray(new IStatusModel[list.size()]);
     }
 
+    public synchronized int getCount()
+    {
+        return list.size();
+    }
+
     public synchronized void apply()
     {
         StatusListManager.getAdapter(this).notifyAdapter();

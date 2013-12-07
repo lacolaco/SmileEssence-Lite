@@ -20,7 +20,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
     @Override
     public void onPullDownToRefresh(final PullToRefreshBase<ListView> refreshView)
     {
-        final int old = timeline.getStatusList().length;
+        final int old = timeline.getCount();
         MyExecutor.execute(new Runnable()
         {
             @Override
@@ -33,7 +33,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
                         @Override
                         public void run()
                         {
-                            final int current = timeline.getStatusList().length;
+                            final int current = timeline.getCount();
                             new UiHandler()
                             {
                                 @Override
@@ -67,7 +67,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
     @Override
     public void onPullUpToRefresh(final PullToRefreshBase<ListView> refreshView)
     {
-        final int old = timeline.getStatusList().length;
+        final int old = timeline.getCount();
         MyExecutor.execute(new Runnable()
         {
             @Override
@@ -80,7 +80,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
                         @Override
                         public void run()
                         {
-                            final int current = timeline.getStatusList().length;
+                            final int current = timeline.getCount();
                             new UiHandler()
                             {
                                 @Override
