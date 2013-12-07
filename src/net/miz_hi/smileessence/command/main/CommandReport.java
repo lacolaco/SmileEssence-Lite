@@ -15,7 +15,7 @@ public class CommandReport extends MenuCommand
     @Override
     public String getName()
     {
-        return "作者にレポートを送る";
+        return "作者へメッセージを送る";
     }
 
     @Override
