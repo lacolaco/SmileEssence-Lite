@@ -127,6 +127,7 @@ public class TweetMenu extends ExpandMenuDialog
         list.add(new StatusCommandTranslate(activity, status));
         list.add(new CommandAddTemplate(status.getText()));
         list.add(new StatusCommandClipboard(status));
+        list.add(new StatusCommandShare(status, activity));
         list.add(new StatusCommandOpenUrl(status, activity));
         return list;
     }
