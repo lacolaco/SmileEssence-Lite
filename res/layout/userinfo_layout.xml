@@ -1,292 +1,293 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <LinearLayout
-            android:layout_width="fill_parent"
+    <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            >
 
-        <FrameLayout
+        <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/user_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:layout_gravity="top"/>
+
+        <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:gravity="center_horizontal"
+                android:background="#a018181a">
 
             <com.android.volley.toolbox.NetworkImageView
-                    android:id="@+id/user_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="top"/>
-
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="vertical"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:gravity="center_horizontal"
-                    android:background="#b0535353">
-
-                <com.android.volley.toolbox.NetworkImageView
-                        android:id="@+id/user_icon"
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:layout_margin="5dp"
-                        android:background="@android:color/background_light"
-                        android:clickable="true"/>
-
-                <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal"
-                        android:padding="5dp"
-                        >
-
-
-                    <TextView
-                            android:id="@+id/user_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="name"
-                            android:textColor="@android:color/background_light"
-                            android:textSize="20dp"/>
-
-                    <TextView
-                            android:id="@+id/user_screenname"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="screen_name"
-                            android:textColor="@android:color/holo_blue_light"
-                            android:textSize="16dp"
-                            android:clickable="true"/>
-
-                    <TextView
-                            android:id="@+id/user_locate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="locate"
-                            android:textColor="@android:color/background_light"/>
-
-                    <TextView
-                            android:id="@+id/user_homepage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="url"
-                            android:autoLink="web"/>
-                </LinearLayout>
-
-            </LinearLayout>
+                    android:id="@+id/user_icon"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_margin="5dp"
+                    android:background="@android:color/background_light"
+                    android:clickable="true"/>
 
             <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|bottom"
-                    android:paddingBottom="10dp"
                     android:orientation="vertical"
-                    android:gravity="right"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
                     >
 
-                <ImageView
-                        android:id="@+id/user_reload"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:src="@drawable/icon_refresh_white"
-                        style="@style/transBtn"
-                        android:clickable="true"
-                        android:contentDescription="reload"/>
-
-                <ImageView
-                        android:id="@+id/user_menu"
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:src="@drawable/icon_row_white"
-                        style="@style/transBtn"
-                        android:clickable="true"
-                        android:contentDescription="menu"/>
-            </LinearLayout>
-
-        </FrameLayout>
-
-        <FrameLayout
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="@color/Gray3"/>
-
-        <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:stretchColumns="0,1,2,3"
-                android:paddingTop="5dp"
-                >
-
-            <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
 
                 <TextView
-                        android:id="@+id/user_count_tweet"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_column="0"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textSize="20dp"
-                        android:textColor="@android:color/holo_blue_light"
-                        android:clickable="true"/>
-
-                <TextView
-                        android:id="@+id/user_count_following"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_column="1"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textSize="20dp"
-                        android:textColor="@android:color/holo_blue_light"
-                        android:clickable="true"/>
-
-                <TextView
-                        android:id="@+id/user_count_followed"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_column="2"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textSize="20dp"
-                        android:textColor="@android:color/holo_blue_light"
-                        android:clickable="true"/>
-
-                <TextView
-                        android:id="@+id/user_count_favorite"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:gravity="center_horizontal"
-                        android:text="0"
-                        android:textSize="20dp"
-                        android:textColor="@android:color/holo_blue_light"
-                        android:clickable="true"/>
-
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_column="0"
-                        android:gravity="center_horizontal"
-                        android:text="Tweets"
-                        android:textColor="@color/Gray"/>
-
-                <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_column="1"
-                        android:gravity="center_horizontal"
-                        android:text="Following"
-                        android:textColor="@color/Gray"/>
-
-                <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_column="2"
-                        android:gravity="center_horizontal"
-                        android:text="Followers"
-                        android:textColor="@color/Gray"/>
-
-                <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_column="3"
-                        android:gravity="center_horizontal"
-                        android:text="Favorites"
-                        android:textColor="@color/Gray"/>
-
-            </TableRow>
-
-        </TableLayout>
-
-        <FrameLayout
-                android:id="@+id/frame1"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/Gray3"/>
-
-        <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"
-                >
-
-            <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginTop="15dp"
-                    android:layout_centerVertical="true">
-
-                <TextView
-                        android:id="@+id/user_isfollowed"
+                        android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="followed"
-                        android:textColor="@color/Gray"/>
+                        android:text="name"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="20dp"/>
 
                 <TextView
-                        android:id="@+id/user_isprotected"
+                        android:id="@+id/user_screenname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="非公開アカウント"
-                        android:textColor="@color/Gray"/>
+                        android:text="screen_name"
+                        android:textColor="@android:color/holo_blue_light"
+                        android:textSize="16dp"
+                        android:clickable="true"/>
+
+                <TextView
+                        android:id="@+id/user_locate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="locate"
+                        android:textColor="@android:color/background_light"/>
+
+                <TextView
+                        android:id="@+id/user_homepage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="url"
+                        android:autoLink="web"/>
             </LinearLayout>
 
-            <Button
-                    android:id="@+id/user_follow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="フォローする"
-                    android:textColor="@color/White"
-                    android:textSize="15dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/round_blue"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:paddingBottom="10dp"
+                android:orientation="vertical"
+                android:gravity="right"
+                >
+
+            <ImageView
+                    android:id="@+id/user_reload"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/icon_refresh_white"
                     style="@style/transBtn"
-                    />
+                    android:clickable="true"
+                    android:contentDescription="reload"/>
 
-        </RelativeLayout>
+            <ImageView
+                    android:id="@+id/user_menu"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/icon_row_white"
+                    style="@style/transBtn"
+                    android:clickable="true"
+                    android:contentDescription="menu"/>
+        </LinearLayout>
 
+    </FrameLayout>
 
-        <FrameLayout
-                android:id="@+id/frame2"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:background="@color/Gray3"/>
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/Gray3"/>
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1,2,3"
+            android:paddingTop="5dp"
+            >
+
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/user_count_tweet"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:gravity="center_horizontal"
+                    android:text="0"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:clickable="true"/>
+
+            <TextView
+                    android:id="@+id/user_count_following"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="center_horizontal"
+                    android:text="0"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:clickable="true"/>
+
+            <TextView
+                    android:id="@+id/user_count_followed"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:gravity="center_horizontal"
+                    android:text="0"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:clickable="true"/>
+
+            <TextView
+                    android:id="@+id/user_count_favorite"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:gravity="center_horizontal"
+                    android:text="0"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:clickable="true"/>
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:gravity="center_horizontal"
+                    android:text="Tweets"
+                    android:textColor="@color/Gray"/>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:gravity="center_horizontal"
+                    android:text="Following"
+                    android:textColor="@color/Gray"/>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:gravity="center_horizontal"
+                    android:text="Followers"
+                    android:textColor="@color/Gray"/>
+
+            <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="3"
+                    android:gravity="center_horizontal"
+                    android:text="Favorites"
+                    android:textColor="@color/Gray"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    <FrameLayout
+            android:id="@+id/frame1"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/Gray3"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            >
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="15dp"
+                android:layout_centerVertical="true">
+
+            <TextView
+                    android:id="@+id/user_isfollowed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="followed"
+                    android:textColor="@color/Gray"/>
+
+            <TextView
+                    android:id="@+id/user_isprotected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="非公開アカウント"
+                    android:textColor="@color/Gray"/>
+        </LinearLayout>
+
+        <Button
+                android:id="@+id/user_follow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="フォローする"
+                android:textColor="@color/White"
+                android:textSize="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_blue"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                style="@style/transBtn"
+                />
+
+    </RelativeLayout>
+
+    <FrameLayout
+            android:id="@+id/frame2"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/Gray3"/>
+
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
         <TextView
                 android:id="@+id/user_bio"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:text="bio"
                 android:textColor="@color/Gray"/>
-    </LinearLayout>
 
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

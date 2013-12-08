@@ -231,7 +231,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
             case R.id.user_follow:
             {
                 followButton.setText("読み込み中");
-                followButton.setBackgroundColor(Client.getColor(R.color.Gray3));
+                followButton.setBackgroundDrawable(Client.getResource().getDrawable(R.drawable.round_gray));
                 Boolean isFollowing = v.getTag() != null ? (Boolean) v.getTag() : false;
                 if (isFollowing)
                 {
