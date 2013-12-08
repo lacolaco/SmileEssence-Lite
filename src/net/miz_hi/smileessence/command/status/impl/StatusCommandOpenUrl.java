@@ -4,6 +4,7 @@ import android.app.Activity;
 import net.miz_hi.smileessence.command.CommandOpenUrl;
 import net.miz_hi.smileessence.command.status.StatusCommand;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
+import net.miz_hi.smileessence.twitter.TwitterUtil;
 
 public class StatusCommandOpenUrl extends StatusCommand
 {
@@ -19,7 +20,7 @@ public class StatusCommandOpenUrl extends StatusCommand
     @Override
     public void workOnUiThread()
     {
-        new CommandOpenUrl(activity, String.format("https://twitter.com/%s/status/%s", status.getOriginal().user.screenName, status.getOriginal().statusId)).run();
+        new CommandOpenUrl(activity, TwitterUtil.getTweetURL(status)).run();
     }
 
     @Override
