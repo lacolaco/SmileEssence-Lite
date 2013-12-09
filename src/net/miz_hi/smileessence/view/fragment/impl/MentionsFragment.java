@@ -20,11 +20,6 @@ public class MentionsFragment extends NamedFragment
     {
         View page = inflater.inflate(R.layout.listpage_refresh_layout, container, false);
         PullToRefreshListView listView = (PullToRefreshListView) page.findViewById(R.id.listpage_listview);
-        //        ProgressBar progress = new ProgressBar(getActivity());
-        //        progress.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        //        progress.setVisibility(View.GONE);
-        //        ((ViewGroup) listView.getParent()).addView(progress);
-        //        listView.setEmptyView(progress);
         CustomListAdapter<?> adapter = StatusListManager.getAdapter(StatusListManager.getMentionsTimeline());
         listView.setAdapter(adapter);
         listView.setOnScrollListener(new TimelineScrollListener(adapter));

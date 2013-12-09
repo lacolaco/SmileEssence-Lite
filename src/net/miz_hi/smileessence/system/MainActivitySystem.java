@@ -145,9 +145,9 @@ public class MainActivitySystem
                 }
             }.callAsync();
 
-            StatusListManager.getHomeTimeline().loadNewer();
+            StatusListManager.getHomeTimeline().loadOlder();
 
-            StatusListManager.getMentionsTimeline().loadNewer();
+            StatusListManager.getMentionsTimeline().loadOlder();
         }
         else
         {

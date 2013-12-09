@@ -40,7 +40,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
                                 public void run()
                                 {
                                     refreshView.onRefreshComplete();
-                                    refreshView.getRefreshableView().setSelectionFromTop(current - old, 0);
+                                    refreshView.getRefreshableView().setSelectionFromTop(old == 0 ? 0 : current - old, 0);
                                     Notificator.info((current - old) + "件読み込みました");
                                 }
                             }.post();
