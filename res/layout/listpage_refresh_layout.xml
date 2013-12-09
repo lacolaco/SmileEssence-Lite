@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             ptr:ptrMode="both"
-            android:overScrollMode="ifContentScrolls"
+            android:overScrollMode="never"
             android:dividerHeight="1px">
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
