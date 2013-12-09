@@ -19,7 +19,6 @@ import net.miz_hi.smileessence.data.list.ListManager;
 import net.miz_hi.smileessence.data.search.Search;
 import net.miz_hi.smileessence.data.search.SearchManager;
 import net.miz_hi.smileessence.dialog.SingleButtonDialog;
-import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
 import net.miz_hi.smileessence.model.statuslist.timeline.impl.ListTimeline;
 import net.miz_hi.smileessence.model.statuslist.timeline.impl.SearchTimeline;
@@ -27,17 +26,12 @@ import net.miz_hi.smileessence.notification.Notificator;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
-import net.miz_hi.smileessence.task.impl.GetHomeTimelineTask;
-import net.miz_hi.smileessence.task.impl.GetMentionsTask;
 import net.miz_hi.smileessence.task.impl.GetUserTask;
 import net.miz_hi.smileessence.twitter.ResponseConverter;
 import net.miz_hi.smileessence.twitter.TwitterManager;
 import net.miz_hi.smileessence.view.fragment.impl.ListFragment;
 import net.miz_hi.smileessence.view.fragment.impl.SearchFragment;
-import twitter4j.Paging;
 import twitter4j.User;
-
-import java.util.List;
 
 public class MainActivitySystem
 {
@@ -151,32 +145,9 @@ public class MainActivitySystem
                 }
             }.callAsync();
 
-            new GetHomeTimelineTask(Client.getMainAccount(), new Paging(1, 50))
-            {
-                @Override
-                public void onPostExecute(List<TweetModel> result)
-                {
-                    Timeline timeline = StatusListManager.getHomeTimeline();
-                    for (TweetModel tweetModel : result)
-                    {
-                        timeline.addToBottom(tweetModel);
-                    }
-                    timeline.applyForce();
-                }
-            }.callAsync();
-            new GetMentionsTask(Client.getMainAccount(), new Paging(1, 50))
-            {
-                @Override
-                public void onPostExecute(List<TweetModel> result)
-                {
-                    Timeline timeline = StatusListManager.getMentionsTimeline();
-                    for (TweetModel tweetModel : result)
-                    {
-                        timeline.addToBottom(tweetModel);
-                    }
-                    timeline.applyForce();
-                }
-            }.callAsync();
+            StatusListManager.getHomeTimeline().loadNewer();
+
+            StatusListManager.getMentionsTimeline().loadNewer();
         }
         else
         {
