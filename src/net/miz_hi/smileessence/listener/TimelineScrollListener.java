@@ -38,6 +38,7 @@ public class TimelineScrollListener implements OnScrollListener
                 ((ListView) view).setSelectionFromTop(addCount, 0);
                 if (addCount > 0)
                 {
+                    adapter.setCanNotifyOnChange(false);
                     Notificator.info(addCount + "件の新着があります");
                 }
             }
