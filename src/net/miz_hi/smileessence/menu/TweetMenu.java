@@ -45,6 +45,8 @@ public class TweetMenu extends ExpandMenuDialog
 
         View commands = header.findViewById(R.id.status_commands);
         commands.setVisibility(View.VISIBLE);
+        View star = header.findViewById(R.id.status_favorited);
+        star.setVisibility(View.GONE);
         ImageButton reply = (ImageButton) header.findViewById(R.id.status_reply);
         ImageButton retweet = (ImageButton) header.findViewById(R.id.status_retweet);
         ImageButton favorite = (ImageButton) header.findViewById(R.id.status_favorite);
