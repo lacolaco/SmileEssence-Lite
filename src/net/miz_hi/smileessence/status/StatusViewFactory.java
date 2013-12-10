@@ -27,6 +27,7 @@ public class StatusViewFactory
     TextView textContent;
     TextView textBottom;
     ImageView favorited;
+    View commands;
     int colorTop;
     int colorContent;
     int colorBottom;
@@ -47,11 +48,12 @@ public class StatusViewFactory
         {
             factory.baseView = baseView;
         }
-        factory.icon = (NetworkImageView) factory.baseView.findViewById(R.id.imageView_icon);
-        factory.textTop = (TextView) factory.baseView.findViewById(R.id.textView_header);
-        factory.textContent = (TextView) factory.baseView.findViewById(R.id.textView_text);
-        factory.textBottom = (TextView) factory.baseView.findViewById(R.id.textView_footer);
-        factory.favorited = (ImageView) factory.baseView.findViewById(R.id.imageView_favorited);
+        factory.icon = (NetworkImageView) factory.baseView.findViewById(R.id.status_icon);
+        factory.textTop = (TextView) factory.baseView.findViewById(R.id.status_header);
+        factory.textContent = (TextView) factory.baseView.findViewById(R.id.status_text);
+        factory.textBottom = (TextView) factory.baseView.findViewById(R.id.status_footer);
+        factory.favorited = (ImageView) factory.baseView.findViewById(R.id.status_favorited);
+        factory.commands = factory.baseView.findViewById(R.id.status_commands);
         return factory;
     }
 
@@ -59,6 +61,7 @@ public class StatusViewFactory
     {
         // initialize
         favorited.setVisibility(View.GONE);
+        commands.setVisibility(View.GONE);
         int textSize = Client.getTextSize();
         textTop.setTextSize(textSize);
         textContent.setTextSize(textSize);

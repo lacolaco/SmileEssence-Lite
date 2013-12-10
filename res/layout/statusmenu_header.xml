@@ -1,85 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearLayout1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:gravity="center_horizontal"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp" >
-
-    <FrameLayout
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent" />
-
-    <FrameLayout
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@color/Gray"
-        android:padding="1dp" >
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:baselineAligned="false"
+        android:layout_gravity="right">
 
-        <ImageView
-            android:id="@+id/statusmenu_reply"
-            style="@style/whiteBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:cropToPadding="false"
-            android:padding="5dp"
-            android:src="@drawable/icon_reply" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent" />
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@color/Gray"
-        android:padding="1dp" >
-
-        <ImageView
-            android:id="@+id/statusmenu_retweet"
-            style="@style/whiteBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+    <ImageButton
+            android:id="@+id/status_reply"
+            style="@style/transBtn"
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:padding="0dp"
             android:layout_weight="1"
-            android:padding="5dp"
-            android:src="@drawable/icon_retweet" />
-    </FrameLayout>
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_message"
+            android:contentDescription="reply"
+            />
 
-    <FrameLayout
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent" />
-
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@color/Gray"
-        android:padding="1dp" >
-
-        <ImageView
-            android:id="@+id/statusmenu_favorite"
-            style="@style/whiteBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
+    <ImageButton
+            android:id="@+id/status_favorite"
+            style="@style/transBtn"
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:padding="0dp"
             android:layout_weight="1"
-            android:padding="5dp"
-            android:src="@drawable/icon_favorite" />
-    </FrameLayout>
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_favorite_off"
+            android:contentDescription="favorite"
+            />
 
-    <FrameLayout
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent" />
+    <ImageButton
+            android:id="@+id/status_retweet"
+            style="@style/transBtn"
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:padding="0dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_retweet_off"
+            android:contentDescription="retweet"
+            />
+
+    <ImageButton
+            android:id="@+id/status_delete"
+            style="@style/transBtn"
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:padding="0dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icon_garbage"
+            android:contentDescription="delete"
+            />
 
 </LinearLayout>
