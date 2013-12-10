@@ -207,14 +207,14 @@ public class TweetModel implements Comparable<TweetModel>, IStatusModel
         return original.retweetCount;
     }
 
-    public boolean isRetweetByMe()
+    public boolean hasMyRetweetId()
     {
-        return myRetweetId > -1L;
+        return original.myRetweetId > -1L;
     }
 
     public long getMyRetweetId()
     {
-        return myRetweetId;
+        return original.myRetweetId;
     }
 
     /*

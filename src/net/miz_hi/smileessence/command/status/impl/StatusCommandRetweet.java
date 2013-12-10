@@ -27,7 +27,7 @@ public class StatusCommandRetweet extends StatusCommand implements IConfirmable
     @Override
     public boolean getDefaultVisibility()
     {
-        return !status.getOriginal().user.isProtected;
+        return !status.user.isMe() && !status.getUser().isMe() && !status.getOriginal().user.isProtected;
     }
 
 }

@@ -1,6 +1,8 @@
 package net.miz_hi.smileessence.cache;
 
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
+import net.miz_hi.smileessence.task.impl.ShowTweetTask;
+import net.miz_hi.smileessence.twitter.ResponseConverter;
 import twitter4j.Status;
 
 import java.util.ArrayList;
@@ -32,6 +34,17 @@ public class TweetCache
         if (status.isRetweet())
         {
             instance.readRetweetList.add(status.getId());
+            new ShowTweetTask(status.getRetweetedStatus().getId())
+            {
+                @Override
+                public void onPostExecute(Status result)
+                {
+                    if (result != null)
+                    {
+                        ResponseConverter.convert(result);
+                    }
+                }
+            }.callAsync();
         }
         return model;
     }

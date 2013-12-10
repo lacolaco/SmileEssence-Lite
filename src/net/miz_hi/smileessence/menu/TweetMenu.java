@@ -3,9 +3,7 @@ package net.miz_hi.smileessence.menu;
 import android.app.Activity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
-import net.miz_hi.smileessence.Client;
+import android.widget.ImageButton;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.command.CommandAddTemplate;
 import net.miz_hi.smileessence.command.CommandOpenUrl;
@@ -43,38 +41,56 @@ public class TweetMenu extends ExpandMenuDialog
 
     private View getHeaderView()
     {
-        View viewStatus = StatusViewFactory.newInstance(inflater, null).getStatusView(status);
-        LayoutParams p = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        p.setMargins(5, 5, 5, 0);
-        viewStatus.setLayoutParams(p);
+        View header = StatusViewFactory.newInstance(inflater, null).getStatusView(status);
 
-        View commands = inflater.inflate(R.layout.statusmenu_header, null);
-        View reply = commands.findViewById(R.id.statusmenu_reply);
-        View retweet = commands.findViewById(R.id.statusmenu_retweet);
-        View favorite = commands.findViewById(R.id.statusmenu_favorite);
+        View commands = header.findViewById(R.id.status_commands);
+        commands.setVisibility(View.VISIBLE);
+        ImageButton reply = (ImageButton) header.findViewById(R.id.status_reply);
+        ImageButton retweet = (ImageButton) header.findViewById(R.id.status_retweet);
+        ImageButton favorite = (ImageButton) header.findViewById(R.id.status_favorite);
+        ImageButton delete = (ImageButton) header.findViewById(R.id.status_delete);
 
-        final StatusCommandReply commandReply = new StatusCommandReply(status);
         final StatusCommandRetweet commandRetweet = new StatusCommandRetweet(status);
-        final StatusCommandFavorite commandFavorite = new StatusCommandFavorite(status);
 
+        //init
         if (!commandRetweet.getDefaultVisibility())
         {
-            retweet.setVisibility(View.INVISIBLE);
+            retweet.setVisibility(View.GONE);
+        }
+        if (!status.user.isMe())
+        {
+            delete.setVisibility(View.GONE);
+        }
+        //on/off
+        if (status.isFavorited())
+        {
+            favorite.setImageResource(R.drawable.icon_favorite_on);
+            favorite.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    new StatusCommandUnfavorite(status).run();
+                    dispose();
+                }
+            });
+        }
+        else
+        {
+            favorite.setImageResource(R.drawable.icon_favorite_off);
+            favorite.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    new StatusCommandFavorite(status).run();
+                    dispose();
+                }
+            });
         }
 
-        reply.setOnClickListener(new OnClickListener()
-        {
-
-            @Override
-            public void onClick(View arg0)
-            {
-                commandReply.run();
-                dispose();
-            }
-        });
         retweet.setOnClickListener(new OnClickListener()
         {
-
             @Override
             public void onClick(View v)
             {
@@ -82,44 +98,43 @@ public class TweetMenu extends ExpandMenuDialog
                 dispose();
             }
         });
-        favorite.setOnClickListener(new OnClickListener()
+
+        reply.setOnClickListener(new OnClickListener()
         {
 
             @Override
-            public void onClick(View v)
+            public void onClick(View arg0)
             {
-                commandFavorite.run();
+                new StatusCommandReply(status).run();
                 dispose();
             }
         });
 
-        commands.setLayoutParams(p);
+        delete.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                new StatusCommandDelete(status).run();
+                dispose();
+            }
+        });
 
-        LinearLayout header = new LinearLayout(activity);
-        header.setOrientation(LinearLayout.VERTICAL);
-
-        header.setBackgroundColor(Client.getColor(R.color.White));
-        header.addView(viewStatus);
-        header.addView(commands);
         return header;
     }
 
     public List<ICommand> getStatusMenu()
     {
         List<ICommand> list = new ArrayList<ICommand>();
-        list.add(new StatusCommandDelete(status));
         list.add(new StatusCommandReplyToAll(status));
         list.add(new StatusCommandFavAndRetweet(status));
         list.add(new StatusCommandChaseTalk(activity, status));
-        list.add(new StatusCommandUnfavorite(status));
         list.add(new StatusCommandCopy(status));
         list.add(new StatusCommandTofuBuster(activity, status));
         list.add(new StatusCommandUnOffRetweet(status));
         list.add(new StatusCommandWarotaRT(status));
         list.add(new StatusCommandMakeAnonymous(status));
         list.add(new StatusCommandNanigaja(status));
-        //        list.add(new StatusCommandUnOffFav(status));
-        //        list.add(new StatusCommandThankToFav(status));
         list.add(new StatusCommandCongrats(status));
         list.add(new UserCommandIntroduce(status.getOriginal().user.screenName));
         list.add(new StatusCommandReview(activity, status));
