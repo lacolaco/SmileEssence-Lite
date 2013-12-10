@@ -40,7 +40,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
                                 public void run()
                                 {
                                     refreshView.onRefreshComplete();
-                                    refreshView.getRefreshableView().setSelectionFromTop(old == 0 ? 0 : current - old, 0);
+                                    refreshView.getRefreshableView().setSelection(old == 0 ? 0 : current - old + 1);
                                     Notificator.info((current - old) + "件読み込みました");
                                 }
                             }.post();
@@ -87,6 +87,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
                                 public void run()
                                 {
                                     refreshView.onRefreshComplete();
+                                    refreshView.getRefreshableView().smoothScrollToPositionFromTop(old, 0, 800);
                                     Notificator.info((current - old) + "件読み込みました");
                                 }
                             }.post();
