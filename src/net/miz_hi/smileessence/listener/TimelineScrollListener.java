@@ -34,9 +34,9 @@ public class TimelineScrollListener implements OnScrollListener
                 adapter.notifyDataSetChanged();
                 int after = adapter.getCount();
                 int addCount = after - before;
-                view.setSelection(addCount + 1);
                 if (addCount > 0)
                 {
+                    view.setSelection(addCount + 1);
                     adapter.setCanNotifyOnChange(false);
                     Notificator.info(addCount + "件の新着があります");
                 }
