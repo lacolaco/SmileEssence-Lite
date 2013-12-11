@@ -95,4 +95,8 @@ public class SeekBarDialog
         return dialog.create();
     }
 
+    public int getLevelCorrect()
+    {
+        return levelCorrect;
+    }
 }

@@ -59,6 +59,11 @@
                 android:summaryOff="無効"
                 android:summaryOn="有効"
                 android:defaultValue="false"/>
+        <Preference
+                android:defaultValue="20"
+                android:key="@string/key_setting_requestCount"
+                android:summary="引っ張って更新"
+                android:title="読み込み件数"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="その他">
         <Preference

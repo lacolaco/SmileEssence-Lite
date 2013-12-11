@@ -44,7 +44,32 @@ public class SettingActivity extends PreferenceActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which)
                     {
-                        Client.putPreferenceValue(EnumPreferenceKey.TEXT_SIZE, helper.getProgress() + 8);
+                        Client.putPreferenceValue(EnumPreferenceKey.TEXT_SIZE, helper.getProgress() + helper.getLevelCorrect());
+                        Client.loadPreferences();
+                    }
+                });
+                helper.createSeekBarDialog().show();
+                return true;
+            }
+        });
+
+        Preference requestCount = findPreference(getResources().getString(R.string.key_setting_requestCount));
+        requestCount.setOnPreferenceClickListener(new OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                final SeekBarDialog helper = new SeekBarDialog(SettingActivity.this, "読み込み件数");
+                helper.setSeekBarMax(200);
+                helper.setSeekBarStart(Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT));
+                helper.setLevelCorrect(20);
+                helper.setText("デフォルト = 20");
+                helper.setOnClickListener(new OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        Client.putPreferenceValue(EnumPreferenceKey.REQUEST_COUNT, helper.getProgress() + helper.getLevelCorrect());
                         Client.loadPreferences();
                     }
                 });

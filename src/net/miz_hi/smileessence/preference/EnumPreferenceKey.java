@@ -15,7 +15,8 @@ public enum EnumPreferenceKey
     NAME_STYLE(EnumValueType.STRING, Client.getString(R.string.key_setting_namestyle), Client.getString(R.string.namestyle_s_n)),
     SHOW_READ_RETWEET(EnumValueType.BOOLEAN, Client.getString(R.string.key_setting_read_retweet), true),
     LAST_PRODUCE_DATE(EnumValueType.STRING, "last_produce_date", ""),
-    SEARCH_INCLUDE_RT(EnumValueType.BOOLEAN, Client.getString(R.string.key_setting_search_include_rt), false),;
+    SEARCH_INCLUDE_RT(EnumValueType.BOOLEAN, Client.getString(R.string.key_setting_search_include_rt), false),
+    REQUEST_COUNT(EnumValueType.INTEGER, Client.getString(R.string.key_setting_requestCount), 20),;
 
     private final EnumValueType type;
     private final String key;
