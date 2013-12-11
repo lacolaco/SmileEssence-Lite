@@ -60,10 +60,10 @@ public class SettingActivity extends PreferenceActivity
             public boolean onPreferenceClick(Preference preference)
             {
                 final SeekBarDialog helper = new SeekBarDialog(SettingActivity.this, "読み込み件数");
-                helper.setSeekBarMax(200);
-                helper.setSeekBarStart(Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT));
+                helper.setSeekBarMax(180);
+                helper.setSeekBarStart(Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT) - 20);
                 helper.setLevelCorrect(20);
-                helper.setText("デフォルト = 20");
+                helper.setText("大きすぎると動作が重くなることがあります");
                 helper.setOnClickListener(new OnClickListener()
                 {
                     @Override
