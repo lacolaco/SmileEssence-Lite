@@ -28,7 +28,7 @@ public class SeekBarDialog
         this.activity = activity;
         this.title = title;
         LayoutInflater layoutInflater = LayoutInflater.from(activity);
-        dialogView = layoutInflater.inflate(R.layout.dialog_seekbar_layout, null);
+        dialogView = layoutInflater.inflate(R.layout.dialog_seekbar, null);
         textView = (TextView) dialogView.findViewById(R.id.textView_seekDialog);
         levelView = (TextView) dialogView.findViewById(R.id.textView_seekLevel);
         seekbar = (SeekBar) dialogView.findViewById(R.id.seekBar_seekDialog);
