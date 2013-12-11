@@ -4,6 +4,7 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.tweet.TweetModel;
 import net.miz_hi.smileessence.model.statuslist.timeline.Timeline;
+import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.task.impl.GetUserTimelineTask;
 import twitter4j.Paging;
 
@@ -28,7 +29,7 @@ public class UserTimeline extends Timeline
         if (getStatusList().length > 0)
         {
             long maxId = ((TweetModel) getStatus(0)).statusId;
-            return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20, maxId))
+            return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT), maxId))
             {
                 @Override
                 public void onPostExecute(List<TweetModel> result)
@@ -44,7 +45,7 @@ public class UserTimeline extends Timeline
         }
         else
         {
-            return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20))
+            return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT)))
             {
                 @Override
                 public void onPostExecute(List<TweetModel> result)
@@ -66,7 +67,7 @@ public class UserTimeline extends Timeline
         if (getStatusList().length > 0)
         {
             long minId = ((TweetModel) getStatus(getStatusList().length - 1)).statusId;
-            Paging page = new Paging(1, 20);
+            Paging page = new Paging(1, Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT));
             page.setMaxId(minId);
             return new GetUserTimelineTask(Client.getMainAccount(), userId, page)
             {
@@ -83,7 +84,7 @@ public class UserTimeline extends Timeline
         }
         else
         {
-            return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, 20))
+            return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT)))
             {
                 @Override
                 public void onPostExecute(List<TweetModel> result)

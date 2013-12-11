@@ -20,7 +20,7 @@ public class SearchTimeline extends Timeline
 {
 
     static final String LANG = "ja";
-    static final int COUNT = 20;
+    static final int COUNT = Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT);
 
     String queryString;
     Query query;
