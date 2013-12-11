@@ -87,7 +87,7 @@ public class TimelineRefreshListener implements PullToRefreshBase.OnRefreshListe
                                 public void run()
                                 {
                                     refreshView.onRefreshComplete();
-                                    refreshView.getRefreshableView().smoothScrollToPositionFromTop(old, 0, 800);
+                                    refreshView.getRefreshableView().smoothScrollToPositionFromTop(old, 0, 200);
                                     Notificator.info((current - old) + "件読み込みました");
                                 }
                             }.post();
