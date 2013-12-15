@@ -8,12 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.command.ICommand;
-import net.miz_hi.smileessence.command.IConfirmable;
-import net.miz_hi.smileessence.dialog.ConfirmDialog;
-import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -60,22 +56,9 @@ public class ExpandMenuListAdapter extends BaseExpandableListAdapter
             @Override
             public void onClick(View view)
             {
-                if (item instanceof IConfirmable && Client.<Boolean>getPreferenceValue(EnumPreferenceKey.CONFIRM_DIALOG))
-                {
-                    ConfirmDialog.show(activity, "実行しますか？", new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            item.run();
-                        }
-                    });
-                }
-                else
-                {
-                    item.run();
-                }
+                item.run();
             }
+
         });
         return view;
     }
@@ -130,22 +113,9 @@ public class ExpandMenuListAdapter extends BaseExpandableListAdapter
                 @Override
                 public void onClick(View view)
                 {
-                    if (item instanceof IConfirmable && Client.<Boolean>getPreferenceValue(EnumPreferenceKey.CONFIRM_DIALOG))
-                    {
-                        ConfirmDialog.show(activity, "実行しますか？", new Runnable()
-                        {
-                            @Override
-                            public void run()
-                            {
-                                item.run();
-                            }
-                        });
-                    }
-                    else
-                    {
-                        item.run();
-                    }
+                    item.run();
                 }
+
             });
         }
 

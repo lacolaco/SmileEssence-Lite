@@ -1,7 +1,7 @@
 package net.miz_hi.smileessence.menu;
 
 import android.app.Activity;
-import net.miz_hi.smileessence.command.ICommand;
+import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.command.page.CommandCreateNewListPage;
 import net.miz_hi.smileessence.command.page.CommandCreateNewSearchPage;
 import net.miz_hi.smileessence.dialog.SimpleMenuDialog;
@@ -19,9 +19,9 @@ public class AddPageMenu extends SimpleMenuDialog
     }
 
     @Override
-    public List<ICommand> getMenuList()
+    public List<MenuCommand> getMenuList()
     {
-        List<ICommand> commands = new ArrayList<ICommand>();
+        List<MenuCommand> commands = new ArrayList<MenuCommand>();
 
         commands.add(new CommandCreateNewListPage(activity));
         commands.add(new CommandCreateNewSearchPage(activity));

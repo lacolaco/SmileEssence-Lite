@@ -5,15 +5,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
-import net.miz_hi.smileessence.command.ICommand;
-import net.miz_hi.smileessence.command.IConfirmable;
-import net.miz_hi.smileessence.dialog.ConfirmDialog;
-import net.miz_hi.smileessence.preference.EnumPreferenceKey;
+import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.util.CustomListAdapter;
 
-public class MenuListAdapter extends CustomListAdapter<ICommand>
+public class MenuListAdapter extends CustomListAdapter<MenuCommand>
 {
 
     public MenuListAdapter(Activity activity)
@@ -30,7 +26,7 @@ public class MenuListAdapter extends CustomListAdapter<ICommand>
             convertedView = getInflater().inflate(R.layout.menuitem_white, null);
         }
 
-        final ICommand item = (ICommand) getItem(position);
+        final MenuCommand item = (MenuCommand) getItem(position);
 
         TextView textView = (TextView) convertedView.findViewById(R.id.textView_menuItem);
         textView.setText(item.getName());
@@ -39,21 +35,7 @@ public class MenuListAdapter extends CustomListAdapter<ICommand>
             @Override
             public void onClick(View view)
             {
-                if (item instanceof IConfirmable && Client.<Boolean>getPreferenceValue(EnumPreferenceKey.CONFIRM_DIALOG))
-                {
-                    ConfirmDialog.show(getActivity(), "実行しますか？", new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            item.run();
-                        }
-                    });
-                }
-                else
-                {
-                    item.run();
-                }
+                item.run();
             }
         });
         return convertedView;

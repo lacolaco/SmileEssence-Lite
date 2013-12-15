@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.provider.MediaStore;
-import net.miz_hi.smileessence.command.ICommand;
 import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.core.EnumRequestCode;
 import net.miz_hi.smileessence.system.MainActivitySystem;
@@ -22,9 +21,9 @@ public class SelectPictureDialog extends SimpleMenuDialog
     }
 
     @Override
-    public List<ICommand> getMenuList()
+    public List<MenuCommand> getMenuList()
     {
-        List<ICommand> list = new ArrayList<ICommand>();
+        List<MenuCommand> list = new ArrayList<MenuCommand>();
         list.add(new MenuCommand()
         {
             @Override

@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ListView;
 import net.miz_hi.smileessence.Client;
-import net.miz_hi.smileessence.command.ICommand;
 import net.miz_hi.smileessence.command.IHideable;
+import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.menu.MenuListAdapter;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey.EnumValueType;
 import net.miz_hi.smileessence.preference.PreferenceHelper;
@@ -50,7 +50,7 @@ public abstract class SimpleMenuDialog extends MenuDialog
         this.title = title;
     }
 
-    public abstract List<ICommand> getMenuList();
+    public abstract List<MenuCommand> getMenuList();
 
     public Dialog create()
     {
@@ -67,10 +67,10 @@ public abstract class SimpleMenuDialog extends MenuDialog
             builder.setCustomTitle(titleView);
         }
 
-        List<ICommand> list1 = getMenuList();
-        List<ICommand> list2 = new ArrayList<ICommand>();
+        List<MenuCommand> list1 = getMenuList();
+        List<MenuCommand> list2 = new ArrayList<MenuCommand>();
 
-        for (ICommand command : list1)
+        for (MenuCommand command : list1)
         {
             boolean isEnabled = true;
 

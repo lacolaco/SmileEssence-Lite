@@ -1,7 +1,7 @@
 package net.miz_hi.smileessence.menu;
 
 import android.app.Activity;
-import net.miz_hi.smileessence.command.ICommand;
+import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.command.user.UserCommandFollow;
 import net.miz_hi.smileessence.command.user.UserCommandOpenInfo;
 import net.miz_hi.smileessence.command.user.UserCommandReply;
@@ -26,9 +26,9 @@ public class EventMenu extends SimpleMenuDialog
     }
 
     @Override
-    public List<ICommand> getMenuList()
+    public List<MenuCommand> getMenuList()
     {
-        List<ICommand> items = new ArrayList<ICommand>();
+        List<MenuCommand> items = new ArrayList<MenuCommand>();
         items.add(new UserCommandReply(user.screenName));
         items.add(new UserCommandOpenInfo(user.screenName, activity));
         items.add(new UserCommandFollow(user.screenName));

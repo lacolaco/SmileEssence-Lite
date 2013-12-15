@@ -1,7 +1,7 @@
 package net.miz_hi.smileessence.menu;
 
 import android.app.Activity;
-import net.miz_hi.smileessence.command.ICommand;
+import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.command.page.CommandMovePage;
 import net.miz_hi.smileessence.dialog.SimpleMenuDialog;
 import net.miz_hi.smileessence.system.PageController;
@@ -20,9 +20,9 @@ public class MovePageMenu extends SimpleMenuDialog
     }
 
     @Override
-    public List<ICommand> getMenuList()
+    public List<MenuCommand> getMenuList()
     {
-        List<ICommand> commands = new ArrayList<ICommand>();
+        List<MenuCommand> commands = new ArrayList<MenuCommand>();
         for (int i = 0; i < PageController.getInstance().getCount(); i++)
         {
             NamedFragment fragment = PageController.getInstance().getPage(i);

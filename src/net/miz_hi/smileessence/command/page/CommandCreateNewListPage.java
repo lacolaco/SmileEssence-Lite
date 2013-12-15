@@ -3,7 +3,6 @@ package net.miz_hi.smileessence.command.page;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import net.miz_hi.smileessence.Client;
-import net.miz_hi.smileessence.command.ICommand;
 import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.core.MyExecutor;
 import net.miz_hi.smileessence.dialog.SimpleMenuDialog;
@@ -43,7 +42,7 @@ public class CommandCreateNewListPage extends MenuCommand
                 try
                 {
                     final List<UserList> lists = API.getReadableLists(Client.getMainAccount());
-                    final List<ICommand> commands = new ArrayList<ICommand>();
+                    final List<MenuCommand> commands = new ArrayList<MenuCommand>();
                     for (UserList list : lists)
                     {
                         if (StatusListManager.getListTimeline(list.getId()) == null)
@@ -61,7 +60,7 @@ public class CommandCreateNewListPage extends MenuCommand
                         final SimpleMenuDialog menu = new SimpleMenuDialog(activity, "リストを選択")
                         {
                             @Override
-                            public List<ICommand> getMenuList()
+                            public List<MenuCommand> getMenuList()
                             {
                                 return commands;
                             }

@@ -73,7 +73,6 @@ public class TweetMenu extends ExpandMenuDialog
                 public void onClick(View v)
                 {
                     new StatusCommandUnfavorite(status).run();
-                    dispose();
                 }
             });
         }
@@ -86,7 +85,6 @@ public class TweetMenu extends ExpandMenuDialog
                 public void onClick(View v)
                 {
                     new StatusCommandFavorite(status).run();
-                    dispose();
                 }
             });
         }
@@ -97,7 +95,6 @@ public class TweetMenu extends ExpandMenuDialog
             public void onClick(View v)
             {
                 commandRetweet.run();
-                dispose();
             }
         });
 
@@ -108,7 +105,6 @@ public class TweetMenu extends ExpandMenuDialog
             public void onClick(View arg0)
             {
                 new StatusCommandReply(status).run();
-                dispose();
             }
         });
 
@@ -118,7 +114,6 @@ public class TweetMenu extends ExpandMenuDialog
             public void onClick(View v)
             {
                 new StatusCommandDelete(status).run();
-                dispose();
             }
         });
 
