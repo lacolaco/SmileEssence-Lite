@@ -21,7 +21,16 @@ public class CommandZekamashi extends MenuCommand
         StringBuilder master = new StringBuilder(text);
         if (start == end)
         {
-            return master.reverse().toString();
+            master.reverse();
+            String selected = master.toString();
+            String temp = "########TEMP########";
+            for (String bracket : brackets)
+            {
+                String first = bracket.split(",")[0];
+                String second = bracket.split(",")[1];
+                selected = selected.replace(first, temp).replace(second, first).replace(temp, second);
+            }
+            return selected;
         }
         else
         {
@@ -40,12 +49,18 @@ public class CommandZekamashi extends MenuCommand
         }
     }
 
-    private String[] brackets = new String[]{"（,）", "(,)", "「,」", "[,]", "{,}", "<,>", "/,\\"};
+    private String[] brackets = new String[]{"（,）", "(,)", "「,」", "[,]", "{,}", "<,>", "/,\\", "＼,／"};
 
 
     @Override
     public String getName()
     {
         return "ぜかまし";
+    }
+
+    public static void main(String[] args)
+    {
+        CommandZekamashi c = new CommandZekamashi();
+        System.out.println(c.edit("（(「[{<\\＼ぜかまし／/>}]」)）", 0, 0));
     }
 }
