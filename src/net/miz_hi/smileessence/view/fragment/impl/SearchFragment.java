@@ -19,10 +19,6 @@ public class SearchFragment extends NamedFragment implements IRemovable
     int searchId;
     String query;
 
-    private SearchFragment()
-    {
-    }
-
     @Override
     public String getTitle()
     {
