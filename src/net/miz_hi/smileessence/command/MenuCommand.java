@@ -32,15 +32,15 @@ public abstract class MenuCommand implements ICommand
                         @Override
                         public void run()
                         {
-                            workOnUiThread();
                             MenuDialog.dispose();
+                            workOnUiThread();
                         }
                     });
                 }
                 else
                 {
-                    workOnUiThread();
                     MenuDialog.dispose();
+                    workOnUiThread();
                 }
             }
         }.post();
