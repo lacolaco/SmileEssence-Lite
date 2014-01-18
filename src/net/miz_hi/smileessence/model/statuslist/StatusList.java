@@ -5,6 +5,7 @@ import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 
 public abstract class StatusList
@@ -28,7 +29,7 @@ public abstract class StatusList
         }
     }
 
-    public synchronized void addAll(IStatusModel... statuses)
+    public synchronized void addAll(Collection<IStatusModel> statuses)
     {
         for(IStatusModel status : statuses)
         {
@@ -54,6 +55,11 @@ public abstract class StatusList
     public synchronized void remove(IStatusModel status)
     {
         list.remove(status);
+    }
+
+    public void clear()
+    {
+        list.clear();
     }
 
     public synchronized IStatusModel[] getStatusList()

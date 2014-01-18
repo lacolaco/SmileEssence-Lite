@@ -30,43 +30,48 @@ public class StatusListAdapter extends CustomListAdapter<IStatusModel>
     @Override
     public void addAll(Collection<IStatusModel> collection)
     {
+        statusList.addAll(collection);
     }
 
     @Deprecated
     @Override
     public void addFirst(IStatusModel element)
     {
+        statusList.addToTop(element);
     }
 
     @Deprecated
     @Override
     public void addLast(IStatusModel element)
     {
+        statusList.addToBottom(element);
     }
 
     @Deprecated
     @Override
     public void removeElement(IStatusModel element)
     {
+        statusList.remove(element);
     }
 
     @Deprecated
     @Override
     public void clear()
     {
+        statusList.clear();
     }
 
     @Override
     public View getView(int position, View convertedView, ViewGroup parent)
     {
-        if (convertedView == null)
+        if(convertedView == null)
         {
             convertedView = getInflater().inflate(R.layout.status_layout, null);
         }
         IStatusModel model = (IStatusModel) getItem(position);
 
         int colorBg;
-        if (position % 2 == 0)
+        if(position % 2 == 0)
         {
             colorBg = Client.getColor(R.color.White);
         }
@@ -100,7 +105,7 @@ public class StatusListAdapter extends CustomListAdapter<IStatusModel>
     @Override
     public Object getItem(int arg0)
     {
-        if (statusArray != null && statusArray.length >= arg0)
+        if(statusArray != null && statusArray.length >= arg0)
         {
             return statusArray[arg0];
         }

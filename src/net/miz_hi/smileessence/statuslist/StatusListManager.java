@@ -37,7 +37,7 @@ public class StatusListManager
         instance.listTimelineMap.clear();
         instance.adapterMap.clear();
         Timeline ho = new HomeTimeline();
-        MentionsTimeline m = new MentionsTimeline();
+        Timeline m = new MentionsTimeline();
         StatusList hi = new HistoryList();
         setHomeTimeline(ho, new StatusListAdapter(activity, ho));
         setMentionsTimeline(m, new StatusListAdapter(activity, m));
