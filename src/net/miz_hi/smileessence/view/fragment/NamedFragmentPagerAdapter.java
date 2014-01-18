@@ -7,16 +7,18 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 public class NamedFragmentPagerAdapter extends FragmentStatePagerAdapter
 {
 
     private ArrayList<NamedFragment> pageList = new ArrayList<NamedFragment>();
+    private HashMap<String, NamedFragment> pageMap = new HashMap<String, NamedFragment>();
 
     public NamedFragmentPagerAdapter(FragmentManager fm, Collection<NamedFragment> fragments)
     {
-        super(fm);
+        this(fm);
         pageList.addAll(fragments);
     }
 
@@ -42,34 +44,55 @@ public class NamedFragmentPagerAdapter extends FragmentStatePagerAdapter
         return pageList;
     }
 
-    public synchronized boolean add(NamedFragment element)
+    public synchronized void add(NamedFragment element)
     {
-        return pageList.add(element);
+        pageList.add(element);
+        pageMap.put(element.getTitle(), element);
     }
 
     public synchronized void addAll(Collection<NamedFragment> list)
     {
         pageList.addAll(list);
+        for(NamedFragment fragment : list)
+        {
+            pageMap.put(fragment.getTitle(), fragment);
+        }
     }
 
     public synchronized void set(NamedFragment element, int index)
     {
         pageList.add(index, element);
+        pageMap.put(element.getTitle(), element);
     }
 
-    public synchronized void remove(NamedFragment element)
+    public synchronized NamedFragment getByName(String name)
     {
-        pageList.remove(element);
-        if (element instanceof IRemovable)
-        {
-            ((IRemovable) element).onRemoved();
-        }
+        return pageMap.get(name);
     }
 
     public synchronized void remove(int i)
     {
         NamedFragment fragment = pageList.get(i);
         remove(fragment);
+    }
+
+    public synchronized void remove(String name)
+    {
+        NamedFragment fragment = pageMap.get(name);
+        if(fragment != null)
+        {
+            remove(fragment);
+        }
+    }
+
+    public synchronized void remove(NamedFragment element)
+    {
+        pageList.remove(element);
+        pageMap.remove(element.getTitle());
+        if(element instanceof IRemovable)
+        {
+            ((IRemovable) element).onRemoved();
+        }
     }
 
     public synchronized void clear()

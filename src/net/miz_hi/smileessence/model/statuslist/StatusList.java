@@ -1,6 +1,7 @@
 package net.miz_hi.smileessence.model.statuslist;
 
 import net.miz_hi.smileessence.model.status.IStatusModel;
+import net.miz_hi.smileessence.statuslist.StatusListAdapter;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public abstract class StatusList
 
     public synchronized void addToTop(IStatusModel status)
     {
-        if (!list.contains(status))
+        if(!list.contains(status))
         {
             list.add(0, status);
         }
@@ -21,9 +22,17 @@ public abstract class StatusList
 
     public synchronized void addToBottom(IStatusModel status)
     {
-        if (!list.contains(status))
+        if(!list.contains(status))
         {
             list.add(list.size(), status);
+        }
+    }
+
+    public synchronized void addAll(IStatusModel... statuses)
+    {
+        for(IStatusModel status : statuses)
+        {
+            addToBottom(status);
         }
     }
 
@@ -67,6 +76,10 @@ public abstract class StatusList
         StatusListManager.getAdapter(this).forceNotifyAdapter();
     }
 
-    public abstract boolean checkStatus(IStatusModel status);
+    public StatusListAdapter getAdapter()
+    {
+        return StatusListManager.getAdapter(this);
+    }
 
+    public abstract boolean checkStatus(IStatusModel status);
 }

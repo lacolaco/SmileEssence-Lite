@@ -74,11 +74,11 @@ public class PageController
 
     public void addPage(NamedFragment fragment)
     {
-        if (fragment instanceof ISingleton)
+        if(fragment instanceof ISingleton)
         {
-            for (int i = 0; i < getCount(); i++)
+            for(int i = 0; i < getCount(); i++)
             {
-                if (getPage(i).getClass() == fragment.getClass())
+                if(getPage(i).getClass().isInstance(fragment))
                 {
                     removePage(i);
                 }
@@ -97,7 +97,12 @@ public class PageController
 
     public void removePage(int index)
     {
-        adapter.remove(index);
+        removePage(((NamedFragment) adapter.getItem(index)).getTitle());
+    }
+
+    public void removePage(String name)
+    {
+        adapter.remove(name);
         List<NamedFragment> list = new ArrayList<NamedFragment>();
         list.addAll(adapter.getList());
         adapter = new NamedFragmentPagerAdapter(activity.getSupportFragmentManager(), list); //Refresh page caches
@@ -108,6 +113,11 @@ public class PageController
     public NamedFragment getPage(int index)
     {
         return (NamedFragment) adapter.getItem(index);
+    }
+
+    public NamedFragment getPage(String name)
+    {
+        return adapter.getByName(name);
     }
 
     public int getPageIndex(Fragment fragment)

@@ -39,13 +39,18 @@ public class UserCommandOpenTimeline extends UserCommand
             public void onPostExecute(User user)
             {
                 UserModel model = ResponseConverter.convert(user);
-                UserTimeline timeline = new UserTimeline(model.userId);
+                UserTimeline timeline = StatusListManager.getUserTimeline(model.userId);
+                if(timeline != null)
+                {
+                    PageController.getInstance().removePage(UserTimelineFragment.newInstance(model).getTitle());
+                }
+                timeline = new UserTimeline(model.userId);
                 StatusListManager.registerUserTimeline(model.userId, timeline, new StatusListAdapter(activity, timeline));
                 try
                 {
                     timeline.loadNewer().get();
                 }
-                catch (Exception e)
+                catch(Exception e)
                 {
                     e.printStackTrace();
                 }

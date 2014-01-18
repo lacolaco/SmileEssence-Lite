@@ -26,7 +26,7 @@ public class UserTimeline extends Timeline
     @Override
     public Future loadNewer(Runnable callback)
     {
-        if (getStatusList().length > 0)
+        if(getCount() > 0)
         {
             long maxId = ((TweetModel) getStatus(0)).statusId;
             return new GetUserTimelineTask(Client.getMainAccount(), userId, new Paging(1, Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT), maxId))
@@ -35,7 +35,7 @@ public class UserTimeline extends Timeline
                 public void onPostExecute(List<TweetModel> result)
                 {
                     Collections.reverse(result);
-                    for (TweetModel status : result)
+                    for(TweetModel status : result)
                     {
                         addToTop(status);
                     }
@@ -51,7 +51,7 @@ public class UserTimeline extends Timeline
                 public void onPostExecute(List<TweetModel> result)
                 {
                     Collections.reverse(result);
-                    for (TweetModel status : result)
+                    for(TweetModel status : result)
                     {
                         addToTop(status);
                     }
@@ -64,7 +64,7 @@ public class UserTimeline extends Timeline
     @Override
     public Future loadOlder(Runnable callback)
     {
-        if (getStatusList().length > 0)
+        if(getCount() > 0)
         {
             long minId = ((TweetModel) getStatus(getStatusList().length - 1)).statusId;
             Paging page = new Paging(1, Client.<Integer>getPreferenceValue(EnumPreferenceKey.REQUEST_COUNT));
@@ -74,7 +74,7 @@ public class UserTimeline extends Timeline
                 @Override
                 public void onPostExecute(List<TweetModel> result)
                 {
-                    for (TweetModel status : result)
+                    for(TweetModel status : result)
                     {
                         addToBottom(status);
                     }
@@ -89,7 +89,7 @@ public class UserTimeline extends Timeline
                 @Override
                 public void onPostExecute(List<TweetModel> result)
                 {
-                    for (TweetModel status : result)
+                    for(TweetModel status : result)
                     {
                         addToBottom(status);
                     }

@@ -103,7 +103,7 @@ public class StatusListManager
 
     public synchronized static void removeUserTimeline(long userId)
     {
-        instance.adapterMap.remove(instance.userTimelineMap.remove(userId));
+        removeTweetList(instance.userTimelineMap.remove(userId));
     }
 
     public synchronized static UserTimeline getUserTimeline(long userId)
@@ -120,7 +120,7 @@ public class StatusListManager
     public synchronized static void removeListTimeline(long id)
     {
         Timeline timeline = instance.listTimelineMap.get(id);
-        instance.adapterMap.remove(timeline);
+        removeTweetList(timeline);
         instance.listTimelineMap.remove(id);
         ListManager.deleteList(id);
     }
@@ -139,7 +139,7 @@ public class StatusListManager
     public synchronized static void removeSearchTimeline(int id)
     {
         Timeline timeline = instance.searchTimelineMap.get(id);
-        instance.adapterMap.remove(timeline);
+        removeTweetList(timeline);
         instance.searchTimelineMap.remove(id);
         SearchManager.deleteSearch(id);
     }
