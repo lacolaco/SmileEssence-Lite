@@ -9,10 +9,11 @@ import android.view.ViewGroup.LayoutParams;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import net.miz_hi.smileessence.Client;
 
 public class WebViewActivity extends Activity
 {
+
+    public static final String CALLBACK_OAUTH = "oauth://smileessence";
 
     @Override
     public void onCreate(Bundle bundle)
@@ -23,7 +24,7 @@ public class WebViewActivity extends Activity
         CookieSyncManager.createInstance(this).resetSync();
         setContentView(webView, new LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT));
         Uri uri = getIntent().getData();
-        if (uri == null)
+        if(uri == null)
         {
             finish();
         }
@@ -33,7 +34,7 @@ public class WebViewActivity extends Activity
             public void onPageFinished(WebView view, String url)
             {
                 super.onPageFinished(view, url);
-                if (url.startsWith(Client.CALLBACK_OAUTH))
+                if(url.startsWith(CALLBACK_OAUTH))
                 {
                     Intent intent = new Intent();
                     intent.setData(Uri.parse(url));

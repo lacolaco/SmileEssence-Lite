@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
+import net.miz_hi.smileessence.core.Settings;
 import net.miz_hi.smileessence.listener.StatusOnClickListener;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.statuslist.StatusList;
@@ -70,14 +71,15 @@ public class StatusListAdapter extends CustomListAdapter<IStatusModel>
         }
         IStatusModel model = (IStatusModel) getItem(position);
 
+        Settings settings = Client.getSettings();
         int colorBg;
         if(position % 2 == 0)
         {
-            colorBg = Client.getColor(R.color.White);
+            colorBg = Client.getApplication().getResources().getColor(settings.getTheme().getBackground1());
         }
         else
         {
-            colorBg = Client.getColor(R.color.LightGray);
+            colorBg = Client.getApplication().getResources().getColor(settings.getTheme().getBackground2());
         }
         convertedView.setBackgroundColor(colorBg);
 

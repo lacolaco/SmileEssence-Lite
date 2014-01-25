@@ -54,7 +54,7 @@ public abstract class ExpandMenuDialog extends MenuDialog
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
-        if (titleView == null)
+        if(titleView == null)
         {
             builder.setTitle(title);
         }
@@ -65,25 +65,26 @@ public abstract class ExpandMenuDialog extends MenuDialog
 
         List<MenuElement> list3 = getElements();
         List stub = new ArrayList();
-        for (MenuElement menuElement : list3)
+        for(MenuElement menuElement : list3)
         {
-            if (menuElement.isParent())
+            if(menuElement.isParent())
             {
                 List<MenuElement> children = menuElement.getChildren();
                 List stub1 = new ArrayList();
-                for (MenuElement menuElement2 : children)
+                for(MenuElement menuElement2 : children)
                 {
                     boolean isEnabled = true;
                     ICommand command = menuElement2.getCommand();
-                    if (command != null)
+                    if(command != null)
                     {
-                        if (command instanceof IHideable)
+                        if(command instanceof IHideable)
                         {
                             PreferenceHelper pref = Client.getPreferenceHelper();
-                            isEnabled = pref.getPreferenceValue(command.getClass().getSimpleName(), EnumValueType.BOOLEAN, false);
+                            isEnabled = pref.getPreferenceValue(command.getClass()
+                                                                       .getSimpleName(), EnumValueType.BOOLEAN, false);
                         }
 
-                        if (!command.getDefaultVisibility() || !isEnabled)
+                        if(!command.getDefaultVisibility() || !isEnabled)
                         {
                             stub1.add(menuElement2);
                         }
@@ -96,15 +97,16 @@ public abstract class ExpandMenuDialog extends MenuDialog
 
                 boolean isEnabled = true;
                 ICommand command = menuElement.getCommand();
-                if (command != null)
+                if(command != null)
                 {
-                    if (command instanceof IHideable)
+                    if(command instanceof IHideable)
                     {
                         PreferenceHelper pref = Client.getPreferenceHelper();
-                        isEnabled = pref.getPreferenceValue(command.getClass().getSimpleName(), EnumValueType.BOOLEAN, false);
+                        isEnabled = pref.getPreferenceValue(command.getClass()
+                                                                   .getSimpleName(), EnumValueType.BOOLEAN, false);
                     }
 
-                    if (!command.getDefaultVisibility() || !isEnabled)
+                    if(!command.getDefaultVisibility() || !isEnabled)
                     {
                         stub.add(menuElement);
                     }
@@ -114,7 +116,7 @@ public abstract class ExpandMenuDialog extends MenuDialog
         list3.removeAll(stub);
 
         ExpandableListView listview = new ExpandableListView(activity);
-        listview.setGroupIndicator(Client.getResource().getDrawable(android.R.color.transparent));
+        listview.setGroupIndicator(Client.getApplication().getResources().getDrawable(android.R.color.transparent));
         listview.setOnGroupClickListener(new OnGroupClickListener()
         {
 

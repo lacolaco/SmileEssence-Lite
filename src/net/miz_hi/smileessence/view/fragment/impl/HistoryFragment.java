@@ -25,7 +25,9 @@ public class HistoryFragment extends NamedFragment
         ListView listView = (ListView) page.findViewById(R.id.listpage_listview);
         TextView text = new TextView(getActivity());
         text.setText("ふぁぼられたり、リツイートされたりした履歴が表示されます");
-        text.setTextColor(Client.getColor(R.color.Gray2));
+        text.setTextColor(Client.getApplication()
+                                .getResources()
+                                .getColor(Client.getSettings().getTheme().getNormalTextColor()));
         text.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         text.setVisibility(View.GONE);
         ((ViewGroup) listView.getParent()).addView(text);

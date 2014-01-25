@@ -22,4 +22,5 @@
     <string name="license_notices">licenseNotice</string>
     <string name="key_setting_search_include_rt">search_include_rt</string>
     <string name="key_setting_requestCount">setting_requestCount</string>
+    <string name="key_setting_theme">colorTheme</string>
 </resources>

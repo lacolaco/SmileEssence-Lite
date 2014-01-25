@@ -21,7 +21,8 @@ public class CommandReport extends MenuCommand
     @Override
     public void workOnUiThread()
     {
-        PostSystem.setText(" #SmileEssence @laco0416 [" + Client.getString(R.string.app_version) + "]");
+        PostSystem.setText(" #SmileEssence @laco0416 [" + Client.getApplication()
+                                                                .getString(R.string.app_version) + "]");
         PostSystem.setCursor(0);
         PostSystem.openPostPage();
     }

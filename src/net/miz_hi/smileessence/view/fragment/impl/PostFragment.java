@@ -76,7 +76,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
         screenNameView = (TextView) page.findViewById(R.id.post_myName);
 
         PostEditTextListener listener = new PostEditTextListener(textCount);
-        editText.setTextSize(Client.getTextSize() + 3);
+        editText.setTextSize(Client.getSettings().getTextSize() + 3);
         editText.addTextChangedListener(listener);
         editText.setOnFocusChangeListener(listener);
         editText.setMovementMethod(new ArrowKeyMovementMethod()
@@ -88,7 +88,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 return widget.getSelectionEnd() == widget.length() || super.right(widget, buffer);
             }
         });
-        if (Client.<Boolean>getPreferenceValue(EnumPreferenceKey.OPEN_IME))
+        if(Client.<Boolean>getPreferenceValue(EnumPreferenceKey.OPEN_IME))
         {
             editText.requestFocus();
         }
@@ -99,7 +99,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
         imagePict.setOnClickListener(this);
 
         loadState();
-        if (Client.getMainAccount() != null)
+        if(Client.getMainAccount() != null)
         {
             initMyInformation();
         }
@@ -136,7 +136,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
     public void loadState()
     {
         PostPageState state = getState();
-        if (editText != null)
+        if(editText != null)
         {
             String text = state.getText();
             int selectionStart = state.getSelectionStart();
@@ -144,17 +144,17 @@ public class PostFragment extends NamedFragment implements OnClickListener
             setText(text);
             setSelection(selectionStart, selectionEnd);
         }
-        if (frameInReplyTo != null)
+        if(frameInReplyTo != null)
         {
             long inReplyTo = state.getInReplyToStatusId();
             setInReplyTo(inReplyTo);
         }
-        if (imagePict != null)
+        if(imagePict != null)
         {
             String picturePath = state.getPicturePath();
             setPicture(picturePath);
         }
-        if (!inited && iconView != null && Client.getMainAccount() != null)
+        if(!inited && iconView != null && Client.getMainAccount() != null)
         {
             initMyInformation();
         }
@@ -165,7 +165,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
      */
     public void saveState()
     {
-        if (editText != null)
+        if(editText != null)
         {
             String text = editText.getText().toString();
             int start = editText.getSelectionStart();
@@ -180,7 +180,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
     private void initMyInformation()
     {
         UserModel me = UserCache.get(Client.getMainAccount().getUserId());
-        if (me != null)
+        if(me != null)
         {
             ImageCache.setImageToView(me.iconUrl, iconView);
             screenNameView.setText(me.screenName);
@@ -192,7 +192,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 @Override
                 public void onPostExecute(User result)
                 {
-                    if (result != null)
+                    if(result != null)
                     {
                         UserModel model = ResponseConverter.convert(result);
                         ImageCache.setImageToView(model.iconUrl, iconView);
@@ -211,15 +211,15 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void setSelection(int start, int end)
     {
-        if (start < 0 || end < 0)
+        if(start < 0 || end < 0)
         {
             editText.setSelection(0);
         }
-        else if (start > editText.length())
+        else if(start > editText.length())
         {
             editText.setSelection(editText.length());
         }
-        else if (end > editText.length())
+        else if(end > editText.length())
         {
             editText.setSelection(start, editText.length());
         }
@@ -231,7 +231,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void setInReplyTo(final long l)
     {
-        if (l == PostSystem.NONE_ID)
+        if(l == PostSystem.NONE_ID)
         {
             frameInReplyTo.setVisibility(View.GONE);
         }
@@ -257,7 +257,8 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 public View call() throws Exception
                 {
                     TweetModel status = TweetUtils.getOrCreateStatusModel(l);
-                    return StatusViewFactory.newInstance(MainActivity.getInstance().getLayoutInflater(), null).getStatusView(status);
+                    return StatusViewFactory.newInstance(MainActivity.getInstance().getLayoutInflater(), null)
+                                            .getStatusView(status);
                 }
             }.callAsync();
         }
@@ -265,7 +266,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void setPicture(final String path)
     {
-        if (path == null)
+        if(path == null)
         {
             imagePict.setVisibility(View.GONE);
             return;
@@ -314,7 +315,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void removePicture()
     {
-        if (imagePict.isShown())
+        if(imagePict.isShown())
         {
             ConfirmDialog.show(MainActivity.getInstance(), "画像の投稿を取り消しますか？", new Runnable()
             {
@@ -332,7 +333,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void openIme()
     {
-        if (editText != null)
+        if(editText != null)
         {
             new UiHandler()
             {
@@ -340,9 +341,10 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 @Override
                 public void run()
                 {
-                    if (Client.<Boolean>getPreferenceValue(EnumPreferenceKey.OPEN_IME))
+                    if(Client.<Boolean>getPreferenceValue(EnumPreferenceKey.OPEN_IME))
                     {
-                        InputMethodManager imm = (InputMethodManager) Client.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) Client.getApplication()
+                                                                            .getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(editText, 0);
                     }
                 }
@@ -352,9 +354,10 @@ public class PostFragment extends NamedFragment implements OnClickListener
 
     public void hideIme()
     {
-        if (editText != null)
+        if(editText != null)
         {
-            InputMethodManager imm = (InputMethodManager) Client.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) Client.getApplication()
+                                                                .getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         }
     }
@@ -362,13 +365,13 @@ public class PostFragment extends NamedFragment implements OnClickListener
     @Override
     public void onClick(View v)
     {
-        switch (v.getId())
+        switch(v.getId())
         {
             case R.id.imBtn_tweet:
             {
-                if (PostSystem.submit(editText.getText().toString()))
+                if(PostSystem.submit(editText.getText().toString()))
                 {
-                    if (Client.<Boolean>getPreferenceValue(EnumPreferenceKey.AFTER_SUBMIT))
+                    if(Client.<Boolean>getPreferenceValue(EnumPreferenceKey.AFTER_SUBMIT))
                     {
                         MainActivity.getInstance().getViewPager().setCurrentItem(1);
                     }

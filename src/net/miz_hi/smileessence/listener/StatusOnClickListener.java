@@ -31,7 +31,7 @@ public class StatusOnClickListener implements OnClickListener
     public void onClick(final View v)
     {
         final int bg = ((ColorDrawable) v.getBackground()).getColor();
-        v.setBackgroundColor(Client.getColor(R.color.MetroBlue));
+        v.setBackgroundColor(Client.getApplication().getResources().getColor(R.color.MetroBlue));
         v.invalidate();
         new UiHandler()
         {
@@ -41,7 +41,7 @@ public class StatusOnClickListener implements OnClickListener
             {
                 v.setBackgroundColor(bg);
                 Dialog dialog = getDialog();
-                if (dialog != null)
+                if(dialog != null)
                 {
                     dialog.show();
                 }
@@ -51,15 +51,15 @@ public class StatusOnClickListener implements OnClickListener
 
     private Dialog getDialog()
     {
-        if (model instanceof TweetModel)
+        if(model instanceof TweetModel)
         {
             return new TweetMenu(activity, (TweetModel) model).create();
         }
-        else if (model instanceof EventModel)
+        else if(model instanceof EventModel)
         {
             return new UserMenu(activity, model.getUser()).create();
         }
-        else if (model instanceof UserModel)
+        else if(model instanceof UserModel)
         {
             return new UserMenu(activity, (UserModel) model).create();
         }

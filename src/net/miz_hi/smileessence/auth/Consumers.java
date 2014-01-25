@@ -1,13 +1,19 @@
 package net.miz_hi.smileessence.auth;
 
+import android.app.Application;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 
 public class Consumers
 {
 
-    public static Consumer smileEssenceLite = new Consumer(Client.getString(R.string.consumer_key), Client.getString(R.string.consumer_secret));
+    public static Consumer smileEssenceLite;
 
+    static
+    {
+        Application app = Client.getApplication();
+        smileEssenceLite = new Consumer(app.getString(R.string.consumer_key), app.getString(R.string.consumer_secret));
+    }
 
     public static Consumer getDefault()
     {

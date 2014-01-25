@@ -120,7 +120,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
     {
         nameView.setText(user.name);
         screenNameView.setText("@" + user.screenName);
-        if (TextUtils.isEmpty(user.homePageUrl))
+        if(TextUtils.isEmpty(user.homePageUrl))
         {
             homepageView.setVisibility(View.GONE);
         }
@@ -128,7 +128,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
         {
             homepageView.setText(user.homePageUrl);
         }
-        if (TextUtils.isEmpty(user.location))
+        if(TextUtils.isEmpty(user.location))
         {
             locateView.setVisibility(View.GONE);
         }
@@ -137,7 +137,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
             locateView.setText(user.location);
         }
 
-        if (user.isMe())
+        if(user.isMe())
         {
             followButton.setVisibility(View.GONE);
             isFollowedView.setText("あなたです");
@@ -151,11 +151,16 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
                 @Override
                 public void onPostExecute(Relationship result)
                 {
-                    if (result != null)
+                    if(result != null)
                     {
                         boolean isFollowing = result.isSourceFollowingTarget();
                         followButton.setText(isFollowing ? "リムーブする" : "フォローする");
-                        followButton.setBackgroundDrawable(isFollowing ? Client.getResource().getDrawable(R.drawable.round_red) : Client.getResource().getDrawable(R.drawable.round_blue));
+                        followButton.setBackgroundDrawable(isFollowing ? Client.getApplication()
+                                                                               .getResources()
+                                                                               .getDrawable(R.drawable.round_red) : Client
+                                .getApplication()
+                                .getResources()
+                                .getDrawable(R.drawable.round_blue));
                         followButton.setTag(isFollowing);
                         isFollowedView.setText(result.isSourceFollowedByTarget() ? "フォローされています" : "フォローされていません");
                     }
@@ -186,7 +191,7 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
     @Override
     public void onClick(View v)
     {
-        switch (v.getId())
+        switch(v.getId())
         {
             case R.id.user_reload:
             {
@@ -231,9 +236,11 @@ public class UserInfoFragment extends NamedFragment implements OnClickListener, 
             case R.id.user_follow:
             {
                 followButton.setText("読み込み中");
-                followButton.setBackgroundDrawable(Client.getResource().getDrawable(R.drawable.round_gray));
+                followButton.setBackgroundDrawable(Client.getApplication()
+                                                         .getResources()
+                                                         .getDrawable(R.drawable.round_gray));
                 Boolean isFollowing = v.getTag() != null ? (Boolean) v.getTag() : false;
-                if (isFollowing)
+                if(isFollowing)
                 {
                     new UnfollowTask(user.screenName)
                     {

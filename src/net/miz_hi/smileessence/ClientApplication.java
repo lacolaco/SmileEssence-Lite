@@ -4,10 +4,18 @@ import android.app.Application;
 
 public class ClientApplication extends Application
 {
-	@Override
-	public void onCreate()
-	{
-		super.onCreate();
-		Client.initialize(this);
-	}
+
+    private Client client;
+
+    @Override
+    public void onCreate()
+    {
+        super.onCreate();
+        Client.initialize(this);
+    }
+
+    public void setClient(Client client)
+    {
+        this.client = client;
+    }
 }

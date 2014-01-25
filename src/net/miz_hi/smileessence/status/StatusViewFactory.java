@@ -8,6 +8,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.cache.ImageCache;
+import net.miz_hi.smileessence.core.Settings;
 import net.miz_hi.smileessence.model.status.IStatusModel;
 import net.miz_hi.smileessence.model.status.event.EventModel;
 import net.miz_hi.smileessence.model.status.event.StatusEvent;
@@ -40,7 +41,7 @@ public class StatusViewFactory
     {
         StatusViewFactory factory = new StatusViewFactory();
         factory.inflater = inflater;
-        if (baseView == null)
+        if(baseView == null)
         {
             factory.baseView = factory.inflater.inflate(R.layout.status_layout, null);
         }
@@ -62,23 +63,24 @@ public class StatusViewFactory
         // initialize
         favorited.setVisibility(View.GONE);
         commands.setVisibility(View.GONE);
-        int textSize = Client.getTextSize();
+        Settings settings = Client.getSettings();
+        int textSize = settings.getTextSize();
         textTop.setTextSize(textSize);
         textContent.setTextSize(textSize);
         textBottom.setTextSize(textSize - 2);
-        colorTop = Client.getColor(R.color.ThickGreen);
-        colorContent = Client.getColor(R.color.Gray);
-        colorBottom = Client.getColor(R.color.Gray2);
+        colorTop = Client.getApplication().getResources().getColor(settings.getTheme().getHeaderTextColor());
+        colorContent = Client.getApplication().getResources().getColor(settings.getTheme().getNormalTextColor());
+        colorBottom = Client.getApplication().getResources().getColor(settings.getTheme().getHintTextColor());
         //adjust to model
-        if (model instanceof TweetModel)
+        if(model instanceof TweetModel)
         {
             adjustToTweetView((TweetModel) model);
         }
-        else if (model instanceof EventModel)
+        else if(model instanceof EventModel)
         {
             adjustToEventView((EventModel) model);
         }
-        else if (model instanceof UserModel)
+        else if(model instanceof UserModel)
         {
             adjustToUserModel((UserModel) model);
         }
@@ -91,7 +93,7 @@ public class StatusViewFactory
         ImageCache.setImageToView(model.getUser().iconUrl, icon);
         textTop.setText(model.getTextTop());
         String text;
-        if (Morse.isMorse(model.getTextContent()) && Client.<Boolean>getPreferenceValue(EnumPreferenceKey.READ_MORSE))
+        if(Morse.isMorse(model.getTextContent()) && Client.<Boolean>getPreferenceValue(EnumPreferenceKey.READ_MORSE))
         {
             text = model.getTextContent() + "\n(" + Morse.mcToJa(model.getTextContent()) + ")";
         }
@@ -107,27 +109,33 @@ public class StatusViewFactory
 
     private void adjustToTweetView(TweetModel model)
     {
-        if (model.type == EnumTweetType.RETWEET)
+        Settings settings = Client.getSettings();
+        if(model.type == EnumTweetType.RETWEET)
         {
-            baseView.setBackgroundColor(Client.getColor(R.color.LightBlue));
+            baseView.setBackgroundColor(Client.getApplication()
+                                              .getResources()
+                                              .getColor(settings.getTheme().getRetweetBackgroundColor()));
         }
-        else if (model.type == EnumTweetType.REPLY)
+        else if(model.type == EnumTweetType.REPLY)
         {
-            baseView.setBackgroundColor(Client.getColor(R.color.LightRed));
+            baseView.setBackgroundColor(Client.getApplication()
+                                              .getResources()
+                                              .getColor(settings.getTheme().getMentionsBackgroundColor()));
         }
 
-        if (model.getUser().isMe())
+        if(model.getUser().isMe())
         {
-            colorTop = Client.getColor(R.color.DarkBlue);
+            colorTop = Client.getApplication().getResources().getColor(settings.getTheme().getSpecialTextColor());
         }
         favorited.setVisibility(model.isFavorited() ? View.VISIBLE : View.GONE);
     }
 
     private void adjustToEventView(EventModel model)
     {
-        if (model instanceof StatusEvent)
+        Settings settings = Client.getSettings();
+        if(model instanceof StatusEvent)
         {
-            colorTop = Client.getColor(R.color.DarkBlue);
+            colorTop = Client.getApplication().getResources().getColor(settings.getTheme().getSpecialTextColor());
         }
     }
 

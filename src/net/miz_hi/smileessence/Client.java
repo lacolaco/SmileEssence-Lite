@@ -1,28 +1,31 @@
 package net.miz_hi.smileessence;
 
 import android.app.Application;
-import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import com.android.volley.RequestQueue;
 import net.miz_hi.smileessence.auth.Account;
 import net.miz_hi.smileessence.auth.AuthenticationDB;
 import net.miz_hi.smileessence.cache.VolleyUtil;
 import net.miz_hi.smileessence.core.MyExecutor;
+import net.miz_hi.smileessence.core.Settings;
 import net.miz_hi.smileessence.data.DBHelper;
 import net.miz_hi.smileessence.permission.IPermission;
 import net.miz_hi.smileessence.permission.PermissonChecker;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.preference.PreferenceHelper;
+import net.miz_hi.smileessence.theme.impl.LightColorTheme;
 
 public class Client
 {
 
-    private static Application app;
-    private static Account mainAccount;
-    private static PreferenceHelper prefHelper;
-    private static IPermission permission;
-    private static int textSize;
-    private static RequestQueue requestQueue;
+    private static Client instance;
+
+    private Application app;
+    private Account mainAccount;
+    private IPermission permission;
+    private PreferenceHelper prefHelper;
+    private RequestQueue requestQueue;
+    private Settings settings;
 
     private Client()
     {
@@ -30,17 +33,17 @@ public class Client
 
     public static PreferenceHelper getPreferenceHelper()
     {
-        return prefHelper;
+        return instance.prefHelper;
     }
 
     public static void putPreferenceValue(EnumPreferenceKey key, Object value)
     {
-        prefHelper.putPreferenceValue(key, value);
+        instance.prefHelper.putPreferenceValue(key, value);
     }
 
     public static <T> T getPreferenceValue(EnumPreferenceKey key)
     {
-        return prefHelper.getPreferenceValue(key);
+        return instance.prefHelper.getPreferenceValue(key);
     }
 
     public static boolean hasAuthorizedAccount()
@@ -50,17 +53,17 @@ public class Client
 
     public static Application getApplication()
     {
-        return app;
+        return instance.app;
     }
 
     public static Account getMainAccount()
     {
-        return mainAccount;
+        return instance.mainAccount;
     }
 
     public static void setMainAccount(Account account)
     {
-        if (account != null)
+        if(account != null)
         {
             putPreferenceValue(EnumPreferenceKey.LAST_USED_USER_ID, account.getUserId());
         }
@@ -68,67 +71,63 @@ public class Client
         {
             putPreferenceValue(EnumPreferenceKey.LAST_USED_USER_ID, -1L);
         }
-        mainAccount = account;
+        instance.mainAccount = account;
 
-        setPermission(PermissonChecker.checkPermission(mainAccount));
+        setPermission(PermissonChecker.checkPermission(account));
     }
 
     public static IPermission getPermission()
     {
-        return permission;
+        return instance.permission;
     }
 
     public static void setPermission(IPermission permission)
     {
-        Client.permission = permission;
-    }
-
-    public static Resources getResource()
-    {
-        return app.getResources();
-    }
-
-    public static String getString(int id)
-    {
-        return app.getResources().getString(id);
-    }
-
-    public static int getColor(int resId)
-    {
-        return getResource().getColor(resId);
+        instance.permission = permission;
     }
 
     public static RequestQueue getRequestQueue()
     {
-        return requestQueue;
+        return instance.requestQueue;
     }
 
-    public static int getTextSize()
+    public static Settings getSettings()
     {
-        return textSize;
+        return instance.settings;
     }
 
-    public static void loadPreferences()
+    public static Settings loadSettings()
     {
+        Settings s = new Settings();
         int tSize = getPreferenceValue(EnumPreferenceKey.TEXT_SIZE);
-        if (tSize < 0)
+        if(tSize < 0)
         {
             putPreferenceValue(EnumPreferenceKey.TEXT_SIZE, 10);
         }
-        textSize = getPreferenceValue(EnumPreferenceKey.TEXT_SIZE);
+        s.setTextSize(Client.<Integer>getPreferenceValue(EnumPreferenceKey.TEXT_SIZE));
+        boolean isDark = Client.<Boolean>getPreferenceValue(EnumPreferenceKey.THEME_IS_DEFAULT);
+        if(isDark)
+        {
+            s.setTheme(new LightColorTheme());
+        }
+        else
+        {
+            s.setTheme(new LightColorTheme());
+        }
+        return s;
     }
 
-    public static void initialize(Application app)
+    public static void initialize(ClientApplication app)
     {
-        Client.prefHelper = new PreferenceHelper(PreferenceManager.getDefaultSharedPreferences(app));
-        Client.app = app;
-        Client.mainAccount = null;
-        Client.requestQueue = VolleyUtil.createRequestQueue(app, null, 32 * 1024 * 1024); //32MBのディスクキャッシュ
-        loadPreferences();
+        instance = new Client();
+        instance.prefHelper = new PreferenceHelper(PreferenceManager.getDefaultSharedPreferences(app));
+        instance.app = app;
+        instance.mainAccount = null;
+        instance.requestQueue = VolleyUtil.createRequestQueue(app, null, 32 * 1024 * 1024); //32MBのディスクキャッシュ
+        instance.settings = loadSettings();
         new DBHelper(app).initialize();
         MyExecutor.init();
+        app.setClient(instance);
     }
-
-    public static final String CALLBACK_OAUTH = "oauth://smileessence";
 
 }

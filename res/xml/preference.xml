@@ -3,80 +3,87 @@
 
     <PreferenceCategory android:title="表示設定">
         <Preference
-                android:defaultValue="10"
-                android:key="@string/key_setting_textSize"
-                android:summary="文字のサイズだよ"
-                android:title="文字サイズ"/>
+            android:defaultValue="10"
+            android:key="@string/key_setting_textSize"
+            android:summary="文字のサイズだよ"
+            android:title="文字サイズ"/>
+        <!--<SwitchPreference-->
+        <!--android:defaultValue="true"-->
+        <!--android:key="@string/key_setting_theme"-->
+        <!--android:summary="再起動後に有効になります"-->
+        <!--android:title="テーマ切り替え"-->
+        <!--android:summaryOff="Light"-->
+        <!--android:summaryOn="Dark"/>-->
         <SwitchPreference
-                android:defaultValue="true"
-                android:key="@string/key_setting_morse"
-                android:summaryOff="無効"
-                android:summaryOn="有効"
-                android:title="モールス解読"/>
+            android:defaultValue="true"
+            android:key="@string/key_setting_morse"
+            android:summaryOff="無効"
+            android:summaryOn="有効"
+            android:title="モールス解読"/>
 
         <ListPreference
-                android:dialogTitle="名前形式"
-                android:entries="@array/entry_namestyle"
-                android:entryValues="@array/entryvalues_namestyle"
-                android:key="@string/key_setting_namestyle"
-                android:summary="お好きなものを選んでください"
-                android:title="名前の形式"/>
+            android:dialogTitle="名前形式"
+            android:entries="@array/entry_namestyle"
+            android:entryValues="@array/entryvalues_namestyle"
+            android:key="@string/key_setting_namestyle"
+            android:summary="お好きなものを選んでください"
+            android:title="名前の形式"/>
         <SwitchPreference
-                android:key="@string/key_setting_read_retweet"
-                android:summaryOn="表示する"
-                android:title="同じツイートのRT"
-                android:summaryOff="表示しない"
-                android:defaultValue="true"/>
+            android:key="@string/key_setting_read_retweet"
+            android:summaryOn="表示する"
+            android:title="同じツイートのRT"
+            android:summaryOff="表示しない"
+            android:defaultValue="true"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="動作設定">
         <SwitchPreference
-                android:defaultValue="true"
-                android:key="@string/key_setting_aftersubmit"
-                android:summaryOff="そのまま"
-                android:summaryOn="ホームに戻る"
-                android:title="投稿後"/>
+            android:defaultValue="true"
+            android:key="@string/key_setting_aftersubmit"
+            android:summaryOff="そのまま"
+            android:summaryOn="ホームに戻る"
+            android:title="投稿後"/>
         <SwitchPreference
-                android:defaultValue="false"
-                android:key="@string/key_setting_notice_unfav"
-                android:summaryOff="無効"
-                android:summaryOn="有効"
-                android:title="あんふぁぼ通知"/>
+            android:defaultValue="false"
+            android:key="@string/key_setting_notice_unfav"
+            android:summaryOff="無効"
+            android:summaryOn="有効"
+            android:title="あんふぁぼ通知"/>
         <SwitchPreference
-                android:defaultValue="true"
-                android:key="@string/key_setting_open_ime"
-                android:summaryOff="IMEを開かない"
-                android:summaryOn="IMEを開く"
-                android:title="投稿画面表示時"/>
+            android:defaultValue="true"
+            android:key="@string/key_setting_open_ime"
+            android:summaryOff="IMEを開かない"
+            android:summaryOn="IMEを開く"
+            android:title="投稿画面表示時"/>
         <SwitchPreference
-                android:defaultValue="true"
-                android:key="@string/key_setting_confirm_dialog"
-                android:summaryOff="無効"
-                android:summaryOn="有効"
-                android:title="確認ダイアログ"/>
+            android:defaultValue="true"
+            android:key="@string/key_setting_confirm_dialog"
+            android:summaryOff="無効"
+            android:summaryOn="有効"
+            android:title="確認ダイアログ"/>
         <SwitchPreference
-                android:title="検索にRTを含める"
-                android:key="@string/key_setting_search_include_rt"
-                android:summaryOff="無効"
-                android:summaryOn="有効"
-                android:defaultValue="false"/>
+            android:title="検索にRTを含める"
+            android:key="@string/key_setting_search_include_rt"
+            android:summaryOff="無効"
+            android:summaryOn="有効"
+            android:defaultValue="false"/>
         <Preference
-                android:defaultValue="20"
-                android:key="@string/key_setting_requestCount"
-                android:summary="引っ張って更新"
-                android:title="読み込み件数"/>
+            android:defaultValue="20"
+            android:key="@string/key_setting_requestCount"
+            android:summary="引っ張って更新"
+            android:title="読み込み件数"/>
     </PreferenceCategory>
     <PreferenceCategory android:title="その他">
         <Preference
-                android:key="@string/key_setting_delete_accounts"
-                android:summary="再起動後に認証してね"
-                android:title="認証情報を削除"/>
+            android:key="@string/key_setting_delete_accounts"
+            android:summary="再起動後に認証してね"
+            android:title="認証情報を削除"/>
         <Preference
-                android:key="@string/app_info"
-                android:title="このアプリについて"
-                />
+            android:key="@string/app_info"
+            android:title="このアプリについて"
+            />
         <Preference
-                android:key="@string/license_notices"
-                android:title="オープンソースライセンス"/>
+            android:key="@string/license_notices"
+            android:title="オープンソースライセンス"/>
 
     </PreferenceCategory>
 
