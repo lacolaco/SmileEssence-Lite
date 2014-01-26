@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.command.ICommand;
+import net.miz_hi.smileessence.theme.IColorTheme;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,11 +47,11 @@ public class ExpandMenuListAdapter extends BaseExpandableListAdapter
     public View getChildView(int arg0, int arg1, boolean arg2, View view, ViewGroup arg4)
     {
 
-        view = inflater.inflate(R.layout.menuitem_white, null);
+        view = inflater.inflate(Client.getSettings().getTheme().getMenuItemLayout(), null);
 
         final ICommand item = ((MenuElement) getChild(arg0, arg1)).getCommand();
 
-        TextView textView = (TextView) view.findViewById(R.id.textView_menuItem);
+        TextView textView = (TextView) view.findViewById(R.id.menuitem_text);
         textView.setText(item.getName());
         view.setOnClickListener(new OnClickListener()
         {
@@ -91,21 +93,22 @@ public class ExpandMenuListAdapter extends BaseExpandableListAdapter
     public View getGroupView(int arg0, boolean isExpanded, View view, ViewGroup parent)
     {
         MenuElement element = elements.get(arg0);
-        if (element.isParent())
+        IColorTheme theme = Client.getSettings().getTheme();
+        if(element.isParent())
         {
-            view = inflater.inflate(R.layout.menuparent_white, null);
-            TextView textView = (TextView) view.findViewById(R.id.textView_menuItem);
+            view = inflater.inflate(theme.getMenuParentLayout(), null);
+            TextView textView = (TextView) view.findViewById(R.id.menuitem_text);
             textView.setText(element.getName());
             ImageView indicator = (ImageView) view.findViewById(R.id.menuparent_indicator);
-            indicator.setImageResource(isExpanded ? R.drawable.expand_open : R.drawable.expand_close);
+            indicator.setImageResource(isExpanded ? theme.getMenuParentOpenIcon() : theme.getMenuParentCloseIcon());
         }
         else
         {
-            view = inflater.inflate(R.layout.menuitem_white, null);
+            view = inflater.inflate(theme.getMenuItemLayout(), null);
 
             final ICommand item = element.getCommand();
 
-            TextView textView = (TextView) view.findViewById(R.id.textView_menuItem);
+            TextView textView = (TextView) view.findViewById(R.id.menuitem_text);
             textView.setText(item.getName());
 
             view.setOnClickListener(new OnClickListener()

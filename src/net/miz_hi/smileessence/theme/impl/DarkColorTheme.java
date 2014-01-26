@@ -3,37 +3,37 @@ package net.miz_hi.smileessence.theme.impl;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.theme.IColorTheme;
 
-public class LightColorTheme implements IColorTheme
+public class DarkColorTheme implements IColorTheme
 {
 
     @Override
     public int getBackground1()
     {
-        return R.color.White;
+        return R.color.Gray;
     }
 
     @Override
     public int getBackground2()
     {
-        return R.color.LightGray;
+        return R.color.Gray4;
     }
 
     @Override
     public int getNormalTextColor()
     {
-        return R.color.Gray;
+        return R.color.LightGray;
     }
 
     @Override
     public int getHeaderTextColor()
     {
-        return R.color.ThickGreen;
+        return R.color.Green;
     }
 
     @Override
     public int getHintTextColor()
     {
-        return R.color.Gray2;
+        return R.color.Gray3;
     }
 
     @Override
@@ -45,13 +45,13 @@ public class LightColorTheme implements IColorTheme
     @Override
     public int getMentionsBackgroundColor()
     {
-        return R.color.LightRed;
+        return R.color.DarkRed;
     }
 
     @Override
     public int getRetweetBackgroundColor()
     {
-        return R.color.LightBlue;
+        return R.color.DarkerBlue;
     }
 
     @Override
@@ -75,43 +75,43 @@ public class LightColorTheme implements IColorTheme
     @Override
     public int getMenuItemLayout()
     {
-        return R.layout.menuitem_white;
+        return R.layout.menuitem_dark;
     }
 
     @Override
     public int getMenuParentLayout()
     {
-        return R.layout.menuparent_white;
+        return R.layout.menuparent_dark;
     }
 
     @Override
     public int getMenuParentCloseIcon()
     {
-        return R.drawable.expand_close;
+        return R.drawable.expand_close_white;
     }
 
     @Override
     public int getMenuParentOpenIcon()
     {
-        return R.drawable.expand_open;
+        return R.drawable.expand_open_white;
     }
 
     @Override
     public int getMessageIcon()
     {
-        return R.drawable.icon_message;
+        return R.drawable.icon_message_white;
     }
 
     @Override
     public int getRetweetIcon()
     {
-        return R.drawable.icon_retweet_off;
+        return R.drawable.icon_retweet_white;
     }
 
     @Override
     public int getFavoriteOffIcon()
     {
-        return R.drawable.icon_favorite_off;
+        return R.drawable.icon_favorite_off_white;
     }
 
     @Override
@@ -123,32 +123,30 @@ public class LightColorTheme implements IColorTheme
     @Override
     public int getGarbageIcon()
     {
-        return R.drawable.icon_garbage;
+        return R.drawable.icon_garbage_white;
     }
 
     @Override
     public int getMenuIcon()
     {
-        return R.drawable.icon_menu;
+        return R.drawable.icon_menu_white;
     }
 
     @Override
     public int getPictureIcon()
     {
-        return R.drawable.icon_pict;
+        return R.drawable.icon_picture_white;
     }
 
     @Override
     public int getConfigIcon()
     {
-        return R.drawable.icon_config;
+        return R.drawable.icon_config_white;
     }
 
     @Override
     public int getDeleteIcon()
     {
-        return R.drawable.icon_delete;
+        return R.drawable.icon_delete_white;
     }
-
-
 }

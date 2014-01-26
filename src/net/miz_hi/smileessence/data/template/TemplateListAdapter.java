@@ -19,14 +19,14 @@ public class TemplateListAdapter extends CustomListAdapter<Template>
     @Override
     public View getView(int position, View convertedView, ViewGroup parent)
     {
-        if (convertedView == null)
+        if(convertedView == null)
         {
             convertedView = getInflater().inflate(R.layout.menuitem_white, null);
         }
 
         Template template = (Template) getItem(position);
 
-        TextView viewText = (TextView) convertedView.findViewById(R.id.textView_menuItem);
+        TextView viewText = (TextView) convertedView.findViewById(R.id.menuitem_text);
         viewText.setText(template.getText());
 
         TemplateOnClickListener listener = new TemplateOnClickListener(this, getActivity(), template);

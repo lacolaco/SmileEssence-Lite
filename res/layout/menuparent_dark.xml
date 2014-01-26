@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/whiteBtn"
+              style="@style/grayBtn"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="@color/LightGray"
+              android:background="@color/Gray"
               android:orientation="horizontal">
 
     <ImageView
@@ -11,7 +11,7 @@
         android:layout_width="25dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/expand_close"/>
+        android:src="@drawable/expand_close_white"/>
 
     <TextView
         android:id="@+id/menuitem_text"
@@ -22,6 +22,6 @@
         android:paddingLeft="10dp"
         android:text="Text"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/Gray"/>
+        android:textColor="@color/LightGray"/>
 
 </LinearLayout>

@@ -79,4 +79,30 @@ public interface IColorTheme
      * @return
      */
     public int getHyperlinkTextColor();
+
+    public int getMenuItemLayout();
+
+    public int getMenuParentLayout();
+
+    public int getMenuParentCloseIcon();
+
+    public int getMenuParentOpenIcon();
+
+    public int getMessageIcon();
+
+    public int getRetweetIcon();
+
+    public int getFavoriteOffIcon();
+
+    public int getFavoriteOnIcon();
+
+    public int getGarbageIcon();
+
+    public int getMenuIcon();
+
+    public int getPictureIcon();
+
+    public int getConfigIcon();
+
+    public int getDeleteIcon();
 }

@@ -63,11 +63,13 @@ public class StatusViewFactory
         // initialize
         favorited.setVisibility(View.GONE);
         commands.setVisibility(View.GONE);
+        //text size
         Settings settings = Client.getSettings();
         int textSize = settings.getTextSize();
         textTop.setTextSize(textSize);
         textContent.setTextSize(textSize);
         textBottom.setTextSize(textSize - 2);
+        //text color
         colorTop = Client.getMainActivity().getResources().getColor(settings.getTheme().getHeaderTextColor());
         colorContent = Client.getMainActivity().getResources().getColor(settings.getTheme().getNormalTextColor());
         colorBottom = Client.getMainActivity().getResources().getColor(settings.getTheme().getHintTextColor());

@@ -12,9 +12,8 @@ import net.miz_hi.smileessence.permission.IPermission;
 import net.miz_hi.smileessence.permission.PermissonChecker;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.preference.PreferenceHelper;
-import net.miz_hi.smileessence.theme.DarkColorTheme;
+import net.miz_hi.smileessence.theme.impl.DarkColorTheme;
 import net.miz_hi.smileessence.theme.impl.LightColorTheme;
-import net.miz_hi.smileessence.util.LogHelper;
 import net.miz_hi.smileessence.view.activity.MainActivity;
 
 public class Client
@@ -118,7 +117,6 @@ public class Client
             s.setTheme(new LightColorTheme());
             instance.app.setTheme(R.style.LightTheme);
         }
-        LogHelper.d(isDark);
         return s;
     }
 

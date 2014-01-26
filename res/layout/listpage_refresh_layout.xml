@@ -8,13 +8,14 @@
               android:orientation="vertical">
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
-            android:id="@+id/listpage_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            ptr:ptrMode="both"
-            ptr:ptrShowIndicator="false"
-            android:overScrollMode="never"
-            android:dividerHeight="1px">
+        android:id="@+id/listpage_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        ptr:ptrMode="both"
+        android:divider="@color/Gray4"
+        ptr:ptrShowIndicator="false"
+        android:overScrollMode="never"
+        android:dividerHeight="1px">
 
     </com.handmark.pulltorefresh.library.PullToRefreshListView>
 

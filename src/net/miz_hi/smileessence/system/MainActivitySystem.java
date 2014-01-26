@@ -51,7 +51,7 @@ public class MainActivitySystem
 
     public boolean checkAccount(Activity activity)
     {
-        if (Client.hasAuthorizedAccount())
+        if(Client.hasAuthorizedAccount())
         {
             accountSetup();
             return true;
@@ -77,7 +77,7 @@ public class MainActivitySystem
     {
         Account account = authHelper.oauthReceive(data);
         Client.setMainAccount(account);
-        if (checkAccount(activity))
+        if(checkAccount(activity))
         {
             startTwitter(activity);
             loadListPage(activity);
@@ -88,15 +88,15 @@ public class MainActivitySystem
     {
         long lastUsedId = Client.getPreferenceValue(EnumPreferenceKey.LAST_USED_USER_ID);
 
-        for (Account account : AuthenticationDB.instance().findAll())
+        for(Account account : AuthenticationDB.instance().findAll())
         {
-            if (account.getUserId() == lastUsedId)
+            if(account.getUserId() == lastUsedId)
             {
                 Client.setMainAccount(account);
                 break;
             }
         }
-        if (Client.getMainAccount() == null)
+        if(Client.getMainAccount() == null)
         {
             Client.setMainAccount(AuthenticationDB.instance().findAll().get(0));
         }
@@ -104,7 +104,7 @@ public class MainActivitySystem
 
     public void loadListPage(Activity activity)
     {
-        for (net.miz_hi.smileessence.data.list.List list : ListManager.getLists())
+        for(net.miz_hi.smileessence.data.list.List list : ListManager.getLists())
         {
             Timeline timeline = new ListTimeline(list.getListId());
             StatusListManager.registerListTimeline(list.getListId(), timeline, new StatusListAdapter(activity, timeline));
@@ -116,7 +116,7 @@ public class MainActivitySystem
 
     public void loadSearchPage(Activity activity)
     {
-        for (Search search : SearchManager.getSearches())
+        for(Search search : SearchManager.getSearches())
         {
             SearchTimeline timeline = new SearchTimeline(search.getQuery());
             StatusListManager.registerSearchTimeline(search.getId(), timeline, new StatusListAdapter(activity, timeline));
@@ -131,19 +131,28 @@ public class MainActivitySystem
 
         boolean connected = TwitterManager.openTwitterStream(activity);
 
-        if (connected)
+        if(connected)
         {
-            new GetUserTask(Client.getMainAccount().getUserId())
+            try
             {
-                @Override
-                public void onPostExecute(User result)
+                new GetUserTask(Client.getMainAccount().getUserId())
                 {
-                    if (result != null)
+                    @Override
+                    public void onPostExecute(User result)
                     {
-                        ResponseConverter.convert(result);
+                        if(result != null)
+                        {
+                            ResponseConverter.convert(result);
+                        }
                     }
-                }
-            }.callAsync();
+                }.callAsync().get();
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+                Notificator.alert("接続出来ません");
+                return;
+            }
 
             StatusListManager.getHomeTimeline().loadOlder();
 
@@ -160,7 +169,7 @@ public class MainActivitySystem
         try
         {
             Uri uri;
-            if (reqCode == EnumRequestCode.PICTURE.ordinal())
+            if(reqCode == EnumRequestCode.PICTURE.ordinal())
             {
                 uri = data.getData();
             }
@@ -175,7 +184,7 @@ public class MainActivitySystem
             PostSystem.openPostPage();
             Notificator.info("画像をセットしました");
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             e.printStackTrace();
             Notificator.alert("失敗しました");

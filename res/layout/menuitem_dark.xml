@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/grayBtn"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+              style="@style/grayBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="@color/Gray4">
 
     <TextView
-        android:id="@+id/textView_menuItem"
+        android:id="@+id/menuitem_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -14,6 +15,6 @@
         android:paddingLeft="10dp"
         android:text="Text"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/LightGray" />
+        android:textColor="@color/LightGray"/>
 
 </LinearLayout>

@@ -34,6 +34,7 @@ import net.miz_hi.smileessence.system.PostSystem;
 import net.miz_hi.smileessence.system.PostSystem.PostPageState;
 import net.miz_hi.smileessence.task.Task;
 import net.miz_hi.smileessence.task.impl.GetUserTask;
+import net.miz_hi.smileessence.theme.IColorTheme;
 import net.miz_hi.smileessence.twitter.ResponseConverter;
 import net.miz_hi.smileessence.util.UiHandler;
 import net.miz_hi.smileessence.view.activity.MainActivity;
@@ -61,19 +62,24 @@ public class PostFragment extends NamedFragment implements OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        IColorTheme theme = Client.getSettings().getTheme();
         View page = inflater.inflate(R.layout.post_layout, container, false);
+        page.setBackgroundColor(getResources().getColor(theme.getBackground1()));
         editText = (EditText) page.findViewById(R.id.editText_tweet);
         frameInReplyTo = (FrameLayout) page.findViewById(R.id.frame_inreplyto);
         imagePict = (ImageView) page.findViewById(R.id.image_pict);
         textCount = (TextView) page.findViewById(R.id.textView_count);
+        textCount.setTextColor(getResources().getColor(theme.getNormalTextColor()));
         Button imageButtonSubmit = (Button) page.findViewById(R.id.imBtn_tweet);
-        ImageButton imageButtonDelete = (ImageButton) page.findViewById(R.id.imBtn_delete);
-        ImageButton imageButtonMenu = (ImageButton) page.findViewById(R.id.imBtn_tweetmenu);
-        ImageButton imageButtonPict = (ImageButton) page.findViewById(R.id.imBtn_pickpict);
+        ImageButton imageButtonDelete = (ImageButton) page.findViewById(R.id.post_delete);
+        ImageButton imageButtonMenu = (ImageButton) page.findViewById(R.id.post_menu);
+        ImageButton imageButtonPict = (ImageButton) page.findViewById(R.id.post_pickpict);
         ImageButton config = (ImageButton) page.findViewById(R.id.post_config);
+        config.setImageResource(theme.getConfigIcon());
         config.setOnClickListener(this);
         iconView = (NetworkImageView) page.findViewById(R.id.post_myIcon);
         screenNameView = (TextView) page.findViewById(R.id.post_myName);
+        screenNameView.setTextColor(getResources().getColor(theme.getNormalTextColor()));
 
         PostEditTextListener listener = new PostEditTextListener(textCount);
         editText.setTextSize(Client.getSettings().getTextSize() + 3);
@@ -92,9 +98,13 @@ public class PostFragment extends NamedFragment implements OnClickListener
         {
             editText.requestFocus();
         }
+
         imageButtonSubmit.setOnClickListener(this);
+        imageButtonDelete.setImageResource(theme.getDeleteIcon());
         imageButtonDelete.setOnClickListener(this);
+        imageButtonMenu.setImageResource(theme.getMenuIcon());
         imageButtonMenu.setOnClickListener(this);
+        imageButtonPict.setImageResource(theme.getPictureIcon());
         imageButtonPict.setOnClickListener(this);
         imagePict.setOnClickListener(this);
 
@@ -376,21 +386,21 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 }
                 break;
             }
-            case R.id.imBtn_tweetmenu:
+            case R.id.post_menu:
             {
                 saveState();
                 hideIme();
                 new PostingMenu(getActivity()).create().show();
                 break;
             }
-            case R.id.imBtn_pickpict:
+            case R.id.post_pickpict:
             {
                 saveState();
                 hideIme();
                 new SelectPictureDialog(getActivity()).create().show();
                 break;
             }
-            case R.id.imBtn_delete:
+            case R.id.post_delete:
             {
                 ConfirmDialog.show(getActivity(), "全消去しますか？", new Runnable()
                 {

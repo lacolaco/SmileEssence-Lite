@@ -19,14 +19,14 @@ public class ExtraWordListAdapter extends CustomListAdapter<ExtraWord>
     @Override
     public View getView(int position, View convertedView, ViewGroup parent)
     {
-        if (convertedView == null)
+        if(convertedView == null)
         {
             convertedView = getInflater().inflate(R.layout.menuitem_white, null);
         }
 
         ExtraWord ExtraWord = (ExtraWord) getItem(position);
 
-        TextView viewText = (TextView) convertedView.findViewById(R.id.textView_menuItem);
+        TextView viewText = (TextView) convertedView.findViewById(R.id.menuitem_text);
         viewText.setText(ExtraWord.getText());
 
         ExtractOnClickListener listener = new ExtractOnClickListener(this, getActivity(), ExtraWord);

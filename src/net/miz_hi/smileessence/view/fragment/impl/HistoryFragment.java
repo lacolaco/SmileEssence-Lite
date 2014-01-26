@@ -12,6 +12,7 @@ import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.listener.TimelineScrollListener;
 import net.miz_hi.smileessence.statuslist.StatusListManager;
+import net.miz_hi.smileessence.theme.IColorTheme;
 import net.miz_hi.smileessence.util.CustomListAdapter;
 import net.miz_hi.smileessence.view.fragment.NamedFragment;
 
@@ -21,11 +22,13 @@ public class HistoryFragment extends NamedFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        IColorTheme theme = Client.getSettings().getTheme();
         LinearLayout page = (LinearLayout) inflater.inflate(R.layout.listpage_layout, container, false);
+        page.setBackgroundColor(getResources().getColor(theme.getBackground1()));
         ListView listView = (ListView) page.findViewById(R.id.listpage_listview);
         TextView text = new TextView(getActivity());
         text.setText("ふぁぼられたり、リツイートされたりした履歴が表示されます");
-        text.setTextColor(Client.getMainActivity().getResources().getColor(Client.getSettings().getTheme().getNormalTextColor()));
+        text.setTextColor(getResources().getColor(theme.getNormalTextColor()));
         text.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         text.setVisibility(View.GONE);
         ((ViewGroup) listView.getParent()).addView(text);

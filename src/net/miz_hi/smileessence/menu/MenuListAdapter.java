@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import net.miz_hi.smileessence.Client;
 import net.miz_hi.smileessence.R;
 import net.miz_hi.smileessence.command.MenuCommand;
 import net.miz_hi.smileessence.util.CustomListAdapter;
@@ -21,14 +22,14 @@ public class MenuListAdapter extends CustomListAdapter<MenuCommand>
     @Override
     public View getView(int position, View convertedView, ViewGroup parent)
     {
-        if (convertedView == null)
+        if(convertedView == null)
         {
-            convertedView = getInflater().inflate(R.layout.menuitem_white, null);
+            convertedView = getInflater().inflate(Client.getSettings().getTheme().getMenuItemLayout(), null);
         }
 
         final MenuCommand item = (MenuCommand) getItem(position);
 
-        TextView textView = (TextView) convertedView.findViewById(R.id.textView_menuItem);
+        TextView textView = (TextView) convertedView.findViewById(R.id.menuitem_text);
         textView.setText(item.getName());
         convertedView.setOnClickListener(new OnClickListener()
         {
