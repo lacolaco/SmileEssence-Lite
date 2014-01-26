@@ -13,7 +13,7 @@ public class ListModel
 {
 
     private Context context;
-    private static ListModel instance = new ListModel(Client.getApplication());
+    private static ListModel instance = new ListModel(Client.getMainActivity());
 
     private ListModel(Context context)
     {
@@ -33,7 +33,7 @@ public class ListModel
             Dao<net.miz_hi.smileessence.data.list.List, Integer> dao = helper.getDao(net.miz_hi.smileessence.data.list.List.class);
             dao.createOrUpdate(list);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(ListModel.class.getSimpleName(), "error on save");
         }
@@ -51,7 +51,7 @@ public class ListModel
             Dao<net.miz_hi.smileessence.data.list.List, Integer> dao = helper.getDao(net.miz_hi.smileessence.data.list.List.class);
             dao.delete(dao.queryBuilder().where().eq("listId", listId).query());
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(ListModel.class.getSimpleName(), "error on delete");
         }
@@ -66,13 +66,13 @@ public class ListModel
         DBHelper helper = new DBHelper(context);
         try
         {
-            for (net.miz_hi.smileessence.data.list.List list : findAll())
+            for(net.miz_hi.smileessence.data.list.List list : findAll())
             {
                 Dao<net.miz_hi.smileessence.data.list.List, Integer> dao = helper.getDao(net.miz_hi.smileessence.data.list.List.class);
                 dao.delete(list);
             }
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(ListModel.class.getSimpleName(), "error on delete");
         }
@@ -90,7 +90,7 @@ public class ListModel
             Dao<net.miz_hi.smileessence.data.list.List, Integer> dao = helper.getDao(net.miz_hi.smileessence.data.list.List.class);
             return dao.queryForAll();
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(ListModel.class.getSimpleName(), "error on findAll");
             return Collections.emptyList();

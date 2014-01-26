@@ -12,7 +12,7 @@ public class AuthenticationDB
 {
 
     private Context context;
-    private static AuthenticationDB instance = new AuthenticationDB(Client.getApplication());
+    private static AuthenticationDB instance = new AuthenticationDB(Client.getMainActivity());
 
     private AuthenticationDB(Context context)
     {
@@ -32,7 +32,7 @@ public class AuthenticationDB
             Dao<Account, Integer> dao = helper.getDao(Account.class);
             dao.createOrUpdate(account);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(AuthenticationDB.class.getSimpleName(), "error on save");
         }
@@ -50,7 +50,7 @@ public class AuthenticationDB
             Dao<Account, Integer> dao = helper.getDao(Account.class);
             dao.delete(account);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(AuthenticationDB.class.getSimpleName(), "error on delete");
         }
@@ -65,13 +65,13 @@ public class AuthenticationDB
         DBHelper helper = new DBHelper(context);
         try
         {
-            for (Account account : findAll())
+            for(Account account : findAll())
             {
                 Dao<Account, Integer> dao = helper.getDao(Account.class);
                 dao.delete(account);
             }
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(AuthenticationDB.class.getSimpleName(), "error on delete");
         }
@@ -89,7 +89,7 @@ public class AuthenticationDB
             Dao<Account, Integer> dao = helper.getDao(Account.class);
             return dao.queryForAll();
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(AuthenticationDB.class.getSimpleName(), "error on findAll");
             return null;

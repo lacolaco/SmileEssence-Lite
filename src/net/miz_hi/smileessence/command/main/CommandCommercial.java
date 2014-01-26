@@ -17,8 +17,7 @@ public class CommandCommercial extends MenuCommand
     @Override
     public void workOnUiThread()
     {
-        String str = "Android用Twitterクライアント「SmileEssence Lite」をチェック！\r\n " + Client.getApplication()
-                                                                                   .getString(R.string.app_url);
+        String str = "Android用Twitterクライアント「SmileEssence Lite」をチェック！\r\n " + Client.getMainActivity().getString(R.string.app_url);
         PostSystem.setText(str);
         PostSystem.openPostPage();
     }

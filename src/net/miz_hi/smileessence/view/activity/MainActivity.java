@@ -45,6 +45,7 @@ public class MainActivity extends FragmentActivity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.main_layout);
         instance = this;
+        Client.initialize(this);
         system = new MainActivitySystem();
         postSystem = PostSystem.init();
         StatusListManager.initStatusLists(instance);
@@ -79,7 +80,7 @@ public class MainActivity extends FragmentActivity
     protected void onPostCreate(Bundle savedInstanceState)
     {
         super.onPostCreate(savedInstanceState);
-        if (system.checkAccount(instance))
+        if(system.checkAccount(instance))
         {
             system.startTwitter(instance);
             system.loadListPage(instance);
@@ -115,15 +116,15 @@ public class MainActivity extends FragmentActivity
     @Override
     public void onActivityResult(int reqCode, int resultCode, Intent data)
     {
-        if (resultCode != Activity.RESULT_OK)
+        if(resultCode != Activity.RESULT_OK)
         {
             return;
         }
-        if (reqCode == EnumRequestCode.AUTHORIZE.ordinal())
+        if(reqCode == EnumRequestCode.AUTHORIZE.ordinal())
         {
             system.authorize(instance, data.getData());
         }
-        else if (reqCode == EnumRequestCode.PICTURE.ordinal() || reqCode == EnumRequestCode.CAMERA.ordinal())
+        else if(reqCode == EnumRequestCode.PICTURE.ordinal() || reqCode == EnumRequestCode.CAMERA.ordinal())
         {
             system.receivePicture(instance, data, reqCode);
         }
@@ -138,11 +139,11 @@ public class MainActivity extends FragmentActivity
     @Override
     public boolean dispatchKeyEvent(KeyEvent event)
     {
-        if (event.getAction() != KeyEvent.ACTION_DOWN)
+        if(event.getAction() != KeyEvent.ACTION_DOWN)
         {
             return super.dispatchKeyEvent(event);
         }
-        switch (event.getKeyCode())
+        switch(event.getKeyCode())
         {
             case KeyEvent.KEYCODE_BACK:
             {
@@ -164,7 +165,7 @@ public class MainActivity extends FragmentActivity
     @Override
     public void finish()
     {
-        if (pager.getCurrentItem() != 1)
+        if(pager.getCurrentItem() != 1)
         {
             pager.setCurrentItem(1, true);
         }
@@ -181,7 +182,7 @@ public class MainActivity extends FragmentActivity
 
     public void finish(boolean force)
     {
-        if (!force)
+        if(!force)
         {
             ConfirmDialog.show(this, "終了しますか？", new Runnable()
             {

@@ -6,7 +6,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import net.miz_hi.smileessence.Client;
-import net.miz_hi.smileessence.util.LogHelper;
 import net.miz_hi.smileessence.util.UiHandler;
 
 public class ImageCache implements ImageLoader.ImageCache
@@ -31,7 +30,7 @@ public class ImageCache implements ImageLoader.ImageCache
 
     public static ImageCache getInstance()
     {
-        if (instance == null)
+        if(instance == null)
         {
             instance = new ImageCache();
         }
@@ -80,7 +79,6 @@ public class ImageCache implements ImageLoader.ImageCache
     @Override
     public void putBitmap(String url, Bitmap bitmap)
     {
-        LogHelper.d("image cache: " + url);
         lruCache.put(url, bitmap);
     }
 }

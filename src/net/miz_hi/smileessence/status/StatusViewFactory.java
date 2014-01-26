@@ -68,9 +68,9 @@ public class StatusViewFactory
         textTop.setTextSize(textSize);
         textContent.setTextSize(textSize);
         textBottom.setTextSize(textSize - 2);
-        colorTop = Client.getApplication().getResources().getColor(settings.getTheme().getHeaderTextColor());
-        colorContent = Client.getApplication().getResources().getColor(settings.getTheme().getNormalTextColor());
-        colorBottom = Client.getApplication().getResources().getColor(settings.getTheme().getHintTextColor());
+        colorTop = Client.getMainActivity().getResources().getColor(settings.getTheme().getHeaderTextColor());
+        colorContent = Client.getMainActivity().getResources().getColor(settings.getTheme().getNormalTextColor());
+        colorBottom = Client.getMainActivity().getResources().getColor(settings.getTheme().getHintTextColor());
         //adjust to model
         if(model instanceof TweetModel)
         {
@@ -112,20 +112,16 @@ public class StatusViewFactory
         Settings settings = Client.getSettings();
         if(model.type == EnumTweetType.RETWEET)
         {
-            baseView.setBackgroundColor(Client.getApplication()
-                                              .getResources()
-                                              .getColor(settings.getTheme().getRetweetBackgroundColor()));
+            baseView.setBackgroundColor(Client.getMainActivity().getResources().getColor(settings.getTheme().getRetweetBackgroundColor()));
         }
         else if(model.type == EnumTweetType.REPLY)
         {
-            baseView.setBackgroundColor(Client.getApplication()
-                                              .getResources()
-                                              .getColor(settings.getTheme().getMentionsBackgroundColor()));
+            baseView.setBackgroundColor(Client.getMainActivity().getResources().getColor(settings.getTheme().getMentionsBackgroundColor()));
         }
 
         if(model.getUser().isMe())
         {
-            colorTop = Client.getApplication().getResources().getColor(settings.getTheme().getSpecialTextColor());
+            colorTop = Client.getMainActivity().getResources().getColor(settings.getTheme().getSpecialTextColor());
         }
         favorited.setVisibility(model.isFavorited() ? View.VISIBLE : View.GONE);
     }
@@ -135,7 +131,7 @@ public class StatusViewFactory
         Settings settings = Client.getSettings();
         if(model instanceof StatusEvent)
         {
-            colorTop = Client.getApplication().getResources().getColor(settings.getTheme().getSpecialTextColor());
+            colorTop = Client.getMainActivity().getResources().getColor(settings.getTheme().getSpecialTextColor());
         }
     }
 

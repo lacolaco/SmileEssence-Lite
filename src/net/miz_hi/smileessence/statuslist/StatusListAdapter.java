@@ -75,11 +75,11 @@ public class StatusListAdapter extends CustomListAdapter<IStatusModel>
         int colorBg;
         if(position % 2 == 0)
         {
-            colorBg = Client.getApplication().getResources().getColor(settings.getTheme().getBackground1());
+            colorBg = Client.getMainActivity().getResources().getColor(settings.getTheme().getBackground1());
         }
         else
         {
-            colorBg = Client.getApplication().getResources().getColor(settings.getTheme().getBackground2());
+            colorBg = Client.getMainActivity().getResources().getColor(settings.getTheme().getBackground2());
         }
         convertedView.setBackgroundColor(colorBg);
 

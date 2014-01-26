@@ -23,14 +23,14 @@ public class PostEditTextListener implements TextWatcher, OnFocusChangeListener
     @Override
     public void onFocusChange(View v, boolean hasFocus)
     {
-        if (hasFocus)
+        if(hasFocus)
         {
-            InputMethodManager imm = (InputMethodManager) Client.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) Client.getMainActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(v, 0);
         }
         else
         {
-            InputMethodManager imm = (InputMethodManager) Client.getApplication().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) Client.getMainActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }

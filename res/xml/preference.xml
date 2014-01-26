@@ -7,13 +7,13 @@
             android:key="@string/key_setting_textSize"
             android:summary="文字のサイズだよ"
             android:title="文字サイズ"/>
-        <!--<SwitchPreference-->
-        <!--android:defaultValue="true"-->
-        <!--android:key="@string/key_setting_theme"-->
-        <!--android:summary="再起動後に有効になります"-->
-        <!--android:title="テーマ切り替え"-->
-        <!--android:summaryOff="Light"-->
-        <!--android:summaryOn="Dark"/>-->
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_setting_theme"
+            android:summary="再起動後に有効になります"
+            android:title="テーマ切り替え"
+            android:switchTextOff="Light"
+            android:switchTextOn="Dark"/>
         <SwitchPreference
             android:defaultValue="true"
             android:key="@string/key_setting_morse"

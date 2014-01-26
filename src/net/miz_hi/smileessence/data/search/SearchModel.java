@@ -13,7 +13,7 @@ public class SearchModel
 {
 
     private Context context;
-    private static SearchModel instance = new SearchModel(Client.getApplication());
+    private static SearchModel instance = new SearchModel(Client.getMainActivity());
 
     private SearchModel(Context context)
     {
@@ -33,7 +33,7 @@ public class SearchModel
             Dao<Search, Integer> dao = helper.getDao(Search.class);
             dao.createOrUpdate(search);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(SearchModel.class.getSimpleName(), "error on save");
         }
@@ -51,7 +51,7 @@ public class SearchModel
             Dao<Search, Integer> dao = helper.getDao(Search.class);
             dao.deleteById(searchId);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(SearchModel.class.getSimpleName(), "error on delete");
         }
@@ -66,13 +66,13 @@ public class SearchModel
         DBHelper helper = new DBHelper(context);
         try
         {
-            for (Search search : findAll())
+            for(Search search : findAll())
             {
                 Dao<Search, Integer> dao = helper.getDao(Search.class);
                 dao.delete(search);
             }
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(SearchModel.class.getSimpleName(), "error on delete");
         }
@@ -90,7 +90,7 @@ public class SearchModel
             Dao<Search, Integer> dao = helper.getDao(Search.class);
             return dao.queryForAll();
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(SearchModel.class.getSimpleName(), "error on findAll");
             return Collections.emptyList();

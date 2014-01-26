@@ -80,8 +80,7 @@ public abstract class ExpandMenuDialog extends MenuDialog
                         if(command instanceof IHideable)
                         {
                             PreferenceHelper pref = Client.getPreferenceHelper();
-                            isEnabled = pref.getPreferenceValue(command.getClass()
-                                                                       .getSimpleName(), EnumValueType.BOOLEAN, false);
+                            isEnabled = pref.getPreferenceValue(command.getClass().getSimpleName(), EnumValueType.BOOLEAN, false);
                         }
 
                         if(!command.getDefaultVisibility() || !isEnabled)
@@ -102,8 +101,7 @@ public abstract class ExpandMenuDialog extends MenuDialog
                     if(command instanceof IHideable)
                     {
                         PreferenceHelper pref = Client.getPreferenceHelper();
-                        isEnabled = pref.getPreferenceValue(command.getClass()
-                                                                   .getSimpleName(), EnumValueType.BOOLEAN, false);
+                        isEnabled = pref.getPreferenceValue(command.getClass().getSimpleName(), EnumValueType.BOOLEAN, false);
                     }
 
                     if(!command.getDefaultVisibility() || !isEnabled)
@@ -116,7 +114,7 @@ public abstract class ExpandMenuDialog extends MenuDialog
         list3.removeAll(stub);
 
         ExpandableListView listview = new ExpandableListView(activity);
-        listview.setGroupIndicator(Client.getApplication().getResources().getDrawable(android.R.color.transparent));
+        listview.setGroupIndicator(Client.getMainActivity().getResources().getDrawable(android.R.color.transparent));
         listview.setOnGroupClickListener(new OnGroupClickListener()
         {
 

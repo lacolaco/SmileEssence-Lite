@@ -31,7 +31,7 @@ public class StatusOnClickListener implements OnClickListener
     public void onClick(final View v)
     {
         final int bg = ((ColorDrawable) v.getBackground()).getColor();
-        v.setBackgroundColor(Client.getApplication().getResources().getColor(R.color.MetroBlue));
+        v.setBackgroundColor(Client.getMainActivity().getResources().getColor(R.color.MetroBlue));
         v.invalidate();
         new UiHandler()
         {

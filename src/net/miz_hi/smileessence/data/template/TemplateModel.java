@@ -12,7 +12,7 @@ public class TemplateModel
 {
 
     private Context context;
-    private static TemplateModel instance = new TemplateModel(Client.getApplication());
+    private static TemplateModel instance = new TemplateModel(Client.getMainActivity());
 
     private TemplateModel(Context context)
     {
@@ -32,7 +32,7 @@ public class TemplateModel
             Dao<Template, Integer> dao = helper.getDao(Template.class);
             dao.createOrUpdate(template);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(TemplateModel.class.getSimpleName(), "error on save");
         }
@@ -50,7 +50,7 @@ public class TemplateModel
             Dao<Template, Integer> dao = helper.getDao(Template.class);
             dao.delete(template);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(TemplateModel.class.getSimpleName(), "error on removeByLists");
         }
@@ -65,13 +65,13 @@ public class TemplateModel
         DBHelper helper = new DBHelper(context);
         try
         {
-            for (Template template : findAll())
+            for(Template template : findAll())
             {
                 Dao<Template, Integer> dao = helper.getDao(Template.class);
                 dao.delete(template);
             }
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(TemplateModel.class.getSimpleName(), "error on removeByLists");
         }
@@ -89,7 +89,7 @@ public class TemplateModel
             Dao<Template, Integer> dao = helper.getDao(Template.class);
             return dao.queryForAll();
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(TemplateModel.class.getSimpleName(), "error on findAll");
             return null;

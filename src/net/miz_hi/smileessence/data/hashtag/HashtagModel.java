@@ -14,7 +14,7 @@ public class HashtagModel
 {
 
     private Context context;
-    private static HashtagModel instance = new HashtagModel(Client.getApplication());
+    private static HashtagModel instance = new HashtagModel(Client.getMainActivity());
 
     private HashtagModel(Context context)
     {
@@ -36,7 +36,7 @@ public class HashtagModel
             hashtag.setLatestDate(new Date());
             dao.update(hashtag);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(HashtagModel.class.getSimpleName(), "error on save");
         }
@@ -54,7 +54,7 @@ public class HashtagModel
             Dao<Hashtag, Integer> dao = helper.getDao(Hashtag.class);
             dao.deleteById(id);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(HashtagModel.class.getSimpleName(), "error on delete");
         }
@@ -69,13 +69,13 @@ public class HashtagModel
         DBHelper helper = new DBHelper(context);
         try
         {
-            for (Hashtag hashtag : findAll())
+            for(Hashtag hashtag : findAll())
             {
                 Dao<Hashtag, Integer> dao = helper.getDao(Hashtag.class);
                 dao.delete(hashtag);
             }
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(HashtagModel.class.getSimpleName(), "error on delete");
         }
@@ -93,7 +93,7 @@ public class HashtagModel
             Dao<Hashtag, Integer> dao = helper.getDao(Hashtag.class);
             return dao.queryBuilder().orderBy("latestDate", false).query();
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(HashtagModel.class.getSimpleName(), "error on findAll");
             return Collections.emptyList();
@@ -112,7 +112,7 @@ public class HashtagModel
             Dao<Hashtag, Integer> dao = helper.getDao(Hashtag.class);
             return dao.queryBuilder().orderBy("latestDate", false).limit(count).query();
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(HashtagModel.class.getSimpleName(), "error on find");
             return Collections.emptyList();

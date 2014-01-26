@@ -12,7 +12,7 @@ public class ExtractModel
 {
 
     private Context context;
-    private static ExtractModel instance = new ExtractModel(Client.getApplication());
+    private static ExtractModel instance = new ExtractModel(Client.getMainActivity());
 
     private ExtractModel(Context context)
     {
@@ -32,7 +32,7 @@ public class ExtractModel
             Dao<ExtraWord, Integer> dao = helper.getDao(ExtraWord.class);
             dao.createOrUpdate(data);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(ExtractModel.class.getSimpleName(), "error on save");
         }
@@ -50,7 +50,7 @@ public class ExtractModel
             Dao<ExtraWord, Integer> dao = helper.getDao(ExtraWord.class);
             dao.delete(data);
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(ExtractModel.class.getSimpleName(), "error on removeByLists");
         }
@@ -65,13 +65,13 @@ public class ExtractModel
         DBHelper helper = new DBHelper(context);
         try
         {
-            for (ExtraWord data : findAll())
+            for(ExtraWord data : findAll())
             {
                 Dao<ExtraWord, Integer> dao = helper.getDao(ExtraWord.class);
                 dao.delete(data);
             }
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(ExtractModel.class.getSimpleName(), "error on removeByLists");
         }
@@ -89,7 +89,7 @@ public class ExtractModel
             Dao<ExtraWord, Integer> dao = helper.getDao(ExtraWord.class);
             return dao.queryForAll();
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             Log.e(ExtractModel.class.getSimpleName(), "error on findAll");
             return null;

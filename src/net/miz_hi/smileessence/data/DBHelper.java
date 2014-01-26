@@ -19,7 +19,7 @@ import java.sql.SQLException;
 public class DBHelper extends OrmLiteSqliteOpenHelper
 {
 
-    public static final String dbName = Client.getApplication().getExternalFilesDir(null) + "/database.db";
+    public static final String dbName = Client.getMainActivity().getExternalFilesDir(null) + "/database.db";
     public static final int dbVersion = 3;
 
     public DBHelper(Context context)
@@ -38,7 +38,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper
             TableUtils.createTableIfNotExists(getConnectionSource(), Search.class);
             TableUtils.createTableIfNotExists(getConnectionSource(), Hashtag.class);
         }
-        catch (SQLException e)
+        catch(SQLException e)
         {
             e.printStackTrace();
             LogHelper.d("error on created");
@@ -55,7 +55,7 @@ public class DBHelper extends OrmLiteSqliteOpenHelper
             TableUtils.createTableIfNotExists(getConnectionSource(), ExtraWord.class);
             TableUtils.createTableIfNotExists(getConnectionSource(), List.class);
         }
-        catch (SQLException e)
+        catch(SQLException e)
         {
             e.printStackTrace();
             LogHelper.d("error on created");

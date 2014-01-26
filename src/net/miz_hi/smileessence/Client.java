@@ -1,6 +1,5 @@
 package net.miz_hi.smileessence;
 
-import android.app.Application;
 import android.preference.PreferenceManager;
 import com.android.volley.RequestQueue;
 import net.miz_hi.smileessence.auth.Account;
@@ -13,14 +12,17 @@ import net.miz_hi.smileessence.permission.IPermission;
 import net.miz_hi.smileessence.permission.PermissonChecker;
 import net.miz_hi.smileessence.preference.EnumPreferenceKey;
 import net.miz_hi.smileessence.preference.PreferenceHelper;
+import net.miz_hi.smileessence.theme.DarkColorTheme;
 import net.miz_hi.smileessence.theme.impl.LightColorTheme;
+import net.miz_hi.smileessence.util.LogHelper;
+import net.miz_hi.smileessence.view.activity.MainActivity;
 
 public class Client
 {
 
     private static Client instance;
 
-    private Application app;
+    private MainActivity app;
     private Account mainAccount;
     private IPermission permission;
     private PreferenceHelper prefHelper;
@@ -51,7 +53,7 @@ public class Client
         return AuthenticationDB.instance().findAll() != null && !AuthenticationDB.instance().findAll().isEmpty();
     }
 
-    public static Application getApplication()
+    public static MainActivity getMainActivity()
     {
         return instance.app;
     }
@@ -105,29 +107,31 @@ public class Client
             putPreferenceValue(EnumPreferenceKey.TEXT_SIZE, 10);
         }
         s.setTextSize(Client.<Integer>getPreferenceValue(EnumPreferenceKey.TEXT_SIZE));
-        boolean isDark = Client.<Boolean>getPreferenceValue(EnumPreferenceKey.THEME_IS_DEFAULT);
+        boolean isDark = Client.<Boolean>getPreferenceValue(EnumPreferenceKey.THEME_IS_DARK);
         if(isDark)
         {
-            s.setTheme(new LightColorTheme());
+            s.setTheme(new DarkColorTheme());
+            instance.app.setTheme(R.style.DarkTheme);
         }
         else
         {
             s.setTheme(new LightColorTheme());
+            instance.app.setTheme(R.style.LightTheme);
         }
+        LogHelper.d(isDark);
         return s;
     }
 
-    public static void initialize(ClientApplication app)
+    public static void initialize(MainActivity activity)
     {
         instance = new Client();
-        instance.prefHelper = new PreferenceHelper(PreferenceManager.getDefaultSharedPreferences(app));
-        instance.app = app;
+        instance.prefHelper = new PreferenceHelper(PreferenceManager.getDefaultSharedPreferences(activity));
+        instance.app = activity;
         instance.mainAccount = null;
-        instance.requestQueue = VolleyUtil.createRequestQueue(app, null, 32 * 1024 * 1024); //32MBのディスクキャッシュ
+        instance.requestQueue = VolleyUtil.createRequestQueue(activity, null, 32 * 1024 * 1024); //32MBのディスクキャッシュ
         instance.settings = loadSettings();
-        new DBHelper(app).initialize();
+        new DBHelper(activity).initialize();
         MyExecutor.init();
-        app.setClient(instance);
     }
 
 }

@@ -257,8 +257,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 public View call() throws Exception
                 {
                     TweetModel status = TweetUtils.getOrCreateStatusModel(l);
-                    return StatusViewFactory.newInstance(MainActivity.getInstance().getLayoutInflater(), null)
-                                            .getStatusView(status);
+                    return StatusViewFactory.newInstance(MainActivity.getInstance().getLayoutInflater(), null).getStatusView(status);
                 }
             }.callAsync();
         }
@@ -343,8 +342,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
                 {
                     if(Client.<Boolean>getPreferenceValue(EnumPreferenceKey.OPEN_IME))
                     {
-                        InputMethodManager imm = (InputMethodManager) Client.getApplication()
-                                                                            .getSystemService(Context.INPUT_METHOD_SERVICE);
+                        InputMethodManager imm = (InputMethodManager) Client.getMainActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.showSoftInput(editText, 0);
                     }
                 }
@@ -356,8 +354,7 @@ public class PostFragment extends NamedFragment implements OnClickListener
     {
         if(editText != null)
         {
-            InputMethodManager imm = (InputMethodManager) Client.getApplication()
-                                                                .getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) Client.getMainActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         }
     }
